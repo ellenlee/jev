@@ -1,7 +1,32 @@
-<h1><%= @stages.last.title %></h1>
+<h1><%= @stage.title %></h1>
 
 <div>
-	<%= simple_format(@stages.last.info) %>	
+	<%= simple_format(@stage.info) %>	
 </div>
 <hr>
 <h4>上傳區</h4>
+
+<table class="table table-condensed">
+	<tr>
+		<th>#</th>
+		<th>標題</th>
+		<th>類型</th>
+		<th>上傳檔案</th>
+	</tr>	
+	<!-- 當週作業列表 -->
+	<% @stage.tasks.each do |task| %>
+	<tr>
+		<td><%= task.id %></td>
+		<td><%= task.title %></td>
+		<td>
+			<% if task.team_work? %>
+				小組
+			<% else%>
+				個人
+			<% end %>
+		</td>
+		<td></td>
+	</tr>	
+	<% end %>		
+	
+</table>

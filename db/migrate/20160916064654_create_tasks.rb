@@ -3,7 +3,7 @@ class CreateTasks < ActiveRecord::Migration[5.0]
     create_table :tasks do |t|
     	t.integer			:stage_id
     	t.string			:title
-    	t.boolean			:team_work?
+    	t.boolean			:team_work?, :default => true
       t.timestamps
     end
     add_index	:tasks, :stage_id

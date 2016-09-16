@@ -50,9 +50,9 @@ ActiveRecord::Schema.define(version: 20160916064654) do
   create_table "tasks", force: :cascade do |t|
     t.integer  "stage_id"
     t.string   "title"
-    t.boolean  "team_work?"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.boolean  "team_work?", default: true
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.index ["stage_id"], name: "index_tasks_on_stage_id"
   end
 
