@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>JevDb</title>
+    <title>JEV</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -11,6 +11,7 @@
   <body>
   	<!-- 使用者 flag -->
   	<% if current_user %>
+      <%= current_user.name %> |
 	    <%= link_to('登出', destroy_user_session_path, :method => :delete) %> |
 	    <%= link_to('修改密碼', edit_registration_path(:user)) %>
 	  <% else %>
