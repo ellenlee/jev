@@ -2,14 +2,18 @@ class UploadsController < ApplicationController
 
 
 	def create
-		@upload = Upload.create(upload_params)
+		@upload = Upload.new(upload_params)
 		@upload.user = current_user
+		@upload.task_id = params[:task_id]
+
+		
+
 
 		if @upload.save
 	    redirect_to stages_path
 	    flash[:notice] = "<%= @upload.file_name %> 已上傳"
 	  else
-	    redirect_to stages_path
+	    render stages_path
 	    flash[:alert] = "好像有點問題，再檢查一下哦！"
 	  end
 	end
@@ -17,6 +21,6 @@ class UploadsController < ApplicationController
 	private
 
 	def upload_params
-		params.require(:upload).permit(:document)
+		params.require(:upload).permit(:user_id ,:task_id, :document)
 	end
 end

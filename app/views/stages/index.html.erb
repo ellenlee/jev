@@ -24,10 +24,16 @@
 			<% end %>
 		</td>
 		<td>
+			<% if current_user.tasks.find(task.id).uploads %>
+				<%= form_for [@stage, task, @upload], html: { multipart: true } do |f| %>
+				<%= f.label%>
+				<%= f.file_field :document %>
+				<%= f.submit class: "btn btn-primary btn-sm" %>
+			<% end %>
+
 			<%= form_for [@stage, task, @upload], html: { multipart: true } do |f| %>
-					<%= f.file_field :document %>  
-					<%= f.submit class: "btn btn-primary btn-sm" %>
-			
+				<%= f.file_field :document %>
+				<%= f.submit class: "btn btn-primary btn-sm" %>
 			<% end %>
 		</td>
 	</tr>	
@@ -35,4 +41,5 @@
 </table>
 
 <h4>上傳區</h4>
+
 
