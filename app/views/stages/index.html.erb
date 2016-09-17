@@ -4,8 +4,6 @@
 	<%= simple_format(@stage.info) %>	
 </div>
 <hr>
-<h4>上傳區</h4>
-
 <table class="table table-condensed">
 	<tr>
 		<th>#</th>
@@ -25,8 +23,16 @@
 				個人
 			<% end %>
 		</td>
-		<td></td>
+		<td>
+			<%= form_for [@stage, task, @upload], html: { multipart: true } do |f| %>
+					<%= f.file_field :document %>  
+					<%= f.submit class: "btn btn-primary btn-sm" %>
+			
+			<% end %>
+		</td>
 	</tr>	
 	<% end %>		
-	
 </table>
+
+<h4>上傳區</h4>
+

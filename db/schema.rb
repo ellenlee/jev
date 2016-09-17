@@ -10,70 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160916124149) do
-
-  create_table "assignments", force: :cascade do |t|
-    t.string   "name"
-    t.boolean  "team_work?"
-    t.integer  "stage_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["stage_id"], name: "index_assignments_on_stage_id"
-  end
-
-  create_table "categories", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "classrooms", force: :cascade do |t|
-    t.string   "name"
-    t.string   "semester"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "project_classroomships", force: :cascade do |t|
-    t.integer  "project_id"
-    t.integer  "classroom_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["classroom_id"], name: "index_project_classroomships_on_classroom_id"
-    t.index ["project_id"], name: "index_project_classroomships_on_project_id"
-  end
-
-  create_table "projects", force: :cascade do |t|
-    t.string   "title"
-    t.text     "info"
-    t.date     "start_date"
-    t.date     "end_date"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.integer  "category_id"
-    t.index ["category_id"], name: "index_projects_on_category_id"
-  end
+ActiveRecord::Schema.define(version: 20160916222034) do
 
   create_table "stages", force: :cascade do |t|
     t.string   "title"
     t.text     "info"
-    t.integer  "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_stages_on_project_id"
-  end
-
-  create_table "task_achieved", force: :cascade do |t|
-    t.integer  "task_id"
-    t.integer  "team_id"
-    t.integer  "user_id"
-    t.string   "who_upload"
-    t.datetime "deadline"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["task_id"], name: "index_task_achieved_on_task_id"
-    t.index ["team_id"], name: "index_task_achieved_on_team_id"
-    t.index ["user_id"], name: "index_task_achieved_on_user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -85,22 +28,17 @@ ActiveRecord::Schema.define(version: 20160916124149) do
     t.index ["stage_id"], name: "index_tasks_on_stage_id"
   end
 
-  create_table "team_memberships", force: :cascade do |t|
-    t.integer  "team_id"
+  create_table "uploads", force: :cascade do |t|
+    t.integer  "task_id"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["team_id"], name: "index_team_memberships_on_team_id"
-    t.index ["user_id"], name: "index_team_memberships_on_user_id"
-  end
-
-  create_table "teams", force: :cascade do |t|
-    t.integer  "classroom_id"
-    t.integer  "num"
-    t.string   "name"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["classroom_id"], name: "index_teams_on_classroom_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.string   "document_file_name"
+    t.string   "document_content_type"
+    t.integer  "document_file_size"
+    t.datetime "document_updated_at"
+    t.index ["task_id"], name: "index_uploads_on_task_id"
+    t.index ["user_id"], name: "index_uploads_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
