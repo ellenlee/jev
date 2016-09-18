@@ -10,7 +10,45 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160916222034) do
+ActiveRecord::Schema.define(version: 20160918104828) do
+
+  create_table "classrooms", force: :cascade do |t|
+    t.string   "name"
+    t.string   "semester"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "participants", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "classroom_id"
+    t.integer  "team_id"
+    t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["classroom_id"], name: "index_participants_on_classroom_id"
+    t.index ["project_id"], name: "index_participants_on_project_id"
+    t.index ["team_id"], name: "index_participants_on_team_id"
+    t.index ["user_id"], name: "index_participants_on_user_id"
+  end
+
+  create_table "project_classroomships", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "classroom_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["classroom_id"], name: "index_project_classroomships_on_classroom_id"
+    t.index ["project_id"], name: "index_project_classroomships_on_project_id"
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string   "name"
+    t.text     "info"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "stages", force: :cascade do |t|
     t.string   "title"
@@ -26,6 +64,15 @@ ActiveRecord::Schema.define(version: 20160916222034) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.index ["stage_id"], name: "index_tasks_on_stage_id"
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.integer  "classroom_id"
+    t.integer  "project_id"
+    t.integer  "num"
+    t.string   "name"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "uploads", force: :cascade do |t|

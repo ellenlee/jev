@@ -5,6 +5,7 @@ class StagesController < ApplicationController
 	def index
 		@stages = Stage.all
 		@stage = Stage.last
-		
+		@upload = Upload.new 
 	end
+
 end

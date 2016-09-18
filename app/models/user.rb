@@ -4,11 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
- #  has_many :teams, :through =>:team_memberships
-	# has_many :team_memberships, :dependent => :destroy
-
-	# has_many :team_tasks, :through =>:task_achieved, :source => :team
 	has_many :tasks, :through =>:uploads
 	has_many :uploads, :dependent => :destroy
 
+	has_many :participants, :dependent => :destroy
+	has_many :projects, :through => :participants
+	has_many :classrooms, :through => :participants
+	has_many :teams, :through => :participants
 end

@@ -10,6 +10,7 @@
 		<th>標題</th>
 		<th>類型</th>
 		<th>上傳檔案</th>
+
 	</tr>	
 	<!-- 當週作業列表 -->
 	<% @stage.tasks.each do |task| %>
@@ -24,17 +25,15 @@
 			<% end %>
 		</td>
 		<td>
-			<% if current_user.tasks.find(task.id).uploads %>
-				<%= form_for [@stage, task, @upload], html: { multipart: true } do |f| %>
-				<%= f.label%>
-				<%= f.file_field :document %>
-				<%= f.submit class: "btn btn-primary btn-sm" %>
-			<% end %>
-
 			<%= form_for [@stage, task, @upload], html: { multipart: true } do |f| %>
-				<%= f.file_field :document %>
-				<%= f.submit class: "btn btn-primary btn-sm" %>
-			<% end %>
+			
+        <%= f.file_field :document %>
+        <p class="help-block">XXX在XXX上傳該檔案</p>
+        
+        <%= f.submit class: "btn btn-xs pull-right" %>
+      <% end %>
+			
+
 		</td>
 	</tr>	
 	<% end %>		

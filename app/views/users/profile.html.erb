@@ -1,0 +1,43 @@
+<p class="pull-right">註冊日期：<%= current_user.created_at.strftime('%Y/%m/%d') %></p>
+
+
+<div class="clearfix">
+	
+	<div>
+		<h1><%= current_user.name %></h1>
+		<p><%= mail_to current_user.email %></p>	
+		<p>
+
+	  	<%= button_to '修改個人資料', edit_user_path(current_user), :method => :get %>
+		</p>	
+	</div>
+</div>
+
+<!-- 列出 user 參與的所有專案 -->
+<h2>我的專案</h2>
+
+<table class="table table-condensed">
+	<tr>
+		<th>#</th>
+		<th>專案名稱</th>
+		<th>班級</th>
+		<th>組別</th>
+		<th>狀態</th>
+		<th></th>
+	</tr>
+
+	<% current_user.participants.each do |participant| %>
+	<tr>
+		<td><%= participant.id %></td>
+		<td><%= participant.project.name %></td>
+		<td><%= participant.classroom.name %>(<%= participant.classroom.semester %>)</td>
+		<td>第<%= participant.team.num %>組</td>
+		<td>執行中</td>
+		<td>Edit</td>	
+	</tr>	
+	<% end %>
+</table>
+
+<center>
+	<%= button_to '+ New post', new_post_path, :method => :get %>
+</center>

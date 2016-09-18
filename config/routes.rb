@@ -9,5 +9,13 @@ Rails.application.routes.draw do
   	end
   end
 
+  resources :users do
+  	member do
+  		get :profile
+    end
+  end
+
+  resources :participants
+
   root :to => 'stages#index'
 end
