@@ -10,12 +10,14 @@ Rails.application.routes.draw do
   end
 
   resources :users do
+    resources :teams
   	member do
   		get :profile
     end
   end
 
   resources :participants
+
 
   root :to => 'stages#index'
 end
