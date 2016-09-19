@@ -1,6 +1,8 @@
 class Project < ApplicationRecord
-
+	belongs_to :status
+	
 	has_many :stages
+
 	# has_many :tasks
 	# has_many :uploads
 

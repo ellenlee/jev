@@ -15,3 +15,6 @@
 # User.create( email: "lunacy20@gmail.com", password:"12345678", name:"李靜慧")
 # # TeamMembership.create(team_id:1, user_id:1 )
 # # ProjectClassroomship.create(project_id:1, classroom_id:1)
+Status.create!(name:"籌備中")
+Status.create!(name:"執行中")
+Status.create!(name:"已結案")

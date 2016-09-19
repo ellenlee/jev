@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919104415) do
+ActiveRecord::Schema.define(version: 20160919132612) do
 
   create_table "groups", force: :cascade do |t|
     t.string   "name"
@@ -32,8 +32,10 @@ ActiveRecord::Schema.define(version: 20160919104415) do
     t.text     "info"
     t.date     "start_date"
     t.date     "end_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "status_id",  default: 1
+    t.index ["status_id"], name: "index_projects_on_status_id"
   end
 
   create_table "stages", force: :cascade do |t|
@@ -42,7 +44,14 @@ ActiveRecord::Schema.define(version: 20160919104415) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "project_id"
+    t.integer  "num"
     t.index ["project_id"], name: "index_stages_on_project_id"
+  end
+
+  create_table "statuses", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tasks", force: :cascade do |t|
