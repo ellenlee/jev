@@ -1,4 +1,6 @@
 class Upload < ApplicationRecord
+	belongs_to	:project
+	belongs_to 	:stage
 	belongs_to	:task
 	# belongs_to	:team
 	belongs_to	:user

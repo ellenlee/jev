@@ -3,8 +3,9 @@ class StagesController < ApplicationController
 
 
 	def index
-		@stages = Stage.all
-		@stage = Stage.last
+		@project = Project.find_by_id(params[:project_id])
+		@stages = @project.stages
+		@stage = @stages.last
 		@upload = Upload.new
 	end
 

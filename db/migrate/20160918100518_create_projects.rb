@@ -7,5 +7,7 @@ class CreateProjects < ActiveRecord::Migration[5.0]
 			t.date 		:end_date   
       t.timestamps
     end
+    add_column :stages, :project_id, :integer
+  	add_index	 :stages, :project_id
   end
 end
