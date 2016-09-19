@@ -11,7 +11,7 @@
   <body>
     <!-- 全站導覽列 -->
     <div class="clearfix">
-    <p class="pull-left"><%= link_to "回到首頁", stages_path %></p>
+    <p class="pull-left"><%= link_to "回到首頁", projects_path %></p>
     <ul class="list-inline pull-right">
       <% if current_user %>
         <li><%= link_to '會員中心 ('+current_user.name+')', profile_user_path(current_user) %></li>

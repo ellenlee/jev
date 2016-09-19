@@ -1,4 +1,5 @@
 class Task < ApplicationRecord
+	belongs_to :project
 	belongs_to :stage
 
 	# has_many :teams, :through =>:uploads

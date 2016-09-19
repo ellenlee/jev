@@ -10,7 +10,7 @@ class UploadsController < ApplicationController
 	    redirect_to stages_path
 	    flash[:notice] = "檔案已上傳"
 	  else
-	    render stages_path
+	    render project_stages_path
 	    flash[:alert] = "好像有點問題，再檢查一下哦！"
 	  end
 	end

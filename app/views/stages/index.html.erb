@@ -1,4 +1,6 @@
-<h1><%= @stage.title %></h1>
+
+
+<h1><%= @stage.name %></h1>
 
 <div>
 	<%= simple_format(@stage.info) %>	
@@ -16,7 +18,7 @@
 	<% @stage.tasks.each do |task| %>
 	<tr>
 		<td><%= task.id %></td>
-		<td><%= task.title %></td>
+		<td><%= task.name %></td>
 		<td>
 			<% if task.team_work? %>
 				小組
@@ -25,7 +27,7 @@
 			<% end %>
 		</td>
 		<td>
-			<%= form_for [@stage, task, @upload], html: { multipart: true } do |f| %>
+			<%= form_for [task.project, task.stage, task, @upload], html: { multipart: true } do |f| %>
 			
         <%= f.file_field :document %>
         <p class="help-block">XXX在XXX上傳該檔案</p>
