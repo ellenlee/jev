@@ -44,6 +44,7 @@ group :development, :test do
   gem 'faker'
   gem 'rspec-rails'
   gem 'guard-rspec', require: false
+  gem "rails-erd"
 end
 
 group :development do
