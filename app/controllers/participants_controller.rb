@@ -11,6 +11,10 @@ class ParticipantsController < ApplicationController
 		@participant.user = current_user
 
 		if @participant.save
+			# if user
+
+
+
 			redirect_to :back
 			flash[:notice] = "恭喜您完成專案登錄，偉大的旅程就此開始！"
 		else

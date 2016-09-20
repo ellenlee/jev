@@ -42,8 +42,11 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'faker'
+  # 測試
   gem 'rspec-rails'
   gem 'guard-rspec', require: false
+  gem 'growl'
+  # Model --> pdf
   gem "rails-erd"
 end
 

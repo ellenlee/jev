@@ -1,0 +1,20 @@
+<h1>全站會員</h1>
+
+<table class="table">
+	<tr>
+		<th>#</th>
+		<th>姓名</th>
+		<th>email</th>
+		<th>參加專案</th>
+		<th>edit</th>
+	</tr>
+	<% @users.each do |user| %>
+	<tr>
+		<td><%= user.id %></td>
+		<td><%= user.name %></td>
+		<td><%= user.email %></td>
+		<td><%= user.projects.pluck(:name) %></td>
+		<td>edit</td>
+	</tr>	
+	<% end %>
+</table>

@@ -17,8 +17,13 @@ Rails.application.routes.draw do
     end
   end
 
-  
-
+  namespace :admin do
+    resources :users
+    resources :projects
+    resources :groups do
+      resources :teams
+    end
+  end
 
   root :to => 'projects#index'
 end

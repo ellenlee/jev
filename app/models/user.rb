@@ -11,10 +11,14 @@ class User < ApplicationRecord
 	has_many :teams, through: :user_teamships
 	has_many :groups, through: :user_teamships
 
-
-
 	has_many :tasks, :through =>:uploads
 	has_many :uploads, dependent: :destroy
 
-
+	def admin?
+		if self.id == 1
+			true
+		else
+			false
+		end
+	end
 end
