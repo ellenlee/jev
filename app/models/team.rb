@@ -1,7 +1,11 @@
 class Team < ApplicationRecord
 
+	belongs_to	:group
+	belongs_to	:project
+
 	has_many :user_teamships, :dependent => :destroy
 	has_many :users, :through => :user_teamships
+
 
 	
 	def join_team

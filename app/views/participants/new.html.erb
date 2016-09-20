@@ -1,0 +1,42 @@
+<center>
+<div>
+	<% if @project.users.include?(current_user) %>
+		<h3>登錄專案團隊</h3>
+		<br>	
+		<h4><%= @project.name %></h4>
+			<%= form_for [current_user, @team], :class => "form-inline" do |f| %>
+		    <!-- 表單內容 -->
+				<div class="form-group">
+		   	 	
+		      <%= f.label :group, "班級" %>
+		      <%= f.collection_select( :group_id, Group.all, :id, :name, :prompt => "請選擇") %>
+
+		      <%= f.label :num, "組別" %>
+		      <%= f.collection_select( :group_id, Group.all, :id, :name, :prompt => "請選擇") %>
+		      <%= f.number_field :num, :style => "width:50px" %>
+		      <small>(請輸入數字)</small>
+		      <%= f.submit 'Submit', class: "btn btn-primary btn-xs"  %>
+		      </div>
+		      
+		  </div>
+	    <!-- 錯誤訊息 -->
+	    <% if @team.errors.any? %>
+	        <% @team.errors.full_messages.each do |msg| %>
+	            <div class="alert alert-danger" role="alert"><%= msg %></div>
+	        <% end %>
+	    <% end %>
+		<% end %>	
+
+	<% else %>
+		<h3>登錄專案團隊</h3>
+		<br>
+		<p> 您是否已屬於<strong> <%= @project.name %> </strong>下特定團隊？</p>
+		<p>如果還不確定，請您與工作團隊聯絡 </p>
+		<p>若已確定，請點擊按鈕登錄本專案</p>
+		<br>
+		<%= button_to "我已是專案成員", user_participants_path( :participant => {:project_id => @project}), :class => "btn btn-primary" %>
+	<% end %>
+</div>
+</center>
+
+	

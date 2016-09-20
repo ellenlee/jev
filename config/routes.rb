@@ -10,13 +10,14 @@ Rails.application.routes.draw do
   end
     
   resources :users do
+    resources :participants
     resources :teams
   	member do
   		get :profile
     end
   end
 
-  resources :participants
+  
 
 
   root :to => 'projects#index'
