@@ -18,3 +18,9 @@
 Status.create!(name:"籌備中")
 Status.create!(name:"執行中")
 Status.create!(name:"已結案")
+
+Group.create!(name:"台北班")
+Group.create!(name:"中原班")
+Group.create!(name:"政大班")
+
+# 要確保 name 的唯一性

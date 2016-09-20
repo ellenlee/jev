@@ -25,9 +25,9 @@ class StagesController < ApplicationController
 		if @project.users.include?(current_user)
 		# - 若是：看見專案內頁（stage.index）
 		else
-		# - 若否，跳轉 user profile
-			redirect_to profile_user_path(current_user)
-			flash[:alert] = "您尚未加入此專案，請建立參加紀錄！"
+		# - 若否，跳轉能新建專案參加與團隊紀錄的頁面(teams#new)
+			redirect_to new_user_team_path(current_user, project: params[:project_id])
+			flash[:alert] = "請先完成登錄程序！"
 		end	
 	end
 

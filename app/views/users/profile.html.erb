@@ -13,6 +13,45 @@
 	</div>
 </div>
 
+<div id="join_team" class="bg-info" style="padding: 10px">
+<center>
+	<% if @team.id %>
+	  <h4><%= "專案團隊更動" %></h4>
+	<% else %>
+	  <h4><%= "參加專案團隊" %></h4>
+	<% end %>
+
+	<%= form_for [current_user, @team], :class => "form-inline" do |f| %>
+    <!-- 表單內容 -->
+		<div class="form-group">
+			<% if @project %>
+				<%= @project.name %>
+			<% else %>
+				<%= f.label :project, "專案" %>
+       	<%= f.collection_select( :project_id, Project.all, :id, :name, :prompt => "請選擇") %>
+			<% end %>
+      
+   	 	
+      <%= f.label :group, "班級" %>
+      <%= f.collection_select( :group_id, Group.all, :id, :name, :prompt => "請選擇") %>
+
+      <%= f.label :num, "組別" %>
+      <%= f.number_field :num, :style => "width:50px" %>
+      <small>(請輸入數字)</small>
+      <%= f.submit 'Submit', class: "btn btn-primary btn-xs"  %>
+      </div>
+      
+  </div>
+	    <!-- 錯誤訊息 -->
+	    <% if @team.errors.any? %>
+	        <% @team.errors.full_messages.each do |msg| %>
+	            <div class="alert alert-danger" role="alert"><%= msg %></div>
+	        <% end %>
+	    <% end %>
+	<% end %>
+</center>
+</div>
+
 <!-- 列出 user 參與的所有專案 -->
 <h2>我的專案</h2>
 
@@ -30,9 +69,9 @@
 	<% current_user.teams.each do |team| %>
 	<tr>
 		<td><%= team.id %></td>
-		<td><%= team.classroom.semester %></td>
-		<td><%= team.project.name %></td>
-		<td><%= team.classroom.name %></td>
+		<td></td>
+		<td></td>
+		<td><%= team.group.name %></td>
 		<td>第<%= team.num %>組</td>
 		<td>執行中</td>
 		<td><%= link_to "edit", profile_user_path(:team_id => team.id) %></td>	
@@ -41,32 +80,7 @@
 </table>
 
 
-<% if @team.id %>
-  <h3><%= "更新專案參與記錄" %></h3>  
-<% else %>
-  <h3><%= "新建專案參與紀錄" %></h3>
-<% end %>
 
-<%= form_for [current_user, @team], :class => "form-inline" do |f| %>	
-	<!-- 表單內容 -->
- 	<div class="form-group">
-		<%= f.label :project, "專案" %>
-		<%= f.collection_select( :project_id, Project.all, :id, :name, :prompt => "請選擇") %>
 	
-		<%= f.label :classroom, "班級" %>
-		<%= f.collection_select( :classroom_id, Classroom.all, :id, :name, :prompt => "請選擇") %>
 
-		<%= f.label :num, "組別" %>		
-		<%= f.number_field :num, :style => "width:50px" %>
-		<small>(請輸入數字)</small> 
-		</div>
-		<%= f.submit 'Submit', class: "btn btn-primary btn-xs"  %>
-	</div>
-	<!-- 錯誤訊息 -->
-	<% if @team.errors.any? %>      
-		<% @team.errors.full_messages.each do |msg| %>
-			<div class="alert alert-danger" role="alert"><%= msg %></div>
-		<% end %>
-	<% end %>
-<% end %>
 

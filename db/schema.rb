@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919132612) do
+ActiveRecord::Schema.define(version: 20160919142036) do
 
   create_table "groups", force: :cascade do |t|
     t.string   "name"
@@ -67,6 +67,10 @@ ActiveRecord::Schema.define(version: 20160919132612) do
     t.integer  "num"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "project_id"
+    t.integer  "group_id"
+    t.index ["group_id"], name: "index_teams_on_group_id"
+    t.index ["project_id"], name: "index_teams_on_project_id"
   end
 
   create_table "uploads", force: :cascade do |t|
@@ -80,6 +84,17 @@ ActiveRecord::Schema.define(version: 20160919132612) do
     t.datetime "document_updated_at"
     t.index ["task_id"], name: "index_uploads_on_task_id"
     t.index ["user_id"], name: "index_uploads_on_user_id"
+  end
+
+  create_table "user_teamships", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "team_id"
+    t.boolean  "has_quit?",  default: true
+    t.date     "quit_date"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["team_id"], name: "index_user_teamships_on_team_id"
+    t.index ["user_id"], name: "index_user_teamships_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -102,7 +117,9 @@ ActiveRecord::Schema.define(version: 20160919132612) do
     t.string   "grade"
     t.date     "birth"
     t.text     "bio"
+    t.integer  "group_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["group_id"], name: "index_users_on_group_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

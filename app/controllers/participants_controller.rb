@@ -1,14 +1,13 @@
 class ParticipantsController < ApplicationController
 	def create
 		@participant = Participant.new(participant_params)
-		@participant.user = current_user
-		
+
 		if @participant.save
-			redirect_to profile_user_path(current_user)
-			flash[:notice] = "新增成功"
+			redirect_to :back
+			flash[:notice] = "恭喜您完成專案登錄，偉大的旅程就此開始！"
 		else
-			render "users/profile"
-			flash[:alert] = "新增失敗"
+			render "teams/new"
+			flash[:alert] = "好像有問題，麻煩您再檢查一下⋯⋯"
 		end
 	
 	end
@@ -17,7 +16,7 @@ class ParticipantsController < ApplicationController
 	private
 
 	def participant_params
-		params.require(:participant).permit(:project_id, :classroom_id, :team_id)
+		params.require(:participant).permit(:project_id, :user_id)
 	end
 
 end

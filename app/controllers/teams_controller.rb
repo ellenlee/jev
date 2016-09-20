@@ -1,5 +1,17 @@
 class TeamsController < ApplicationController
 
+	def new
+		@team = Team.new
+		@project = Project.find_by_id(params[:project])
+
+		if params[:project] # 表示使用者欲參加特定專案
+			
+			@participant = Participant.new(project: @project, user: current_user)
+		end
+
+
+	end
+
 	def create
 		@team = Team.new(team_params)
 		
@@ -64,7 +76,7 @@ class TeamsController < ApplicationController
 	end
 
 	def team_params
-		params.require(:team).permit(:project_id, :classroom_id, :num)
+		params.require(:team).permit(:project_id, :group_id, :num)
 	end
 
 end
