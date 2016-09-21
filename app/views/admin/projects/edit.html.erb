@@ -1,0 +1,7 @@
+<h2>編輯專案內容</h2>
+
+<%= form_for [:admin, @project] do |f| %>
+	<%= render :partial => 'project_form', :locals => { :f => f } %>
+<% end %>
+<br>
+<p><%= link_to '⇦ Back', :back %></p>

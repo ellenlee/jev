@@ -18,6 +18,10 @@
 Status.create!(name:"籌備中")
 Status.create!(name:"執行中")
 Status.create!(name:"已結案")
+Status.create!(name:"撤案")
+
+Category.create!(name:"使命感行動")
+Category.create!(name:"開創力專案")
 
 Group.create!(name:"台北班")
 Group.create!(name:"中原班")

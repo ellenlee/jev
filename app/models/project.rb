@@ -1,5 +1,7 @@
 class Project < ApplicationRecord
 	belongs_to :status
+	belongs_to :category
+	belongs_to :creator, :class_name => "User"
 
 	has_many :stages
 

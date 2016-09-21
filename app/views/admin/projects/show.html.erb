@@ -1,4 +1,10 @@
-<h2><%= @project.name %></h2>
+
+<blockquote>
+	<h2><%= @project.name %></h2>
+	<%= simple_format(@project.info) %>	
+</blockquote>
+<%= link_to "編輯專案內容", edit_admin_project_path(@project), class: "btn" %>
+
 
 <table class="table">
 	<tr>
@@ -26,3 +32,4 @@
 <% end %>
 </table>
 
+<%= button_to "刪除專案", admin_project_path(@project), :method => :delete, data: {confirm: "Are you sure?" },class: "pull-right" %>

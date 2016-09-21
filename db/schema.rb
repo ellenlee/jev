@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160921111414) do
+ActiveRecord::Schema.define(version: 20160921142854) do
+
+  create_table "categories", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "groups", force: :cascade do |t|
     t.string   "name"
@@ -43,9 +49,12 @@ ActiveRecord::Schema.define(version: 20160921111414) do
     t.text     "info"
     t.date     "start_date"
     t.date     "end_date"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "status_id",  default: 1
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "status_id",   default: 1
+    t.integer  "category_id"
+    t.integer  "creator_id"
+    t.index ["category_id"], name: "index_projects_on_category_id"
     t.index ["status_id"], name: "index_projects_on_status_id"
   end
 

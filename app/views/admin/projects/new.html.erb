@@ -1,0 +1,5 @@
+<h2>創建專案</h2>
+
+<%= form_for [:admin, @project] do |f| %>
+	<%= render :partial => 'project_form', :locals => { :f => f } %>
+<% end %>
