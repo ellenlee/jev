@@ -1,0 +1,28 @@
+<h2><%= @project.name %></h2>
+
+<table class="table">
+	<tr>
+		<th>#</th>
+		<th>姓名</th>
+		<th>班別</th>
+		<th>組別</th>
+		<th>操作</th>
+	</tr>
+	<% @users.each do |user| %>
+	<tr>
+		<td><%= user.id %></td>
+		<td><%= user.name %></td>
+		<td><%= Participant.where(project: @project, user: user ).first.group.name %></td>
+		<td>
+			<% if user.teams.find_by_project_id(@project) %>
+				<%= user.teams.find_by_project_id(@project).num %>
+			<% else %>
+				未分組
+			<% end %>
+		</td>
+		<td>查看詳情  移出專案</td>
+	</tr>
+	
+<% end %>
+</table>
+

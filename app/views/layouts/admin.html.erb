@@ -15,7 +15,9 @@
     <ul class="list-inline pull-right">
       <% if current_user %>
         <li><%= link_to '專案成員', admin_users_path %></li>
-        <li><%= link_to '會員中心 ('+current_user.name+')', profile_user_path(current_user) %></li>
+        <li><%= link_to '專案', admin_projects_path %></li>
+        <li><%= link_to '班級', admin_groups_path %></li>
+        
         <li><%= link_to('登出', destroy_user_session_path, :method => :delete) %></li>
       <% else %>
         <%= link_to('註冊', new_registration_path(:user)) %> |

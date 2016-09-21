@@ -1,12 +1,15 @@
 class TeamsController < ApplicationController
 
 	def new
+		# 要先檢查是否有 已存在的params 
+		# 沒有的話，要如何讓學員加入某特定專案？
+
 		@team = Team.new
-		@project = Project.find_by_id(params[:project])
+		
 
 		if params[:project] # 表示使用者欲參加特定專案
 			
-			@participant = Participant.new(project: @project, user: current_user)
+			
 		end
 
 

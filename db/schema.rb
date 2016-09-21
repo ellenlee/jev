@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160920111400) do
+ActiveRecord::Schema.define(version: 20160920140602) do
 
   create_table "groups", force: :cascade do |t|
     t.string   "name"
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 20160920111400) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "group_id"
+    t.index ["group_id"], name: "index_participants_on_group_id"
     t.index ["project_id"], name: "index_participants_on_project_id"
     t.index ["user_id"], name: "index_participants_on_user_id"
   end
@@ -77,7 +79,9 @@ ActiveRecord::Schema.define(version: 20160920111400) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "group_id"
+    t.integer  "project_id"
     t.index ["group_id"], name: "index_teams_on_group_id"
+    t.index ["project_id"], name: "index_teams_on_project_id"
   end
 
   create_table "uploads", force: :cascade do |t|
@@ -100,8 +104,6 @@ ActiveRecord::Schema.define(version: 20160920111400) do
     t.date     "quit_date"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
-    t.integer  "group_id"
-    t.index ["group_id"], name: "index_user_teamships_on_group_id"
     t.index ["team_id"], name: "index_user_teamships_on_team_id"
     t.index ["user_id"], name: "index_user_teamships_on_user_id"
   end

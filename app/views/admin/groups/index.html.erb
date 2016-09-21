@@ -1,0 +1,54 @@
+<h1>班級一覽</h1>
+
+<table class="table table-condensed table-bordered">
+	<tr>
+		<th>#</th>
+		<th>名稱</th>
+		<th>累計人次</th>
+		<th>累計人數</th>
+		<th>結業專案</th>
+		<th>結業人次</th>
+		<th>結業人數</th>
+		<th>進行中專案</th>
+		<th>現有成員數</th>
+		<th>現有老成員</th>
+		<th>現有新成員</th>
+		<th>操作</th>
+	</tr>
+	<% @groups.each do |group| %>
+		<% @open_projects = group.projects.where( :status_id => 2) %>
+		<% @close_projects = group.projects.where( :status_id => 3) %>
+		<% @members = Participant.where(group: group).pluck(:user_id) %>
+		<% @online_members = Participant.where(group: group, project: @open_projects).pluck(:user_id) %>
+		<% @close_members = Participant.where(group: group, project: @close_projects).pluck(:user_id) %>
+		<% @freshmen = @online_members - @close_members %>
+	<tr>
+		<td><%= group.id %></td>
+		<td><%= group.name %></td>
+		<td><%= @members.count %></td>
+		<td><%= @members.uniq.count %></td>
+		<td>
+			<% if @close_projects %>
+				<% @close_projects.each do |project| %>
+					<%= project.name %><br>
+				<% end %>	
+			<% end %>
+		</td>
+		<td><%= @close_members.count %></td>	
+		<td><%= @close_members.uniq.count %></td>
+		<td>
+			<% if @open_projects %>
+				<% @open_projects.each do |project| %>
+					<%= project.name %><br>
+				<% end %>	
+			<% end %>
+		</td>
+		<td><%= @online_members.uniq.count %></td>
+		<td><%= (@members.uniq-@freshmen.uniq).count %></td>
+		<td><%= @freshmen.count %></td>
+		<td>詳情｜edit</td>
+	</tr>	
+	<% end %>
+</table>
+
+				
