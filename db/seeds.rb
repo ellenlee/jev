@@ -15,16 +15,22 @@
 # User.create( email: "lunacy20@gmail.com", password:"12345678", name:"李靜慧")
 # # TeamMembership.create(team_id:1, user_id:1 )
 # # ProjectClassroomship.create(project_id:1, classroom_id:1)
-Status.create!(name:"籌備中")
-Status.create!(name:"執行中")
-Status.create!(name:"已結案")
-Status.create!(name:"撤案")
+ProjStat.create!(name:"籌備中")
+ProjStat.create!(name:"執行中")
+ProjStat.create!(name:"已結案")
+ProjStat.create!(name:"撤案")
 
-Category.create!(name:"使命感行動")
-Category.create!(name:"開創力專案")
+ProjCategory.create!(name:"使命感行動")
+ProjCategory.create!(name:"開創力專案")
 
 Group.create!(name:"台北班")
 Group.create!(name:"中原班")
 Group.create!(name:"政大班")
+
+PartiStat.create!(name:"進行中")
+PartiStat.create!(name:"已結業")
+PartiStat.create!(name:"退出")
+
+User.create!( :password => "12345678", :email => "root@example.com", :name => "Admin")
 
 # 要確保 name 的唯一性

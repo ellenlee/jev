@@ -1,27 +1,19 @@
 namespace :dev do
 
-  task :fake => :environment do
+  task :fake_users => :environment do
 
-    puts "Create fake data for development"
-    u = User.new( :password => "12345678", :email => "root@example.com", :name => "管理員")
-    u.save!
-    
-    puts "-- 學員"
+    puts "-- create member "
     20.times do |u|
-    	user = User.new(name: "user_"+u.to_s, :email => u.to_s+"@gmail.com", :password => "12345678" )
-    	user.save!
+      i = u+3
+      user = User.new(name: "user_"+i.to_s, :email => i.to_s+"@gmail.com", :password => "12345678" )
+      user.save!
     end
+    puts "-- finished!"
+  end
 
-    puts "-- create fake classroom"
-    Group.create!(name:"中原班")
-    Group.create!(name:"政大班")
-    Group.create!(name:"公開班")
 
-    puts "-- create fake projects"
-    Project.create!(name:"飯店案", info: "這是XX專案說明")
-    Project.create!(name:"香氛案", info: "這是XX專案說明")
-    Project.create!(name:"媒體案", info: "這是XX專案說明")
-    Project.create!(name:"社企案", info: "這是XX專案說明")
+
+  task :fake => :environment do
 
     puts "-- create fake stages"
     Project.all.each do |p|

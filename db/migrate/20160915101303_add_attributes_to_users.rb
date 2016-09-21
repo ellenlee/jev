@@ -10,5 +10,8 @@ class AddAttributesToUsers < ActiveRecord::Migration[5.0]
   	add_column :users, :birth, :date
   	add_column :users, :bio, :text
 
+    # 創建帳號相關
+    add_column  :users, :created_by, :integer
+    add_column  :users, :first_login_on, :date
   end
 end

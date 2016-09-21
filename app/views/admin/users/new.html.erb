@@ -40,7 +40,7 @@
 			<td><%= User.find_by_id(user.created_by).name %></td>
 			<td><%= user.created_at.strftime('%Y-%m-%d') %></td>
 			<td>
-				<% if user.self_login? %>
+				<% if user.first_login_on %>
 					<%= user.first_login_on.strftime('%Y-%m-%d') %>
 				<% else %>
 					never

@@ -13,7 +13,6 @@ class Admin::ProjectsController < ApplicationController
 
 	def create
 		@project = Project.new(project_params)
-		# @project.category_id = params[:category_id]
 		@project.creator = current_user
 
 		if @project.save
@@ -28,7 +27,6 @@ class Admin::ProjectsController < ApplicationController
 		set_project
 		@users = @project.users
 		@groups = @project.groups
-		# Participant.where(project:1, user:1).first.group
 	end
 
 	def edit
@@ -65,7 +63,7 @@ class Admin::ProjectsController < ApplicationController
 	end	
 
 	def project_params
-		params.require(:project).permit(:name, :info, :category_id, :creator)
+		params.require(:project).permit(:name, :info, :proj_category_id, :proj_stat_id, :creator_id)
 	end
 
 	def set_project
