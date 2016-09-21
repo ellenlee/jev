@@ -18,7 +18,13 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :users
+    root "dashboard#index"
+    
+    resources :users do
+      collection do
+        post :bulk_update
+      end
+    end
     resources :projects
     resources :groups do
       resources :teams

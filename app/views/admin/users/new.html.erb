@@ -1,0 +1,17 @@
+<h2>創建學員帳號</h2>
+
+<% form_for @user, url: admin_users_path do |f| %>
+	<!-- 錯誤訊息 -->
+	<% if @user.errors.any? %>      
+		<% @user.errors.full_messages.each do |msg| %>
+			<div class="alert alert-danger" role="alert"><%= msg %></div>
+		<% end %>
+	<% end %>
+
+	<!-- 表單內容 -->
+	<div class="form-group">
+ 		<%= f.label :title, "標題" %>
+		<%= f.text_field :title, class: "form-control" %>
+	</div>
+
+<% end %>

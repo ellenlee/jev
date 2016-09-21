@@ -25,6 +25,12 @@
       <% end %> 
     </ul>  
   </div>
+  <!-- 管理功能導覽列 -->
+    <div class="clearfix">
+    <ul class="list-inline pull-left">
+      <li><%= link_to '創建學員帳號', new_admin_user_path %></li>
+    </ul>  
+  </div>
 
   <!-- 警告訊息 -->
   <% if flash[:notice].present? %>

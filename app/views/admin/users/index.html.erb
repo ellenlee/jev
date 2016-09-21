@@ -1,45 +1,72 @@
 <h1>全站會員</h1>
 
-<table class="table table-condensed table-bordered">
-	<tr>
-		<th>#</th>
-		<th>姓名</th>
-		<th>email</th>
-		<th>起始專案</th>
-		<th>完成專案數</th>
-		<th>累計出席數</th>
-		<th>累計成果數</th>
-		<th>參加中專案</th>
-		<th>操作</th>
-	</tr>
-	<% @users.each do |user| %>
-	<tr>
-		<td><%= user.id %></td>
-		<td><%= user.name %></td>
-		<td><%= mail_to user.email %></td>
-		<% if user.projects.any? %>
-			<td>
-				<% @project = user.projects.order(:created_at).first %>
-				<%= @project.name %><br>
-				<small><%= @project.created_at.strftime('%Y-%m-%d')%></small>	
-			</td>
-			<td><%= user.projects.count %>
-				<!-- 要在participant 加上狀態 做篩選 -->
-			</td>
-			<td>
-				<!-- 出席紀錄 -->
-			</td>
-			<td><%= user.uploads.count %></td>
-			<td>
-				<% user.projects.pluck(:name).each do |name| %>
-					<%= name %><br>
-				<% end %>		
-			</td>
-		<% else %>
-			<td colspan="5"><small class="text-muted">尚未參加任何專案</small></td>
+
+<%= form_tag bulk_update_admin_users_path do %>
+
+	<table class="table table-condensed">
+		<tr>
+			<th></th>
+			<th>#</th>
+			<th>姓名</th>
+			<th>起始專案</th>
+			<th>登錄專案數</th>
+			<th>累計出席數</th>
+			<th>累計成果數</th>
+			<th>參加中專案</th>
+			<th>操作</th>
+		</tr>
+		<% @users.each do |user| %>
+		<tr>
+			<td><%= check_box_tag "ids[]", user.id, false %></td>
+			<td><%= user.id %></td>
+			<td><%= user.name %></td>
+
+			<% if user.projects.any? %>
+				<td>
+					<% @project = user.projects.order(:created_at).first %>
+					<% @group = Participant.where(project: @project, user: user ).first.group %>
+					<%= @project.name %><sub>@<%= @group.name %></sub><br>
+					<small><%= @project.created_at.strftime('%Y-%m-%d')%></small>	
+				</td>
+				<td><%= user.projects.count %>
+					<!-- 要在participant 加上狀態 做篩選 -->
+				</td>
+				<td>
+					<!-- 出席紀錄 -->
+				</td>
+				<td><%= user.uploads.count %></td>
+				<td>
+					<% user.projects.pluck(:name).each do |name| %>
+						<%= name %><br>
+					<% end %>		
+				</td>
+			<% else %>
+				<td colspan="5"><small class="text-muted">尚未參加任何專案</small></td>
+			<% end %>
+			
+			<td><%= link_to '詳情' %>｜edit</td>
+		</tr>	
 		<% end %>
-		
-		<td><%= link_to '詳情' %>｜edit</td>
-	</tr>	
-	<% end %>
-</table>
+	</table>
+
+	<div class="form-group">
+		<%= submit_tag "delete users", data: { confirm: "您確定要將這些帳號永久刪除嗎？"} %>
+		<%= submit_tag "send mails" %>
+	</div>
+	<div class="form-group">
+		<select name="project" id="project_id">
+				<option value="">請選擇</option>
+				<% Project.all.each do |p| %>
+					<option value=<%=p.id%>><%= p.name %></option>
+				<% end %>
+		</select>
+		<select name="group" id="group_id">
+				<option value="">請選擇</option>
+				<% Group.all.each do |g| %>
+					<option value=<%=g.id%>><%= g.name %></option>
+				<% end %>
+		</select>
+			<%= submit_tag "sign in project" %>
+	</div>
+
+<% end %>
