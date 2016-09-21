@@ -30,12 +30,21 @@ class Admin::UsersController < ApplicationController
 	  ids = Array(params[:ids])
 	  users = ids.map{ |i| User.find_by_id(i) }.compact
 
-	  if params[:commit] == "sign in project"
-	    users.each{ |user| Participant.create!( project_id: params[:project], group_id: params[:group], user: user) }
-	    redirect_to admin_users_path, notice: "您已成功將學員登錄至專案下的班級！"
-	  elsif params[:commit] == "delete users"
+	  if params[:commit] == "登錄專案"
+	    users.each do |user| 
+	    	participant = Participant.create( project_id: params[:project], user: user)
+	    	if participant.errors.any?
+	    		redirect_to(admin_users_path, alert: "學員已登錄同一專案了！")
+	    		return
+	    	else
+	    		redirect_to admin_users_path, notice: "您已成功將學員登錄至專案下的班級！"
+	    	end
+	    end
+	  elsif params[:commit] == "刪除多筆帳號"
 	    users.each{ |user| user.destroy }
 	    redirect_to admin_users_path, alert: "您已成功將帳號刪除！"
+	  elsif params[:commit] == "群組寄信"
+	    	
 	  end
 	end
 
@@ -48,5 +57,6 @@ class Admin::UsersController < ApplicationController
 	def user_params
 		params.require(:user).permit(:name, :email, :phone, :school, :password, :created_by, :self_login?)
 	end
+
 
 end

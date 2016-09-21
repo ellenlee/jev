@@ -1,0 +1,23 @@
+<!-- 帳號批次管理選單 -->
+
+<div class="form-group col-xs-4">
+	<select name="project" id="project_id">
+			<option value="">請選擇</option>
+			<% Project.all.each do |p| %>
+				<option value= <%=p.id%> ><%= p.name %></option>
+			<% end %>
+	</select>
+	<%= submit_tag "登錄專案" %>
+	
+</div>
+
+
+<div class="form-group col-xs-4">
+	<%= submit_tag "群組寄信" %>
+</div>
+
+<div class="form-group col-xs-4">
+	<%= submit_tag "刪除多筆帳號", data: { confirm: "您確定要將這些帳號永久刪除嗎？"} %>
+</div>
+
+
