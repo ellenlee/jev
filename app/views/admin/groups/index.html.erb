@@ -1,5 +1,6 @@
-<h1>班級一覽</h1>
 
+
+<h1>班級一覽</h1>
 <table class="table table-condensed table-bordered">
 	<tr>
 		<th>#</th>
@@ -46,9 +47,35 @@
 		<td><%= @online_members.uniq.count %></td>
 		<td><%= (@members.uniq-@freshmen.uniq).count %></td>
 		<td><%= @freshmen.count %></td>
-		<td>詳情｜edit</td>
+		<td>詳情｜
+		<%= link_to "編輯", admin_groups_path( :id => group) %>｜
+		<%= button_to "刪除", admin_group_path(group), :method => :delete, data: {confirm: "Are you sure?" } %>
+		</td>
 	</tr>	
 	<% end %>
 </table>
+
+
+
+<% if @group.id %>
+  <h3><%= "編輯班級名稱" %></h3>  
+<% else %>
+  <h3><%= "創建班級" %></h3>
+<% end %>
+<%= form_for [:admin, @group] do |f| %>
+  <!-- 錯誤訊息 -->
+	<% if @group.errors.any? %>      
+		<% @group.errors.full_messages.each do |msg| %>
+			<div class="alert alert-danger" role="alert"><%= msg %></div>
+		<% end %>
+	<% end %>
+
+<div class="form-group">
+	<ul class="list-inline">
+		<li><%= f.text_field :name, placeholder:"名稱", class: 'form-control ' %></li>
+
+		<%= f.submit class: "btn btn-primary btn-sm"  %>
+	</ul>
+<% end %>
 
 				
