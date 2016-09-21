@@ -11,7 +11,6 @@ class User < ApplicationRecord
 	has_many :user_teamships, dependent: :destroy
 	has_many :teams, through: :user_teamships
 	
-
 	has_many :tasks, :through =>:uploads
 	has_many :uploads, dependent: :destroy
 

@@ -1,6 +1,6 @@
 <h2>創建學員帳號</h2>
 
-<% form_for @user, url: admin_users_path do |f| %>
+<%= form_for @user, url: admin_users_path do |f| %>
 	<!-- 錯誤訊息 -->
 	<% if @user.errors.any? %>      
 		<% @user.errors.full_messages.each do |msg| %>
@@ -8,10 +8,47 @@
 		<% end %>
 	<% end %>
 
-	<!-- 表單內容 -->
-	<div class="form-group">
- 		<%= f.label :title, "標題" %>
-		<%= f.text_field :title, class: "form-control" %>
-	</div>
+	
+<div class="form-group">
+	<ul class="list-inline">
+		<li><%= f.text_field :name, placeholder:"姓名", class: 'form-control ' %></li>
+		<li><%= f.email_field :email, placeholder:"email",class: 'form-control' %></li>
+		<li>
 
+		<%= f.submit class: "btn btn-primary btn-sm"  %>
+	</ul>
+<% end %>
+<p class="help-block">* 預設密碼為email（若email登記錯誤，則該帳號無效，請手動刪除）</p>
+</div>
+<hr>
+<h4>由您創建的帳號</h4>
+<% if @users %>	
+	<table class="table">
+		<tr>
+			<th>#</th>
+			<th>姓名</th>
+			<th>email</th>
+			<th>創建者</th>
+			<th>創建時間</th>
+			<th>第一次自主登入</th>
+		</tr>
+		<% @users.each do |user| %>
+		<tr>
+			<td><%= user.id %></td>
+			<td><%= user.name %></td>
+			<td><%= user.email %></td>
+			<td><%= User.find_by_id(user.created_by).name %></td>
+			<td><%= user.created_at.strftime('%Y-%m-%d') %></td>
+			<td>
+				<% if user.self_login? %>
+					<%= user.first_login_on.strftime('%Y-%m-%d') %>
+				<% else %>
+					never
+				<% end %>
+			</td>
+		</tr>
+		<% end %>
+	</table>
+<% else %>
+	您未曾創建任何帳號
 <% end %>

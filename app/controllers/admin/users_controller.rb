@@ -8,7 +8,22 @@ class Admin::UsersController < ApplicationController
 
 	def new
 		@user = User.new
-		
+		@users = User.where(:created_by => current_user.id)
+		# 之後要改成多個 admin 都看得見
+	end
+
+	def create
+
+		@user = User.new(user_params)
+		@user.password = @user.email
+		@user.created_by = current_user.id
+
+		if @user.save
+			redirect_to new_admin_user_path
+			flash[:notice] = "新增 #{@user.name}"
+		else
+			render :action => :new
+		end
 	end
 
 	def bulk_update
@@ -29,5 +44,9 @@ class Admin::UsersController < ApplicationController
 	def check_admin
 		redirect_to root_path, :notice =>"Oooops?!" unless current_user.admin?
 	end	
+
+	def user_params
+		params.require(:user).permit(:name, :email, :phone, :school, :password, :created_by, :self_login?)
+	end
 
 end
