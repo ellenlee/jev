@@ -39,7 +39,7 @@ class Admin::ProjectsController < ApplicationController
 
 		if @project.save
 			redirect_to admin_project_path(@project)
-			flash[:notice] = "新增專案 #{@project.name} 成功！"
+			flash[:notice] = "編輯專案 #{@project.name} 成功！"
 		else
 			render :action => :edit
 		end
@@ -63,7 +63,7 @@ class Admin::ProjectsController < ApplicationController
 	end	
 
 	def project_params
-		params.require(:project).permit(:name, :info, :proj_category_id, :proj_stat_id, :creator_id)
+		params.require(:project).permit(:name, :info, :category_id, :status_id, :creator_id, :group_ids => [])
 	end
 
 	def set_project

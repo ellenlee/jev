@@ -1,6 +1,6 @@
 class Project < ApplicationRecord
-	belongs_to :proj_stat
-	belongs_to :proj_category
+	belongs_to :status, :class_name => "ProjStat"
+	belongs_to :category, :class_name => "ProjCategory"
 	belongs_to :creator, :class_name => "User"
 
 	has_many :project_groupships, dependent: :destroy

@@ -1,11 +1,24 @@
 
 <blockquote>
 	<h2><%= @project.name %></h2>
+
 	<%= simple_format(@project.info) %>	
 </blockquote>
-<%= link_to "編輯專案內容", edit_admin_project_path(@project), class: "btn" %>
 
 
+
+<p class="pull-right">
+	<%= @project.category.name %>｜
+	<%= @project.status.name %>｜
+	<%= link_to "編輯詳情", edit_admin_project_path(@project) %>
+</p>
+
+
+<ul class="list-inline">
+	<% @project.groups.each do |group| %>
+		<li class="btn btn-default btn-xs active"><%= group.name %></li>
+	<% end %>		
+</ul>
 <table class="table">
 	<tr>
 		<th>#</th>
@@ -18,7 +31,7 @@
 	<tr>
 		<td><%= user.id %></td>
 		<td><%= user.name %></td>
-		<td><%= Participant.where(project: @project, user: user ).first.group.name %></td>
+		<td><%=  %></td>
 		<td>
 			<% if user.teams.find_by_project_id(@project) %>
 				<%= user.teams.find_by_project_id(@project).num %>

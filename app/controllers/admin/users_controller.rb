@@ -30,21 +30,35 @@ class Admin::UsersController < ApplicationController
 	  ids = Array(params[:ids])
 	  users = ids.map{ |i| User.find_by_id(i) }.compact
 
+	  succeed_cases = []
+	  fail_cases = []
+
 	  if params[:commit] == "登錄專案"
 	    users.each do |user| 
-	    	participant = Participant.create( project_id: params[:project], user: user)
-	    	if participant.errors.any?
-	    		redirect_to(admin_users_path, alert: "學員已登錄同一專案了！")
-	    		return
+	    	@participant = Participant.new( project_id: params[:project], user: user)
+	    	if @participant.save
+	    		succeed_cases << user.name
 	    	else
-	    		redirect_to admin_users_path, notice: "您已成功將學員登錄至專案下的班級！"
+	    	  fail_cases << user.name
 	    	end
-	    end
+	    end										
+	    redirect_to admin_users_path, notice: "成功登錄：#{succeed_cases}；\r\n未登錄：#{fail_cases} - #{@participant.errors.full_messages}"
+	  elsif params[:commit] == "移出專案"
+	  	users.each do |user|
+	  		if @participant = Participant.where( project_id: params[:project], user: user).first
+	  			@participant.destroy
+	  			succeed_cases << user.name
+	  		end
+	  	end
+	  	redirect_to admin_users_path, notice: "已將 #{succeed_cases} 移出 #{Project.find(params[:project]).name}"
 	  elsif params[:commit] == "刪除多筆帳號"
-	    users.each{ |user| user.destroy }
-	    redirect_to admin_users_path, alert: "您已成功將帳號刪除！"
+	    users.each do |user| 
+	    	user.destroy
+	    	succeed_cases << user.name 
+	    end
+	    redirect_to admin_users_path, alert: "您已成功將#{succeed_cases}刪除！"
 	  elsif params[:commit] == "群組寄信"
-	    	
+	    	# 未製作
 	  end
 	end
 
