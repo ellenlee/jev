@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160922073449) do
+ActiveRecord::Schema.define(version: 20160923150011) do
 
   create_table "groups", force: :cascade do |t|
     t.string   "name"
@@ -18,22 +18,23 @@ ActiveRecord::Schema.define(version: 20160922073449) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "parti_stats", force: :cascade do |t|
+  create_table "parti_statuses", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "participants", force: :cascade do |t|
+  create_table "participations", force: :cascade do |t|
     t.integer  "project_id"
     t.integer  "user_id"
+    t.integer  "group_id"
+    t.integer  "status_id",  default: 1
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
-    t.integer  "status_id",  default: 1
-    t.index ["project_id", "user_id"], name: "index_participants_on_project_id_and_user_id", unique: true
-    t.index ["project_id"], name: "index_participants_on_project_id"
-    t.index ["status_id"], name: "index_participants_on_status_id"
-    t.index ["user_id"], name: "index_participants_on_user_id"
+    t.index ["group_id"], name: "index_participations_on_group_id"
+    t.index ["project_id", "user_id"], name: "index_participations_on_project_id_and_user_id"
+    t.index ["project_id"], name: "index_participations_on_project_id"
+    t.index ["user_id"], name: "index_participations_on_user_id"
   end
 
   create_table "proj_categories", force: :cascade do |t|
@@ -42,7 +43,7 @@ ActiveRecord::Schema.define(version: 20160922073449) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "proj_stats", force: :cascade do |t|
+  create_table "proj_statuses", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -89,17 +90,6 @@ ActiveRecord::Schema.define(version: 20160922073449) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.index ["stage_id"], name: "index_tasks_on_stage_id"
-  end
-
-  create_table "team_members", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "team_id"
-    t.boolean  "has_quit?",  default: false
-    t.date     "quit_on"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.index ["team_id"], name: "index_team_members_on_team_id"
-    t.index ["user_id"], name: "index_team_members_on_user_id"
   end
 
   create_table "team_memberships", force: :cascade do |t|

@@ -7,7 +7,7 @@
 
 	<% if @project.users.include?(current_user) %>
 		<h3>登錄專案團隊</h3>
-		<br>	
+		<br>
 		<h4><%= @project.name %></h4>
 			<%= form_for [current_user, @team], :class => "form-inline" do |f| %>
 		    <!-- 表單內容 -->

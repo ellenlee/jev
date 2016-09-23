@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-RSpec.describe ProjStat, type: :model do
+RSpec.describe PartiStatus, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end

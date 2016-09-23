@@ -23,9 +23,11 @@ Rails.application.routes.draw do
     resources :users do
       collection do
         post :bulk_update
+        # post :bulk_signin
       end
     end
     resources :projects
+    resources :participants
     resources :groups do
       resources :teams
     end

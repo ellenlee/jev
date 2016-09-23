@@ -18,27 +18,27 @@
 		<tr>
 			<td><%= check_box_tag "ids[]", user.id, false %></td>
 			<td><%= user.id %></td>
-			<td><%= user.name %></td>
+			<td><%= link_to user.name, admin_user_path(user) %></td>
 
 			<% if user.projects.any? %>
 				<td>
 					<% @project = user.projects.order(:created_at).first %>
-					<%= @project.name %><small>｜XX班</small>
+					<%= @project.name %><small>｜<%= user.participations.where(project: @project).first.group.name %></small>
 				</td>
 				<td align="center"><%= user.projects.count %>
-					<!-- 要在participant 加上狀態 做篩選 -->
+					<!-- 要在participation 加上狀態 做篩選 -->
 				</td>
 				<td align="center">
 					0<!-- 出席紀錄 -->
 				</td>
 				<td align="center">0</td>
 				<td>
-					<% user.projects.pluck(:name).each do |name| %>
-						<%= name %><small>｜XX班</small><br>
+					<% user.participations.active_in.each do |parti| %>
+						<%= parti.project.name %><small>｜<%= parti.group.name %></small><br>
 					<% end %>		
 				</td>
 			<% else %>
-				<td colspan="5"><small class="text-muted">尚未參加任何專案</small></td>
+				<td colspan="5"><small class="text-muted" >尚未參加任何專案</small></td>
 			<% end %>
 		</tr>	
 		<% end %>

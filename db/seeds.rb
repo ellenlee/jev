@@ -15,10 +15,10 @@
 # User.create( email: "lunacy20@gmail.com", password:"12345678", name:"李靜慧")
 # # TeamMembership.create(team_id:1, user_id:1 )
 # # ProjectClassroomship.create(project_id:1, classroom_id:1)
-ProjStat.create!(name:"籌備中")
-ProjStat.create!(name:"執行中")
-ProjStat.create!(name:"已結案")
-ProjStat.create!(name:"撤案")
+ProjStatus.create!(name:"籌備中")
+ProjStatus.create!(name:"執行中")
+ProjStatus.create!(name:"已結案")
+ProjStatus.create!(name:"撤案")
 
 ProjCategory.create!(name:"使命感行動")
 ProjCategory.create!(name:"開創力專案")
@@ -27,9 +27,9 @@ Group.create!(name:"台北班")
 Group.create!(name:"中原班")
 Group.create!(name:"政大班")
 
-PartiStat.create!(name:"進行中")
-PartiStat.create!(name:"已結業")
-PartiStat.create!(name:"退出")
+PartiStatus.create!(name:"進行中")
+PartiStatus.create!(name:"退出專案")
+PartiStatus.create!(name:"已結業")
 
 User.create!( :password => "12345678", :email => "root@example.com", :name => "Admin")
 

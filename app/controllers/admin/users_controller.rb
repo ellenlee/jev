@@ -1,9 +1,15 @@
-class Admin::UsersController < ApplicationController
-	before_action :check_admin
-	layout "admin"
+class Admin::UsersController < Admin::AdminController
+
+	PERMIT_ACTIONS = {
+		"登錄" => 'participate',
+		"退出" => 'quit',
+		"刪除多筆帳號" => 'delete',
+		"群組寄信" => 'send_mail'
+	}
 
 	def index
 		@users = User.all
+		@participation = Participation.new
 	end
 
 	def new
@@ -13,7 +19,6 @@ class Admin::UsersController < ApplicationController
 	end
 
 	def create
-
 		@user = User.new(user_params)
 		@user.password = @user.email
 		@user.created_by = current_user.id
@@ -26,51 +31,70 @@ class Admin::UsersController < ApplicationController
 		end
 	end
 
+
+	def show
+		@user = User.find(params[:id])
+	end
+
 	def bulk_update
+		return redirect_to :back unless PERMIT_ACTIONS.include?(params[:commit])
+
 	  ids = Array(params[:ids])
-	  users = ids.map{ |i| User.find_by_id(i) }.compact
+	  @users = ids.map{ |i| User.find_by_id(i) }.compact
+	  @project = Project.find_by_id(params[:participation][:project_id])
+	  @group   = Group.find_by_id(params[:participation][:group_id])
+	
+	  @succeed_cases = []
+	  @fail_cases = []
+	  @msg = []
 
-	  succeed_cases = []
-	  fail_cases = []
+	  behavior = PERMIT_ACTIONS[params[:commit]]
+	  send("bulk_#{behavior}")
 
-	  if params[:commit] == "登錄專案"
-	    users.each do |user| 
-	    	@participant = Participant.new( project_id: params[:project], user: user)
-	    	if @participant.save
-	    		succeed_cases << user.name
-	    	else
-	    	  fail_cases << user.name
-	    	end
-	    end										
-	    redirect_to admin_users_path, notice: "成功登錄：#{succeed_cases}；\r\n未登錄：#{fail_cases} - #{@participant.errors.full_messages}"
-	  elsif params[:commit] == "移出專案"
-	  	users.each do |user|
-	  		if @participant = Participant.where( project_id: params[:project], user: user).first
-	  			@participant.destroy
-	  			succeed_cases << user.name
-	  		end
-	  	end
-	  	redirect_to admin_users_path, notice: "已將 #{succeed_cases} 移出 #{Project.find(params[:project]).name}"
-	  elsif params[:commit] == "刪除多筆帳號"
-	    users.each do |user| 
-	    	user.destroy
-	    	succeed_cases << user.name 
-	    end
-	    redirect_to admin_users_path, alert: "您已成功將#{succeed_cases}刪除！"
-	  elsif params[:commit] == "群組寄信"
-	    	# 未製作
-	  end
+	  redirect_to admin_users_path, alert: "成功：#{@succeed_cases.to_sentence}|失效：#{@fail_cases.to_sentence}"
 	end
 
 	private
-
-	def check_admin
-		redirect_to root_path, :notice =>"Oooops?!" unless current_user.admin?
-	end	
 
 	def user_params
 		params.require(:user).permit(:name, :email, :phone, :school, :password, :created_by, :self_login?)
 	end
 
+	def bulk_participate
+		@users.each do |user| 
+			new_record = user.participations.create(project: @project, group: @group)
 
+			if new_record.save
+				@succeed_cases << "#{user.name} 已登錄至#{@project.name}！"
+			else
+			  @fail_cases << "#{user.name} (#{new_record.errors.full_messages.to_sentence})"
+			end
+		end		
+	end
+
+	def bulk_quit
+		@users.each do |user|
+			if @participation = user.participations.where(status_id:1, project: @project).first
+				@participation.status_id = 2
+				if @participation.save
+  				@succeed_cases << "#{user.name}退出#{@project.name}（已登記）"
+				else
+			  	@fail_cases << "#{user.name}(?)"
+				end
+			else
+				@fail_cases << "#{user.name}(並無未參加本專案)"
+  		end
+  	end
+  end
+
+	def bulk_delete
+		@users.each do |user|
+			if user.participations == []
+				user.destroy
+				@succeed_cases << user.name
+			else
+				@fail_cases << "#{user.name} (已有登錄專案，不可刪除！)"
+			end
+		end
+	end
 end
