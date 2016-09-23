@@ -5,6 +5,7 @@ class Admin::GroupsController < ApplicationController
 
 	def index
 		@groups = Group.all
+		@projects = Project.all
 		
 		if params[:id]
 			set_group

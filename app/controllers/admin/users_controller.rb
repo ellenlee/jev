@@ -64,13 +64,10 @@ class Admin::UsersController < Admin::AdminController
 	def bulk_participate
 		@users.each do |user| 
 			new_record = user.participations.create(project: @project, group: @group)
-			byebug
 			if new_record.save
 				@succeed_cases << "#{user.name} 已登錄至#{@project.name}！"
-				byebug
 			else
 			  @fail_cases << "#{user.name} (#{new_record.errors.full_messages.to_sentence})"
-				byebug
 			end
 		end		
 	end

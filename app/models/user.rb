@@ -17,12 +17,6 @@ class User < ApplicationRecord
 	# has_many :tasks, :through =>:uploads
 	# has_many :uploads, dependent: :destroy
 
-	# 查詢特定專案下使用者參與記錄
-	# scope :attend, -> (id) {
-	# 	self.participations.where(project_id: id) }
-
-		# scope :member, -> (user,project) {
-		# where(user: user, project: project)}
 
 	def admin?
 		if self.id == 1

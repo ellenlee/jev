@@ -22,7 +22,7 @@
 	</div>
 	<div class="form-group" >
   <%= f.label :status_id, "執行狀態" %>
-  <%= f.collection_select :status_id, ProjStat.all, :id, :name, :class =>"form-control", :prompt => "請選擇" %>
+  <%= f.collection_select :status_id, ProjStatus.all, :id, :name, :class =>"form-control", :prompt => "請選擇" %>
 </div>
 	<div class="form-group">
 		<%= f.label :info, "內容" %>

@@ -13,7 +13,10 @@ class Project < ApplicationRecord
 	# has_many :tasks
 	# has_many :uploads
 
-	
+	scope :preparing, -> {where(status_id:1)}
+	scope :active, -> {where(status_id:2)}
+	scope :accomplish, -> {where(status_id:3)}
+	scope :closed, -> {where(status_id:4)}
 
 
 end

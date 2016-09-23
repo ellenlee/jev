@@ -1,35 +1,66 @@
+<h1>場域概況</h1>
 
+<div class="table-responsive col-xs-6">
+	<table class="table table-condensed table-bordered">
+		<% @groups.each do |group| %>
+		<tr>
+			<td><%= link_to group.name %></td>
+			<td colspan="5">
+				<table class="table table-condensed ">
+					<tr>
+						<th>專案名</th>
+						<th>總數</th>
+						<th>在線</th>
+						<th>結業</th>
+						<th>退出</th>
+					</tr>
+					<% group.projects.each do |project| %>
+						<tr>
+							<td><%= link_to project.name %></td>
+							<td><%= group.participations.where(project: project).count %></td>
+							<td><%= group.participations.active_count(project)%></td>
+							<td><%= group.participations.accomplish_count(project)%></td>
+							<td><%= group.participations.quit_count(project)%></td>
+						</tr>					
+					
+					<% end %>
+				</table>
+			</td>
+		</tr>
+		<% end %>
+	</table>
+</div>
 
-<h1>班級一覽</h1>
-<table class="table table-condensed table-bordered">
-	<tr>
-		<th>#</th>
-		<th>名稱</th>
-		<th>進行中專案</th>
-		<th>操作</th>
-		<th></th>	
-	</tr>
-	<% @groups.each do |group| %>
-	<tr>
-		<td><%= group.id %></td>
-    <td><%= group.name %></td>
-    <td>
-    	<ul>
-    	<% group.projects.each do |project| %>
-    		<li><%= project.name %></li>
-    	<% end %>
-    	</ul>
-    </td>
-    <td>詳情｜
-	    <%= link_to "編輯", admin_groups_path( :id => group) %>｜
-	    
-    </td>	
-    <td><%= button_to "刪除", admin_group_path(group), :method => :delete, data: {confirm: "Are you sure?" } %></td>
-	</tr>
-	<% end %>
-</table>
-
-
+<div class="table-responsive col-xs-6">
+	<table class="table table-condensed table-bordered">
+		<% @projects.each do |project| %>
+		<tr>
+			<td><%= link_to project.name %></td>
+			<td colspan="5">
+				<table class="table table-condensed ">
+					<tr>
+						<th>班</th>
+						<th>總數</th>
+						<th>在線</th>
+						<th>結業</th>
+						<th>退出</th>
+					</tr>
+					<% project.groups.each do |group| %>
+						<tr>
+							<td><%= link_to group.name %></td>
+							<td><%= group.participations.where(project: project).count %></td>
+							<td><%= group.participations.active_count(project)%></td>
+							<td><%= group.participations.accomplish_count(project)%></td>
+							<td><%= group.participations.quit_count(project)%></td>
+						</tr>					
+					
+					<% end %>
+				</table>
+			</td>
+		</tr>
+		<% end %>
+	</table>
+</div>
 
 <% if @group.id %>
   <h3><%= "編輯班級名稱" %></h3>  
