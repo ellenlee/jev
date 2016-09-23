@@ -9,4 +9,13 @@ validates_uniqueness_of :user_id, scope: :project_id
 	scope :active_in, -> {where(status_id: 1)}
 	scope :has_quit, -> {where(status_id: 2)}
 	scope :accomplish, -> {where(status_id: 3)}
+
+	def self.status(project, user)
+		self.where(project: project, user: user).first.status.name
+	end
+
+	def self.group(project, user)
+		self.where(project: project, user: user).first.group.name
+	end
+
 end

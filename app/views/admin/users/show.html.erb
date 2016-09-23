@@ -4,6 +4,26 @@
 </blockquote>
 
 
-<% @user.participations.each do |parti| %>
-<% end %>
+<table class="table">
+	<tr>
+		<th>狀態</th>
+		<th>專案名稱</th>
+		<th>班別</th>
+		<th>組別</th>
+		<th>出席</th>
+		<th>上傳成果數</th>
+		
+	</tr>
+	<% @projects.each do |project| %>
+	<tr>
+		<td><%= Participation.status(project, @user) %></td>
+		<td><%= link_to project.name, admin_project_path(project) %></td>
+		<td><%= Participation.group(project, @user) %></td>
+		<td><%= %></td>
+		<td><%= %></td>	
+		<td><%= %></td>		
+	</tr>
+	<% end %>
+</table>
+
 

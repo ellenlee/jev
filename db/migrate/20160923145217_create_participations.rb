@@ -11,7 +11,6 @@ class CreateParticipations < ActiveRecord::Migration[5.0]
     	t.index		:group_id
       t.timestamps
     end
-    drop_table	:team_members
   	drop_table	:parti_stats
   	drop_table  :proj_stats
   end

@@ -27,7 +27,6 @@ RSpec.describe Project, type: :model do
 		expect(@project.save).to eq(true)
 		expect(@project.id).to eq(1)
 		expect(@project.creator).to eq(@user2)
-		
 	end
 
 end

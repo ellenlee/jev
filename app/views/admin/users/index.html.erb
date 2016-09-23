@@ -1,15 +1,21 @@
 <h1>全站會員</h1>
 
 <%= form_tag bulk_update_admin_users_path do %>
+<div>
 	<%= render :partial => 'bulk_update' %>
-<div class="table-responsive">
-	<table class="table table-condensed table-hover">
+</div>
+	
+<div class="table-responsive" style="overflow-x: visible;">
+	<table class="table table-condensed table-hover table-bordered" >
 		<tr>
 			<th></th>
-			<th>#</th>
+			<th align="center">#</th>
 			<th>姓名</th>
-			<th>起始專案</th>
-			<th>登錄專案數</th>
+			<th>起始</th>
+			<th>共登錄</th>
+			<th>已結業</th>
+			<th>參加中</th>
+			<th>已退出</th>
 			<th>累計出席數</th>
 			<th>累計成果數</th>
 			<th>參加中專案</th>
@@ -17,17 +23,18 @@
 		<% @users.each do |user| %>
 		<tr>
 			<td><%= check_box_tag "ids[]", user.id, false %></td>
-			<td><%= user.id %></td>
+			<td align="center"><%= user.id %></td>
 			<td><%= link_to user.name, admin_user_path(user) %></td>
 
 			<% if user.projects.any? %>
 				<td>
 					<% @project = user.projects.order(:created_at).first %>
-					<%= @project.name %><small>｜<%= user.participations.where(project: @project).first.group.name %></small>
+					<%= @project.name %>
 				</td>
-				<td align="center"><%= user.projects.count %>
-					<!-- 要在participation 加上狀態 做篩選 -->
-				</td>
+				<td><%= user.projects.count %></td>
+				<td align="center"><%= user.participations.accomplish.count %></td>
+				<td align="center"><%= user.participations.active_in.count %></td>
+				<td align="center"><%= user.participations.has_quit.count %></td>
 				<td align="center">
 					0<!-- 出席紀錄 -->
 				</td>
@@ -38,7 +45,7 @@
 					<% end %>		
 				</td>
 			<% else %>
-				<td colspan="5"><small class="text-muted" >尚未參加任何專案</small></td>
+				<td colspan="8"><small class="text-muted" >尚未參加任何專案</small></td>
 			<% end %>
 		</tr>	
 		<% end %>
