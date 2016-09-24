@@ -20,7 +20,8 @@
 			<td><%= project.status.name %></td>	
 			<td>
 				<% project.groups.each do |group| %>
-					<%= group.name %><small>(9)</small><br>
+					<%= group.name %>
+					<small>(<%= project.participations.where(group: group, status_id: 1).count%>)</small><br>
 				<% end %>
 			</td>
 			<td>
@@ -28,9 +29,7 @@
 					<%= s.name %><br>
 				<% end %>	
 			</td>
-			<td>
-				<%=project.users.count%>
-			</td>
+			<td><%= project.participations.active_in.count%></td>
 	</tr>	
 	<% end %>
 </table>

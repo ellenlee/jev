@@ -25,8 +25,19 @@ class Admin::ProjectsController < ApplicationController
 
 	def show
 		set_project
-		@users = @project.users
 		@groups = @project.groups
+		
+		if params[:group].present?
+			@group = Group.find(params[:group])
+			@participants = @project.participations.where(group: @group).order(:status_id)
+		else
+			@participants = @project.participations.order(:status_id).order(:group_id)
+		end
+
+		respond_to do |format|
+    	format.html
+    	format.js
+    end
 	end
 
 	def edit
@@ -48,7 +59,7 @@ class Admin::ProjectsController < ApplicationController
 	def destroy
 		set_project
 		if @project.users.any?
-			redirect_to admin_project_path(@project)
+			redirect_to edit_admin_project_path(@project)
 			flash[:alert] = "已有人加入此專案，建議您改變專案狀態，而非刪除！"
 		else
 			@project.destroy

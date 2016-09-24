@@ -28,9 +28,7 @@ Rails.application.routes.draw do
     end
     resources :projects
     resources :participants
-    resources :groups do
-      resources :teams
-    end
+    resources :groups
   end
 
   root :to => 'projects#index'

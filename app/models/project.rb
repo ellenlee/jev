@@ -18,5 +18,8 @@ class Project < ApplicationRecord
 	scope :accomplish, -> {where(status_id:3)}
 	scope :closed, -> {where(status_id:4)}
 
+	def participants(group)
+		self.participations.where(group: group)
+	end
 
 end

@@ -1,7 +1,19 @@
-<h2>編輯專案內容</h2>
 
+
+
+<h2>編輯專案內容</h2>
 <%= form_for [:admin, @project] do |f| %>
 	<%= render :partial => 'project_form', :locals => { :f => f } %>
 <% end %>
 <br>
-<p><%= link_to '⇦ Back', :back %></p>
+
+<br>
+
+
+
+
+<div class="pull-right text-right">
+	<%= link_to "刪除專案", admin_project_path(@project), method: :delete, class: "btn btn-default btn-sm" %>
+	<%= link_to 'Back', admin_project_path(@project), class: "btn btn-primary btn-sm" %>
+</div>
+

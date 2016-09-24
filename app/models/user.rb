@@ -17,6 +17,13 @@ class User < ApplicationRecord
 	# has_many :tasks, :through =>:uploads
 	# has_many :uploads, dependent: :destroy
 
+	def group(project)
+		self.participations.where(project: project).first.group.name
+	end
+
+	def status(project)
+		self.participations.where(project: project).first.status.name
+	end
 
 	def admin?
 		if self.id == 1

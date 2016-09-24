@@ -1,5 +1,4 @@
-class Admin::GroupsController < ApplicationController
-	before_action :check_admin
+class Admin::GroupsController < Admin::AdminController
 	before_action :set_group, except: [:index, :create]
 	layout "admin"
 
@@ -45,10 +44,6 @@ class Admin::GroupsController < ApplicationController
 	end
 
 	private
-	def check_admin
-		redirect_to root_path, :notice =>"Oooops?!" unless current_user.admin?
-	end
-
 	def group_params
 		params.require(:group).permit(:name)
 	end

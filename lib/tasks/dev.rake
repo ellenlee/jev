@@ -12,6 +12,24 @@ namespace :dev do
   end
 
 
+  task :create_participation => :environment do
+
+    puts "-- start creating participation"
+    puts "choose project and group"
+    project = Project.find(2)
+    group = Group.first
+
+    puts "loading user..."
+    User.all.each do |user|
+      new_record = Participation.new(project: project, group: group, user:user)
+      if new_record.save
+        puts "#{user.name} => #{project.name}|#{group.name} successfully"
+      else
+        puts new_record.errors.full_messages
+      end
+    end
+  end
+
 
   task :fake => :environment do
 

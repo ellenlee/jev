@@ -1,48 +1,47 @@
+<%= render :partial => 'project_header' %>
 
-<blockquote>
-	<h2><%= @project.name %></h2>
-
-	<%= simple_format(@project.info) %>	
-</blockquote>
-
-
-
-<p class="pull-right">
-	<%= @project.category.name %>｜
-	<%= @project.status.name %>｜
-	<%= link_to "編輯詳情", edit_admin_project_path(@project) %>
-</p>
-
-
+<!-- 專案下班級列表 -->
 <ul class="list-inline">
 	<% @project.groups.each do |group| %>
-		<li class="btn btn-default btn-xs active"><%= group.name %></li>
+		<%= link_to admin_project_path(@project, :group => group) do %>
+			<% if group == @group %>
+				<li id=<%= group.id %> class="btn btn-info btn-xs active">
+			<% else %>
+				<li id=<%= group.id %> class="btn btn-default btn-xs active">
+			<% end %>
+					<%= group.name %></li>
+		<% end %>
 	<% end %>		
 </ul>
-<table class="table">
-	<tr>
-		<th>#</th>
-		<th>姓名</th>
-		<th>班別</th>
-		<th>組別</th>
-		<th>操作</th>
-	</tr>
-	<% @users.each do |user| %>
-	<tr>
-		<td><%= user.id %></td>
-		<td><%= user.name %></td>
-		<td><%=  %></td>
-		<td>
-			<% if user.teams.find_by_project_id(@project) %>
-				<%= user.teams.find_by_project_id(@project).num %>
-			<% else %>
-				未分組
-			<% end %>
-		</td>
-		<td>查看詳情  移出專案</td>
-	</tr>
-	
-<% end %>
-</table>
 
-<%= button_to "刪除專案", admin_project_path(@project), :method => :delete, data: {confirm: "Are you sure?" },class: "pull-right" %>
+<div class="table-responsive" style="overflow-x: visible;">
+	<table class="table table-condensed table-hover">
+		<tr>
+			<th>#</th>
+			<th>姓名</th>
+			<th>班別</th>
+			<th>組別</th>
+			<th>狀態</th>
+			<th>出席數</th>
+			<th>上傳成果數</th>
+			<th>專案表現</th>
+		</tr>
+
+		<% @participants.each do |participant| %>
+		<tr>
+			<td><%= participant.user_id %></td>
+			<td><%= participant.user.name %></td>
+			<td><%= participant.group.name %></td>
+			<td>
+				
+					未分組
+			</td>
+			<td><%= participant.status.name %></td>
+			<td>-</td>
+			<td>-</td>
+			<td><%= "查看詳情" %></td>
+		</tr>
+		
+	<% end %>
+	</table>
+</div>
