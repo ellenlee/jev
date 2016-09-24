@@ -33,8 +33,11 @@
 			<td><%= participant.user.name %></td>
 			<td><%= participant.group.name %></td>
 			<td>
-				
-					未分組
+				<% if participant.user.teams.exists? %>
+					<%= participant.user.teams.where(project: @project).first.num%>
+				<% else %>
+					-
+				<% end %>
 			</td>
 			<td><%= participant.status.name %></td>
 			<td>-</td>

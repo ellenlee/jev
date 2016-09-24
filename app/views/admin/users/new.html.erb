@@ -20,6 +20,26 @@
 <% end %>
 <p class="help-block">* 預設密碼為email（若email登記錯誤，則該帳號無效，請手動刪除）</p>
 </div>
+
+<div style="background-color: #eee">
+<h3>Import a CSV File</h3>
+<%= form_tag import_admin_users_path, multipart: true do %>
+
+	  <div class="field">
+	    <%= label :project_id, "專案" %>
+	    <%= collection_select :participation, :project_id, Project.where(status:[1,2]), :id, :name,  :prompt => "請選擇"  %>
+	  </div>
+	  <div class="field">
+	    <%= label :group_id, "班別" %>
+	    <%= grouped_collection_select :participation, :group_id, Project.all, :groups, :name, :id, :name, :prompt => "請選擇" %>
+	  </div>
+  
+    <%= file_field_tag :file %>
+    <%= submit_tag "Import CSV" %>
+  <% end %>
+</div>
+
+
 <hr>
 <h4>編輯由您創建的帳號（一個月內）</h4>
 <% if @users %>	

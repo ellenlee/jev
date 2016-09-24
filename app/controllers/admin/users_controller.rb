@@ -55,6 +55,14 @@ class Admin::UsersController < Admin::AdminController
 	  redirect_to admin_users_path, alert: "成功：#{@succeed_cases.to_sentence}|失效：#{@fail_cases.to_sentence}"
 	end
 
+	def import
+		@project = Project.find(params[:participation][:project_id])
+		@group   = Group.find(params[:participation][:group_id])
+
+		User.import(params[:file], current_user, @project, @group)
+    redirect_to new_admin_user_path, notice: "Users imported."
+	end
+
 	private
 
 	def user_params

@@ -27,7 +27,7 @@ Group.create!(name:"台北班")
 Group.create!(name:"中原班")
 Group.create!(name:"政大班")
 
-PartiStatus.create!(name:"參加中")
+PartiStatus.create!(name:"參加")
 PartiStatus.create!(name:"退出")
 PartiStatus.create!(name:"結業")
 

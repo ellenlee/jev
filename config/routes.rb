@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     resources :users do
       collection do
         post :bulk_update
-        # post :bulk_signin
+        post :import
       end
     end
     resources :projects

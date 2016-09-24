@@ -19,6 +19,18 @@ body {
       padding: 10px;
     }
 
+nav#nav-site {
+	position: fixed; z-index: 999;
+	top: 0; left: 0;
+
+	background-color: white;
+	width: 100%;
+}
+
+nav#nav-site ul {
+	margin: 5px;
+}
+
 .alert {
   padding: 5px;
   margin-top : 10px;
