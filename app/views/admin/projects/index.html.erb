@@ -10,6 +10,7 @@
 		<th>執行狀態狀態</th>
 		<th>執行班級<small>(在線)</small></th>
 		<th>工作階段</th>
+		<th>團隊數</th>	
 		<th>學員數</th>
 	</tr>
 	<% Project.all.each do |project| %>
@@ -29,6 +30,7 @@
 					<%= s.name %><br>
 				<% end %>	
 			</td>
+			<td><%= link_to project.teams.count %></td>	
 			<td><%= project.participations.active_in.count%></td>
 	</tr>	
 	<% end %>

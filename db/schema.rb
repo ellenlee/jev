@@ -10,18 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160924185257) do
+ActiveRecord::Schema.define(version: 20160925145226) do
 
   create_table "groups", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_groups_on_name", unique: true
   end
 
   create_table "parti_statuses", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_parti_statuses_on_name", unique: true
   end
 
   create_table "participations", force: :cascade do |t|
@@ -41,12 +43,14 @@ ActiveRecord::Schema.define(version: 20160924185257) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_proj_categories_on_name", unique: true
   end
 
   create_table "proj_statuses", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_proj_statuses_on_name", unique: true
   end
 
   create_table "project_groupships", force: :cascade do |t|
@@ -55,6 +59,7 @@ ActiveRecord::Schema.define(version: 20160924185257) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_project_groupships_on_group_id"
+    t.index ["project_id", "group_id"], name: "index_project_groupships_on_project_id_and_group_id", unique: true
     t.index ["project_id"], name: "index_project_groupships_on_project_id"
   end
 
@@ -69,6 +74,7 @@ ActiveRecord::Schema.define(version: 20160924185257) do
     t.integer  "category_id", default: 1
     t.integer  "status_id",   default: 1
     t.index ["category_id"], name: "index_projects_on_category_id"
+    t.index ["name"], name: "index_projects_on_name", unique: true
     t.index ["status_id"], name: "index_projects_on_status_id"
   end
 
@@ -95,12 +101,10 @@ ActiveRecord::Schema.define(version: 20160924185257) do
   create_table "team_memberships", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "team_id"
-    t.boolean  "has_quit?",  default: false
+    t.boolean  "active?",    default: true
     t.date     "quit_on"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.integer  "project_id"
-    t.index ["project_id", "team_id"], name: "index_team_memberships_on_project_id_and_team_id", unique: true
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.index ["team_id"], name: "index_team_memberships_on_team_id"
     t.index ["user_id"], name: "index_team_memberships_on_user_id"
   end

@@ -1,0 +1,42 @@
+<blockquote>
+	<h2>團隊總表</h2>
+</blockquote>
+
+<table class="table table-condensed table-hover">
+	<tr>
+		<th>#</th>
+		<th>專案</th>
+		<th>班別</th>
+		<th>組別</th>
+		<th>在線成員</th>
+		<th>退出成員</th>
+		<th>團隊上傳</th>
+		<th>狀態</th>
+	</tr>
+	<% @teams.all.each do |team| %>
+	<tr>
+			<td><%= team.id %></td>
+			<td><%= team.project.name %></td>
+			<td><%= team.group.name %></td>
+			<td><%= team.num %></td>	
+			<td>
+				<% team.team_memberships.where(active?: true).each do |membership| %>
+					<%= membership.user.name %>
+				<% end %>
+			</td>
+			<td>
+				<% team.team_memberships.where(active?: false).each do |membership| %>
+					<%= membership.user.name %>
+				<% end %>
+			</td>
+			<td>-</td>
+			<td>
+				<% if team.active? %>
+					active
+				<% else %>
+					closed
+				<% end %>
+			</td>	
+	</tr>	
+	<% end %>
+</table>

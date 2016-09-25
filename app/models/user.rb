@@ -6,6 +6,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   validates_uniqueness_of :email
+  # validates_format_of :phone
 
   has_many :projects # as creator if admin
 
@@ -37,37 +38,50 @@ class User < ApplicationRecord
 
 	def self.import(file, creator, project, group)
 		
-    CSV.foreach(file.path, headers: true) do |row|
+    CSV.foreach(file.path, headers: true, encoding:'BIG5:utf-8') do |row|
       user_hash = row.to_hash 
-      user = User.where(name: user_hash["name"])
+      user = User.where(email: user_hash["email"])
 
       # Create User or not?
       if user.count == 0
     		user = User.create!(name: user_hash["name"], email: user_hash["email"], password: user_hash["email"], phone: user_hash["phone"], created_by: creator.id)
     	else 
-    		user.first.update_attributes(email: user_hash["email"], phone: user_hash["phone"])
+    		user.first.update_attributes(name: user_hash["name"], email: user_hash["email"],phone: user_hash["phone"])
+        user = user.first
     	end
-
-    	# Create Participation or not?
-    	user = user.first
+    	# Create Participation or just Update?
     	participation = user.participations.where(project: project)
     	if participation.count == 0 
     		user.participations.create!(project: project, group: group, status_id: 1)
-      # Update Group of Participation or not?
       elsif participation.first.group != group
         participation.first.update(group: group, status_id: 1)
       else
     		participation.first.update(status_id: 1)
       end
       
-      # Create Team of not?
+      # Create Team or not?
       team = project.teams.where(group: group, num: user_hash["team"])
-      if project.teams.count == 0
-        Team.create(project: project, group: group, num: user_hash["team"])
-      	
+      if team.count == 0
+        team = project.teams.create!(group: group, num: user_hash["team"])
+      else
+        team = team.first
       end
-      
 
-    end # end CSV.foreach
-  end # end self.import(file)
+      # Update TeamMembership first, or just Create?
+      membership = user.team_memberships.where(active?: true)
+      # User already active in the other team? (Update first)
+      if membership.count >= 1 && membership.where(team: team).count == 0
+        membership.each do |membership|
+          membership.update(active?: false, quit_on: Date.today)
+        end
+      end
+      # User already in this team? (just update)
+      if user.teams.include?(team)
+        membership = user.team_memberships.where(team: team).first
+        membership.update(active?: true, quit_on: nil)
+      end
+      # Create but ignore the same record
+      new_record = TeamMembership.create(team: team, user: user)
+    end
+  end
 end

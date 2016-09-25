@@ -1,4 +1,5 @@
 class Team < ApplicationRecord
+	validates_uniqueness_of :num, scope: [:project_id, :group_id]
 
 	belongs_to	:group
 	belongs_to	:project
@@ -17,9 +18,5 @@ class Team < ApplicationRecord
     # - 跳轉 users#profile 
 		
 	end
-
-
-
-
 
 end

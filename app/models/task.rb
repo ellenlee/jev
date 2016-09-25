@@ -1,4 +1,6 @@
 class Task < ApplicationRecord
+	validates_uniqueness_of :name, :scope => :stage_id
+
 	# belongs_to :project
 	belongs_to :stage
 

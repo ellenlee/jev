@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     resources :projects
     resources :participants
     resources :groups
+    resources :teams, only: [:index]
   end
 
   root :to => 'projects#index'

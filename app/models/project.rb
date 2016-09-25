@@ -1,4 +1,7 @@
 class Project < ApplicationRecord
+	validates_uniqueness_of :name
+	validates_presence_of :name
+
 	belongs_to :status, :class_name => "ProjStatus"
 	belongs_to :category, :class_name => "ProjCategory"
 	belongs_to :creator, :class_name => "User"
