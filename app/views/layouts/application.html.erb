@@ -9,30 +9,7 @@
   </head>
 
   <body>
-    <!-- 全站導覽列 -->
-    <div class="clearfix">
-    <p class="pull-left"><%= link_to "回到首頁", projects_path %></p>
-    <ul class="list-inline pull-right">
-      <% if current_user %>
-        <li><%= link_to '會員中心 ('+current_user.name+')', profile_user_path(current_user) %></li>
-        <li><%= link_to('登出', destroy_user_session_path, :method => :delete) %></li>
-      <% else %>
-        <%= link_to('註冊', new_registration_path(:user)) %> |
-        <%= link_to('登入', new_session_path(:user)) %> or
-      <% end %> 
-    </ul>  
-  </div>
-
-  <!-- 警告訊息 -->
-  <% if flash[:notice].present? %>
-    <div class="alert alert-success" role="alert">
-      <%= flash[:notice]%>
-    </div>
-  <% elsif flash[:alert].present? %>
-    <div class="alert alert-danger" role="alert">
-      <%= flash[:alert]%>
-    </div>
-  <% end %>
+  <%= render :partial => 'layouts/nav' %>
   	
   <%= yield %>
 </body>
