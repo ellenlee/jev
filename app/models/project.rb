@@ -13,7 +13,7 @@ class Project < ApplicationRecord
 	has_many :teams, dependent: :restrict_with_error
 
 	has_many :stages
-	# has_many :tasks
+	has_many :tasks, through: :stages
 	# has_many :uploads
 
 	scope :preparing, -> {where(status_id:1)}

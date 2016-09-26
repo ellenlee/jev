@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160925145226) do
+ActiveRecord::Schema.define(version: 20160926105041) do
 
   create_table "groups", force: :cascade do |t|
     t.string   "name"
@@ -82,9 +82,12 @@ ActiveRecord::Schema.define(version: 20160925145226) do
     t.integer  "num"
     t.string   "name"
     t.text     "info"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.integer  "project_id"
+    t.integer  "group_id"
+    t.datetime "published_at"
+    t.index ["group_id"], name: "index_stages_on_group_id"
     t.index ["project_id"], name: "index_stages_on_project_id"
   end
 

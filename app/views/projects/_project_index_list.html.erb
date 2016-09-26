@@ -1,0 +1,33 @@
+<table class="table table-condensed table-bordered">
+	<tr>
+		<th>#</th>
+		<th>專案名稱</th>
+		<th>專案類別</th>
+		<th>執行狀態</th>
+		<th>執行班級<small>(在線)</small></th>
+		<th>工作階段</th>
+		<th>團隊數</th>	
+		<th>學員數</th>
+	</tr>
+	<% projects.each do |project| %>
+	<tr>
+			<td><%= project.id %></td>
+			<td><%= link_to project.name, controller: controller_name, action: :show, id: project.id %></td>
+			<td><%= project.category.name %></td>
+			<td><%= project.status.name %></td>	
+			<td>
+				<% project.groups.each do |group| %>
+					<%= group.name %>
+					<small>(<%= project.participations.where(group: group, status_id: 1).count%>)</small><br>
+				<% end %>
+			</td>
+			<td>
+				<% project.stages.each do |s| %>
+					<%= s.name %><br>
+				<% end %>	
+			</td>
+			<td><%= link_to project.teams.count %></td>	
+			<td><%= project.participations.active_in.count%></td>
+	</tr>	
+	<% end %>
+</table>

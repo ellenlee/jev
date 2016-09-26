@@ -11,7 +11,6 @@ namespace :dev do
     puts "-- finished!"
   end
 
-
   task :create_participation => :environment do
 
     puts "-- start creating participation"
@@ -30,8 +29,7 @@ namespace :dev do
     end
   end
 
-
-  task :fake => :environment do
+  task :create_stages_and_tasks => :environment do
 
     puts "-- create fake stages"
     Project.all.each do |p|
