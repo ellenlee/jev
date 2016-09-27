@@ -18,8 +18,12 @@ class Admin::ProjectStagesController < Admin::AdminController
 
 	def show
 		@group = @stage.group
-		@tasks = @stage.tasks
-		@task = @stage.tasks.build
+		@tasks = @stage.tasks.order(:num)
+		if params[:task]
+			@task = Task.find(params[:task])
+		else 
+			@task = Task.new(published_at: DateTime.now.to_date, deadline: DateTime.now.to_date)
+		end
 	end
 
 	def edit
@@ -35,9 +39,9 @@ class Admin::ProjectStagesController < Admin::AdminController
 
 	def destroy
 		if @stage.published_at != nil && @stage.published_at.past?
-			redirect_to admin_project_path(@project), alert: "專案發佈時間已過，不可刪除！"
+			redirect_to admin_project_path(@project), alert: "發佈時間已過，不可刪除！"
 		else
-			@project.destroy
+			@stage.destroy
 			redirect_to admin_project_path(@project), alert: "您已刪除 #{@project.name} 第#{@stage.num}週 工作階段：「#{@stage.name}」"
 		end
 	end

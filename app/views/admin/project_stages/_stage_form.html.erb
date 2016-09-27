@@ -1,9 +1,4 @@
-<!-- 錯誤訊息 -->
-<% if @stage.errors.any? %>      
-	<% @stage.errors.full_messages.each do |msg| %>
-		<div class="alert alert-danger" role="alert"><%= msg %></div>
-	<% end %>
-<% end %>
+<%= render :partial => '/form_errors', locals: { f: f } %>
 
 <!-- 表單內容 -->
 <div class="form-group">
@@ -34,5 +29,6 @@
 <div class="form-group">
   <div class="col-xs-offset-2 col-xs-9">
   	<%= f.submit class: "btn btn-primary btn-sm"  %>
+  	<%= link_to "取消返回",:back, class: "btn btn-default btn-sm" %>
   </div>
 </div>
