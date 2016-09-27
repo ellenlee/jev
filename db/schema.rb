@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160926174526) do
+ActiveRecord::Schema.define(version: 20160927061122) do
 
   create_table "groups", force: :cascade do |t|
     t.string   "name"
@@ -28,14 +28,15 @@ ActiveRecord::Schema.define(version: 20160926174526) do
 
   create_table "participations", force: :cascade do |t|
     t.integer  "project_id"
-    t.integer  "user_id"
     t.integer  "group_id"
-    t.integer  "status_id",  default: 1
+    t.integer  "user_id"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.integer  "status_id",  default: 1
     t.index ["group_id"], name: "index_participations_on_group_id"
     t.index ["project_id", "user_id"], name: "index_participations_on_project_id_and_user_id", unique: true
     t.index ["project_id"], name: "index_participations_on_project_id"
+    t.index ["status_id"], name: "index_participations_on_status_id"
     t.index ["user_id"], name: "index_participations_on_user_id"
   end
 
@@ -82,11 +83,11 @@ ActiveRecord::Schema.define(version: 20160926174526) do
     t.integer  "num"
     t.string   "name"
     t.text     "info"
+    t.datetime "published_at"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "project_id"
     t.integer  "group_id"
-    t.datetime "published_at"
     t.index ["group_id"], name: "index_stages_on_group_id"
     t.index ["num"], name: "index_stages_on_num"
     t.index ["project_id"], name: "index_stages_on_project_id"
@@ -97,31 +98,32 @@ ActiveRecord::Schema.define(version: 20160926174526) do
     t.integer  "num"
     t.string   "name"
     t.boolean  "team_work?",   default: true
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
     t.datetime "published_at"
     t.datetime "deadline"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.index ["num"], name: "index_tasks_on_num"
     t.index ["stage_id"], name: "index_tasks_on_stage_id"
   end
 
-  create_table "team_memberships", force: :cascade do |t|
+  create_table "teammateships", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "team_id"
     t.boolean  "active?",    default: true
     t.date     "quit_on"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
-    t.index ["team_id"], name: "index_team_memberships_on_team_id"
-    t.index ["user_id"], name: "index_team_memberships_on_user_id"
+    t.index ["team_id"], name: "index_teammateships_on_team_id"
+    t.index ["user_id"], name: "index_teammateships_on_user_id"
   end
 
   create_table "teams", force: :cascade do |t|
     t.integer  "num"
     t.integer  "project_id"
-    t.integer  "group_id"
+    t.boolean  "exist?",     default: true
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
-    t.boolean  "active?",    default: true
+    t.integer  "group_id"
     t.index ["group_id"], name: "index_teams_on_group_id"
     t.index ["project_id"], name: "index_teams_on_project_id"
   end
@@ -162,7 +164,7 @@ ActiveRecord::Schema.define(version: 20160926174526) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.string   "name",                   default: "", null: false
-    t.string   "phone"
+    t.string   "phone",                  default: "", null: false
     t.string   "school"
     t.string   "major"
     t.string   "grade"
@@ -171,6 +173,7 @@ ActiveRecord::Schema.define(version: 20160926174526) do
     t.integer  "created_by"
     t.date     "first_login_on"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["phone"], name: "index_users_on_phone"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

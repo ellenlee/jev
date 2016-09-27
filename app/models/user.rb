@@ -14,8 +14,8 @@ class User < ApplicationRecord
 	has_many :projects, through: :participations
 	has_many :groups, through: :participations
 
-	has_many :team_memberships, dependent: :destroy
-	has_many :teams, through: :team_memberships
+	has_many :teammateships, dependent: :destroy
+	has_many :teams, through: :teammateships
 	
 	# has_many :tasks, :through =>:uploads
 	# has_many :uploads, dependent: :destroy
@@ -29,7 +29,7 @@ class User < ApplicationRecord
 	end
 
 	def admin?
-		if self.id == 1
+		if self.name == "Admin"
 			true
 		else
 			false
@@ -68,7 +68,7 @@ class User < ApplicationRecord
       end
 
       # Update TeamMembership first, or just Create?
-      membership = user.team_memberships.where(active?: true)
+      membership = user.teammateships.where(active?: true)
       # User already active in the other team? (Update first)
       if membership.count >= 1 && membership.where(team: team).count == 0
         membership.each do |membership|
@@ -77,11 +77,11 @@ class User < ApplicationRecord
       end
       # User already in this team? (just update)
       if user.teams.include?(team)
-        membership = user.team_memberships.where(team: team).first
+        membership = user.teammateships.where(team: team).first
         membership.update(active?: true, quit_on: nil)
       end
       # Create but ignore the same record
-      new_record = TeamMembership.create(team: team, user: user)
+      new_record = Teammateship.create(team: team, user: user)
     end
   end
 end

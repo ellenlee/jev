@@ -11,7 +11,7 @@
 		<th>在線成員</th>
 		<th>退出成員</th>
 		<th>團隊上傳</th>
-		<th>狀態</th>
+		<th>團隊狀態</th>
 	</tr>
 	<% @teams.all.each do |team| %>
 	<tr>
@@ -20,18 +20,18 @@
 			<td><%= team.group.name %></td>
 			<td><%= team.num %></td>	
 			<td>
-				<% team.team_memberships.where(active?: true).each do |membership| %>
+				<% team.teammateships.where(active?: true).each do |membership| %>
 					<%= membership.user.name %>
 				<% end %>
 			</td>
 			<td>
-				<% team.team_memberships.where(active?: false).each do |membership| %>
+				<% team.teammateships.where(active?: false).each do |membership| %>
 					<%= membership.user.name %>
 				<% end %>
 			</td>
 			<td>-</td>
 			<td>
-				<% if team.active? %>
+				<% if team.exist? %>
 					active
 				<% else %>
 					closed

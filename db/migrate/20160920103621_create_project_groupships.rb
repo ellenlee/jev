@@ -9,5 +9,6 @@ class CreateProjectGroupships < ActiveRecord::Migration[5.0]
     end
     add_index :project_groupships, :project_id
     add_index :project_groupships, :group_id
+    add_index :project_groupships, [:project_id, :group_id], unique: true
   end
 end

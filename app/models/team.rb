@@ -4,8 +4,8 @@ class Team < ApplicationRecord
 	belongs_to	:group
 	belongs_to	:project
 
-	has_many :team_memberships, dependent: :restrict_with_error
-	has_many :users, through: :team_memberships
+	has_many :teammateships, dependent: :restrict_with_error
+	has_many :users, through: :teammateships
 
 
 	

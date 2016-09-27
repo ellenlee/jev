@@ -4,8 +4,8 @@ namespace :dev do
 
     puts "-- create member "
     20.times do |u|
-      i = u+3
-      user = User.new(name: "user_"+i.to_s, :email => i.to_s+"@gmail.com", :password => "12345678" )
+      i = u+2
+      user = User.new(name: "user_"+i.to_s, :email => i.to_s+"@gmail.com", :password => "12345678", )
       user.save!
     end
     puts "-- finished!"

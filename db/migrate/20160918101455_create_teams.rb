@@ -3,10 +3,10 @@ class CreateTeams < ActiveRecord::Migration[5.0]
     create_table :teams do |t|
     	t.integer		:num
     	t.integer		:project_id
-    	t.integer		:group_id
+      t.boolean   :exist?, default: true
       t.timestamps
     end
     add_index	:teams, :project_id
-   	add_index	:teams, :group_id
+   	
   end
 end
