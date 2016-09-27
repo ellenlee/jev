@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160926105041) do
+ActiveRecord::Schema.define(version: 20160926174526) do
 
   create_table "groups", force: :cascade do |t|
     t.string   "name"
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 20160926105041) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.integer  "category_id", default: 1
-    t.integer  "status_id",   default: 1
+    t.integer  "status_id",   default: 3
     t.index ["category_id"], name: "index_projects_on_category_id"
     t.index ["name"], name: "index_projects_on_name", unique: true
     t.index ["status_id"], name: "index_projects_on_status_id"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20160926105041) do
     t.integer  "group_id"
     t.datetime "published_at"
     t.index ["group_id"], name: "index_stages_on_group_id"
+    t.index ["num"], name: "index_stages_on_num"
     t.index ["project_id"], name: "index_stages_on_project_id"
   end
 
@@ -95,9 +96,11 @@ ActiveRecord::Schema.define(version: 20160926105041) do
     t.integer  "stage_id"
     t.integer  "num"
     t.string   "name"
-    t.boolean  "team_work?", default: true
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.boolean  "team_work?",   default: true
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.datetime "published_at"
+    t.datetime "deadline"
     t.index ["stage_id"], name: "index_tasks_on_stage_id"
   end
 
@@ -123,15 +126,24 @@ ActiveRecord::Schema.define(version: 20160926105041) do
     t.index ["project_id"], name: "index_teams_on_project_id"
   end
 
+  create_table "upload_statuses", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_upload_statuses_on_name", unique: true
+  end
+
   create_table "uploads", force: :cascade do |t|
     t.integer  "task_id"
     t.integer  "user_id"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "document_file_name"
     t.string   "document_content_type"
     t.integer  "document_file_size"
     t.datetime "document_updated_at"
+    t.integer  "status_id",             default: 3
+    t.index ["status_id"], name: "index_uploads_on_status_id"
     t.index ["task_id"], name: "index_uploads_on_task_id"
     t.index ["user_id"], name: "index_uploads_on_user_id"
   end

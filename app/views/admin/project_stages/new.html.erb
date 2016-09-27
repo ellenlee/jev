@@ -1,0 +1,7 @@
+<h1><%= @project.name %></h1>
+<h3>發佈工作階段內容</h3>
+<hr>
+<%= form_for [:admin, @project, @stage], html: {class: "form-horizontal"} do |f| %>
+	<%= render :partial => 'stage_form', :locals => { f: f} %>
+<% end %>
+

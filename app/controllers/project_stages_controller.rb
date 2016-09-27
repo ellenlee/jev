@@ -1,0 +1,2 @@
+class ProjectStagesController < ApplicationController
+end

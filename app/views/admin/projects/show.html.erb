@@ -1,4 +1,4 @@
-<%= render :partial => 'project_header' %>
+<%= render :partial => 'project_header', :locals => { project: @project, group: nil } %>
 
 <!-- 專案下班級列表 -->
 <ul class="list-inline">
@@ -13,38 +13,32 @@
 		<% end %>
 	<% end %>		
 </ul>
-
+<%= link_to '發佈工作階段', new_admin_project_stage_path(@project), class:"btn btn-info btn-xs active pull-right" %>
+<br><br>
 <div class="table-responsive" style="overflow-x: visible;">
 	<table class="table table-condensed table-hover">
 		<tr>
 			<th>#</th>
-			<th>姓名</th>
 			<th>班別</th>
-			<th>組別</th>
-			<th>狀態</th>
+			<th>週</th>
+			<th>工作階段</th>
 			<th>出席數</th>
 			<th>上傳成果數</th>
-			<th>專案表現</th>
+			<th>操作</th>
 		</tr>
 
-		<% @participants.each do |participant| %>
-		<tr>
-			<td><%= participant.user_id %></td>
-			<td><%= participant.user.name %></td>
-			<td><%= participant.group.name %></td>
-			<td>
-				<% if participant.user.teams.exists? %>
-					<%= participant.user.teams.where(project: @project).first.num%>
-				<% else %>
-					-
-				<% end %>
-			</td>
-			<td><%= participant.status.name %></td>
-			<td>-</td>
-			<td>-</td>
-			<td><%= "查看詳情" %></td>
-		</tr>
+		<% @stages.each do |stage| %>
+			<tr>
+				<td><%= stage.id %></td>
+				<td><%= stage.group.name %></td>
+				<td><%= stage.num %></td>
+				<td><%= link_to stage.name, admin_project_stage_path(@project, stage) %></td>
+				<td>-</td>
+				<td>-</td>
+				<td><%= link_to '編輯', edit_admin_project_stage_path(@project, stage) %>｜
+					<%= link_to '刪除', admin_project_stage_path(@project, stage), method: :delete, data:{confirm: 'Are you sure?'} %></td>
+			</tr>
+		<% end %>
 		
-	<% end %>
 	</table>
 </div>

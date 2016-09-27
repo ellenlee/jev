@@ -1,0 +1,50 @@
+<%= render :partial => 'project_header', :locals => { project: @project} %>
+
+<!-- 專案下班級列表 -->
+<ul class="list-inline">
+	<% @project.groups.each do |group| %>
+		<%= link_to admin_project_participants_path(@project, :group => group) do %>
+			<% if group == @group %>
+				<li id=<%= group.id %> class="btn btn-info btn-xs active">
+			<% else %>
+				<li id=<%= group.id %> class="btn btn-default btn-xs active">
+			<% end %>
+					<%= group.name %></li>
+		<% end %>
+	<% end %>		
+</ul>
+
+<div class="table-responsive" style="overflow-x: visible;">
+	<table class="table table-condensed table-hover">
+		<tr>
+			<th>#</th>
+			<th>姓名</th>
+			<th>班別</th>
+			<th>組別</th>
+			<th>狀態</th>
+			<th>出席數</th>
+			<th>上傳成果數</th>
+			<th>專案表現</th>
+		</tr>
+
+		<% @participants.each do |participant| %>
+		<tr>
+			<td><%= participant.user_id %></td>
+			<td><%= participant.user.name %></td>
+			<td><%= participant.group.name %></td>
+			<td>
+				<% if participant.user.teams.exists? %>
+					<%= participant.user.teams.where(project: @project).first.num%>
+				<% else %>
+					-
+				<% end %>
+			</td>
+			<td><%= participant.status.name %></td>
+			<td>-</td>
+			<td>-</td>
+			<td><%= "查看詳情" %></td>
+		</tr>
+		
+	<% end %>
+	</table>
+</div>

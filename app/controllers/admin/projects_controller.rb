@@ -1,9 +1,8 @@
-class Admin::ProjectsController < ApplicationController
-	before_action :check_admin
-	layout "admin"
+class Admin::ProjectsController < Admin::AdminController
+	before_action :set_project, only: [:show, :edit, :update, :destroy]
 
 	def index
-		@projects = Project.all
+		@projects = Project.all.order(:status_id).order(:category_id)
 	end
 
 	def new
@@ -24,7 +23,11 @@ class Admin::ProjectsController < ApplicationController
 	end
 
 	def show
-		set_project
+		@stages = @project.stages.order(:group_id).order(:num)
+	end
+
+	def participants
+		@project = Project.find(params[:project_id])
 		@groups = @project.groups
 		
 		if params[:group].present?
@@ -41,11 +44,9 @@ class Admin::ProjectsController < ApplicationController
 	end
 
 	def edit
-		set_project
 	end
 
 	def update
-		set_project
 		@project.update(project_params)
 
 		if @project.save
@@ -57,7 +58,6 @@ class Admin::ProjectsController < ApplicationController
 	end
 
 	def destroy
-		set_project
 		if @project.users.any?
 			redirect_to edit_admin_project_path(@project)
 			flash[:alert] = "已有人加入此專案，建議您改變專案狀態，而非刪除！"
@@ -69,9 +69,6 @@ class Admin::ProjectsController < ApplicationController
 	end
 
 	private
-	def check_admin
-		redirect_to root_path, :notice =>"Oooops?!" unless current_user.admin?
-	end	
 
 	def project_params
 		params.require(:project).permit(:name, :info, :category_id, :status_id, :creator_id, :group_ids => [])

@@ -1,11 +1,17 @@
-<blockquote>
-	<h2><%= @project.name %></h2>
-
-	<%= simple_format(@project.info) %>	
-</blockquote>
-
 <p class="pull-right">
-	<%= @project.category.name %>｜
-	<%= @project.status.name %>｜
+	<%= project.category.name %>｜
+	<%= project.status.name %>｜
 	<%= link_to "編輯詳情", edit_admin_project_path(@project) %>
 </p>
+
+<blockquote>
+	<h2>
+		<%= project.name %>
+		<% if group %>
+			<small>(<%= group.name %>)</small>
+		<% end %>
+	</h2>
+
+	<%= simple_format(project.info) %>	
+</blockquote>
+

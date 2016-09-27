@@ -1,5 +1,6 @@
 class Upload < ApplicationRecord
 
+	belongs_to :status, :class_name => "UploadStatus"
 
 	belongs_to	:project
 	belongs_to 	:stage

@@ -8,7 +8,5 @@ class Task < ApplicationRecord
 	# has_many :uploads, :dependent => :destroy
 
 	has_many :users, :through =>:uploads
-	has_many :uploads, :dependent => :destroy
-
-	
+	has_many :uploads, dependent: :restrict_with_error
 end

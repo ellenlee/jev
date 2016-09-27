@@ -1,0 +1,58 @@
+<blockquote>
+	<h4><%= @project.name %>(<%= @stage.group.name %>)</h4>
+	<h2>第<%= @stage.num %>週：<%= @stage.name %></h2>	
+	<small><%= simple_format(@stage.info) %></small>
+</blockquote>
+
+<p class="text-right">發佈時間｜<%= @stage.published_at.strftime('%Y-%m-%d %H:%M') %></p>
+
+<%= link_to '發佈工作階段', new_admin_project_stage_path(@project), class:"btn btn-info btn-xs active pull-right" %>
+<br><br>
+<div class="table-responsive" style="overflow-x: visible;">
+	<table class="table table-condensed table-hover">
+		<tr>
+			<th>#</th>
+			<th>工作項目</th>
+			<th>型態</th>
+			<th>發佈時間</th>
+			<th>繳交時間</th>
+			<th>預設檔名</th>
+			<th>已交</th>
+			<th>未交</th>
+			<th>操作</th>
+		</tr>
+
+		<% if @stage.tasks.any? %>
+		<% @stage.tasks.each do |task| %>
+			<tr>
+				<td><%= task.id %></td>
+				<td><%= link_to '編輯' %>｜
+					<%= link_to '刪除', method: :delete, data:{confirm: 'Are you sure?'} %></td>
+			</tr>
+		<% end %>
+		<% end %>
+		
+	</table>
+</div>
+<hr>
+<h4>指派工作項目</h4>	
+<%= form_for [:admin, @project, @task], html: {class: "form-inline"} do |f| %>
+<!-- 錯誤訊息 -->
+	<% if @task.errors.any? %>      
+		<% @task.errors.full_messages.each do |msg| %>
+			<div class="alert alert-danger" role="alert"><%= msg %></div>
+		<% end %>
+	<% end %>
+<form class="form-inline">
+  <div class="form-group">
+  	<%= f.text_field :name, placeholder:"工作項目名稱", class: 'form-control ' %>
+  </div>
+  <div class="form-group">
+  	<%= f.text_field :num, placeholder: "編號", class: 'form-control', :style => "width:70px" %>
+  </div>
+  <div class="form-group">
+  	<%= f.check_box :team_work?, {},checked_value = "1", unchecked_value = "0" %>
+  	<%= f.label :team_work?, "小組作業" %>
+  </div>
+  <%= f.submit class: "btn btn-primary btn-sm"  %>
+<% end %>

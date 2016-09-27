@@ -26,8 +26,11 @@ Rails.application.routes.draw do
         post :import
       end
     end
-    resources :projects
-    resources :participants
+    resources :projects do
+      get :participants
+      resources :stages, controller: 'project_stages', except: [:index]
+      resources :tasks, controller: 'project_tasks', except: [:index]
+    end
     resources :groups
     resources :teams, only: [:index]
   end

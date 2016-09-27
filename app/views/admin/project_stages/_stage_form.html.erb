@@ -1,0 +1,38 @@
+<!-- 錯誤訊息 -->
+<% if @stage.errors.any? %>      
+	<% @stage.errors.full_messages.each do |msg| %>
+		<div class="alert alert-danger" role="alert"><%= msg %></div>
+	<% end %>
+<% end %>
+
+<!-- 表單內容 -->
+<div class="form-group">
+	<%= f.label :num, "週次", class: "control-label col-xs-2"%>
+	<div class="col-xs-9">
+		<%= f.select :num, options_for_select(1..18), { prompt: "請選擇"}, {class: 'form-control', :style => "width:100px" } %>
+	</div>
+
+</div>
+<div class="form-group">
+	<%= f.label :name, "名稱" , class: "control-label col-xs-2"%>
+	<div class="col-xs-9">
+		<%= f.text_field :name, class: "form-control" %>
+	</div>
+</div>
+<div class="form-group">
+	<%= f.label :group, "班級", class: "control-label col-xs-2" %>
+	<div class="col-xs-9"><%= f.collection_radio_buttons( :group_id, @project.groups, :id, :name, class: "form-control") %></div>
+</div>
+<div class="form-group">
+	<%= f.label :info, "說明", class: "control-label col-xs-2" %>
+	<div class="col-xs-9"><%= f.text_area :info, class: "form-control" %></div>
+</div>
+<div class="form-group">
+	<%= f.label :published_at, "發佈時間", class: "control-label col-xs-2" %>
+	<div class="col-xs-9"><%= f.datetime_select :published_at, discard_year: true, use_month_numbers: true, minute_step: 15, html: {class: "form-control"} %></div>
+</div>
+<div class="form-group">
+  <div class="col-xs-offset-2 col-xs-9">
+  	<%= f.submit class: "btn btn-primary btn-sm"  %>
+  </div>
+</div>
