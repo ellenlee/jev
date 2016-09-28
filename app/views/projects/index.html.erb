@@ -3,5 +3,28 @@
 <%= link_to '創建專案', new_admin_project_path, class:"btn btn-info btn-xs active pull-right" %>
 <br><br>
 
-<%= render :partial => 'project_index_list', :locals => { projects: @projects } %>
+<table class="table table-condensed table-bordered">
+	<tr>
+		<th>#</th>
+		<th>執行狀態</th>
+		<th>專案名稱</th>
+		<th>專案類別</th>
+		<th>您的班級</th>
+		<th>您的組別</th>
+	</tr>
+	<% @projects.each do |project| %>
+	<tr>
+			<td><%= project.id %></td>
+			<td><%= project.status.name %></td>	
+			<td><%= link_to project.name, controller: controller_name, action: :show, id: project.id %></td>
+			<td><%= project.category.name %></td>
+			<% if group = current_user.projects.include?(project) %>
+				<td><%= current_user.group(project) %></td>
+				<td><%= current_user.active_team(project).num %></td>
+			<% else %>
+				<td colspan="2" class="text-muted"></td>		
+			<% end %>
+	</tr>	
+	<% end %>
+</table>
 
