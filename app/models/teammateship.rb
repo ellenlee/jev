@@ -4,6 +4,7 @@ class Teammateship < ApplicationRecord
 
     belongs_to	:user
     belongs_to	:team
+    belongs_to  :project
 
   def validate_active_user_uniquess_in_project
     user = self.user
@@ -11,12 +12,12 @@ class Teammateship < ApplicationRecord
     project = team.project
 
     team_list_1 = project.teams.ids
-    team_list_2 = user.teammateships.where(active?:true).pluck(:team_id)
+    team_list_2 = user.teammateships.where(active:true).pluck(:team_id)
 
     if (team_list_1 & team_list_2).count <= 1
         true
     else
-        user.teammateships.where(active?:true)
+        user.teammateships.where(active:true)
         errors[:base] << "must quit original team first"
     end
   end

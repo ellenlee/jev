@@ -5,13 +5,14 @@ class StagesController < ApplicationController
 	def index
 		set_project
 		@stages = @project.stages
-		@stage = @stages.last
+		@stage = @stages.first
 		@upload = Upload.new
-
-
-
-
 	end
+
+	def show
+		
+	end
+
 
 	private
 

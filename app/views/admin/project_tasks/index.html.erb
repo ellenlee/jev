@@ -1,0 +1,42 @@
+<%= render :partial => 'admin/projects/project_header', :locals => { project: @project, group: nil } %>
+<%= render :partial => 'admin/projects/project_menu', :locals => { project: @project } %>
+
+
+<div class="table-responsive" style="overflow-x: visible;">
+	<table class="table table-condensed table-hover">
+		<tr>
+			<th>週</th>
+			<th>班別</th>
+			<th>#</th>
+			<th>工作項目</th>
+			<th>型態</th>
+			<th>發佈時間</th>
+			<th>繳交時間</th>
+			<th>已交</th>
+			<th>未交</th>
+			<th></th>
+		</tr>
+
+			<% @tasks.each do |task| %>
+			<% @stage = task.stage %>
+				<tr>
+					<td><%= @stage.num %></td>
+					<td><%= @stage.group.name %></td>	
+					<td><%= task.num %></td>
+					<td><%= task.name %></td>
+					<td>
+						<% if task.team_work? %>
+							小組
+						<% else %>
+							個人
+						<% end %>
+					</td>
+					<td class="text-muted small"><%= task.published_at.strftime('%m/%d %H:%M') %></td>
+					<td class="text-muted small"><%= task.deadline.strftime('%m/%d %H:%M') %></td>
+					<td></td>
+					<td></td>
+				</tr>
+			<% end %>
+
+	</table>
+</div>

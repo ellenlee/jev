@@ -3,11 +3,9 @@ Rails.application.routes.draw do
   # devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  resources :projects do
+  resources :projects, only: [:index, :show] do
     get :participants
-    resources :stages # 列出專案下各工作階段
-    resources :tasks # 列出專案下所有預定工作成果
-    resources :uploads # 列出專案下所有已繳交的成果
+    resources :stages, controller: 'project_stages', only: [:index, :show]
   end
     
   resources :users do
@@ -30,7 +28,8 @@ Rails.application.routes.draw do
     resources :projects do
       get :participants
       resources :stages, controller: 'project_stages', except: [:index]
-      resources :tasks, controller: 'project_tasks', except: [:index]
+      resources :tasks, controller: 'project_tasks'
+      resources :uploads, controller: 'project_uploads'
     end
     resources :groups
     resources :teams, only: [:index]

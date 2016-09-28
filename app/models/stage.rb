@@ -7,5 +7,5 @@ class Stage < ApplicationRecord
 	belongs_to	:group
 	
 	has_many :tasks, dependent: :restrict_with_error
-
+	has_many :uploads, through: :tasks
 end

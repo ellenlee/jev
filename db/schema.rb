@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160927061122) do
+ActiveRecord::Schema.define(version: 20160927115421) do
 
   create_table "groups", force: :cascade do |t|
     t.string   "name"
@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(version: 20160927061122) do
     t.integer  "stage_id"
     t.integer  "num"
     t.string   "name"
-    t.boolean  "team_work?",   default: true
+    t.boolean  "team_work",    default: true
     t.datetime "published_at"
     t.datetime "deadline"
     t.datetime "created_at",                  null: false
@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(version: 20160927061122) do
   create_table "teammateships", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "team_id"
-    t.boolean  "active?",    default: true
+    t.boolean  "active",     default: true
     t.date     "quit_on"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
@@ -120,7 +120,7 @@ ActiveRecord::Schema.define(version: 20160927061122) do
   create_table "teams", force: :cascade do |t|
     t.integer  "num"
     t.integer  "project_id"
-    t.boolean  "exist?",     default: true
+    t.boolean  "exist",      default: true
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.integer  "group_id"

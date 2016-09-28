@@ -20,12 +20,12 @@
 			<td><%= team.group.name %></td>
 			<td><%= team.num %></td>	
 			<td>
-				<% team.teammateships.where(active?: true).each do |membership| %>
+				<% team.teammateships.where(active: true).each do |membership| %>
 					<%= membership.user.name %>
 				<% end %>
 			</td>
 			<td>
-				<% team.teammateships.where(active?: false).each do |membership| %>
+				<% team.teammateships.where(active: false).each do |membership| %>
 					<%= membership.user.name %>
 				<% end %>
 			</td>

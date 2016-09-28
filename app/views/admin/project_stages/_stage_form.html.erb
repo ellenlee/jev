@@ -4,9 +4,8 @@
 <div class="form-group">
 	<%= f.label :num, "週次", class: "control-label col-xs-2"%>
 	<div class="col-xs-9">
-		<%= f.select :num, options_for_select(1..18), { prompt: "請選擇"}, {class: 'form-control', :style => "width:100px" } %>
-	</div>
-
+  	<%= f.text_field :num, placeholder: "輸入整數", class: 'form-control', style: "width:70px" %>
+  </div>
 </div>
 <div class="form-group">
 	<%= f.label :name, "名稱" , class: "control-label col-xs-2"%>
@@ -24,7 +23,9 @@
 </div>
 <div class="form-group">
 	<%= f.label :published_at, "發佈時間", class: "control-label col-xs-2" %>
-	<div class="col-xs-9"><%= f.datetime_select :published_at, discard_year: true, use_month_numbers: true, minute_step: 15, html: {class: "form-control"} %></div>
+	<div class="col-xs-9">
+		<%= f.datetime_local_field :published_at, class: "form-control",style: "width:220px" %>
+	</div>
 </div>
 <div class="form-group">
   <div class="col-xs-offset-2 col-xs-9">

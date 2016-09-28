@@ -1,0 +1,52 @@
+<%= render :partial => 'stage_header', :locals => { project: @project, stage: @stage, group: @group } %>
+
+
+<p class="text-right">發佈時間｜<%= @stage.published_at.strftime('%Y-%m-%d %H:%M') %>
+</p>
+<div class="pull-left">
+	您參加的是<%= @group.name %> 第<% %>組！
+</div>
+<%= link_to "返回專案", admin_project_path(@project), class:"btn btn-info btn-xs active pull-right" %>
+<br><br>
+
+
+<div class="table-responsive" style="overflow-x: visible;">
+	<table class="table table-condensed table-hover">
+		<tr>
+			<th>#</th>
+			<th>工作項目</th>
+			<th>型態</th>
+			<th>發佈時間</th>
+			<th>繳交時間</th>
+			<th>預設檔名</th>
+			<th>已交</th>
+			<th>未交</th>
+			<th></th>
+		</tr>
+
+			<% @tasks.each do |task| %>
+				<tr>
+					<td><%= task.num %></td>
+					<td><%= task.name %></td>
+					<td>
+						<% if task.team_work? %>
+							小組
+						<% else %>
+							個人
+						<% end %>
+					</td>
+					<td class="text-muted small"><%= task.published_at.strftime('%m/%d %H:%M') %></td>
+					<td class="text-muted small"><%= task.deadline.strftime('%m/%d %H:%M') %></td>
+					<td>xxx</td>
+					<td></td>
+					<td></td>
+					<td><%= link_to '編輯', admin_project_stage_path(@project, @stage, task: task.id) %>｜
+						<%= link_to '刪除', admin_project_task_path(@project, task, stage_id: @stage.id), method: :delete, data:{confirm: 'Are you sure?'} %></td>
+				</tr>
+			<% end %>
+
+	</table>
+</div>
+
+<br>
+<br>

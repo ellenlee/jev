@@ -5,7 +5,6 @@
 </blockquote>
 
 <p class="text-right">發佈時間｜<%= @stage.published_at.strftime('%Y-%m-%d %H:%M') %>
-	
 </p>
 
 <%= link_to "返回專案", admin_project_path(@project), class:"btn btn-info btn-xs active pull-right" %>
@@ -21,7 +20,7 @@
 			<th>預設檔名</th>
 			<th>已交</th>
 			<th>未交</th>
-			<th>操作</th>
+			<th></th>
 		</tr>
 
 			<% @tasks.each do |task| %>
@@ -48,8 +47,11 @@
 	</table>
 </div>
 
+<br>
+<br>
+<hr>
 <div>
-	<h3>指派工作項目</h3>	
+	<h4>指派工作項目</h4>	
 	<%= form_for [:admin, @project, @task], html: {class: "form-inline"} do |f| %>
 		<%= render :partial => '/form_errors', locals: { f: f } %>
 	  <%= f.hidden_field :stage_id, value: @stage.id %>
@@ -59,10 +61,10 @@
 	  </div>
 	  <div class="form-group">
 	  	<%= f.label :name, '名稱' %>
-	  	<%= f.text_field :name, placeholder:"工作項目名稱", class: 'form-control', style: "width:150px"  %>
+	  	<%= f.text_field :name, placeholder:"工作項目名稱", class: 'form-control', style: "width:200px"  %>
 	  </div>
-	  <div class="form-group ">
-	  	<%= f.check_box :team_work?, {},checked_value = "1", unchecked_value = "0" %>
+	  <div class="form-group">
+	  	<%= f.check_box :team_work? %>
 	  	<%= f.label :team_work?, "小組作業" %>
 		</div>
 	  <p></p>

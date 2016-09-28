@@ -3,6 +3,7 @@ class Task < ApplicationRecord
 	validates_uniqueness_of :num, :scope => :stage_id
 	validates_presence_of :num, :name, :published_at, :deadline
 
+	belongs_to :group
 	belongs_to :stage
 
 	# has_many :teams, :through =>:uploads

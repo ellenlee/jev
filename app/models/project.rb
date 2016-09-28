@@ -11,10 +11,11 @@ class Project < ApplicationRecord
 	has_many :participations, dependent: :restrict_with_error
 	has_many :users, through: :participations
 	has_many :teams, dependent: :restrict_with_error
+	has_many :teammateships, through: :teams
 
 	has_many :stages
 	has_many :tasks, through: :stages
-	# has_many :uploads
+	has_many :uploads, through: :tasks
 
 	scope :preparing, -> {where(status_id:1)}
 	scope :active, -> {where(status_id:2)}

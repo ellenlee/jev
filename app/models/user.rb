@@ -68,17 +68,17 @@ class User < ApplicationRecord
       end
 
       # Update TeamMembership first, or just Create?
-      membership = user.teammateships.where(active?: true)
+      membership = user.teammateships.where(active: true)
       # User already active in the other team? (Update first)
       if membership.count >= 1 && membership.where(team: team).count == 0
         membership.each do |membership|
-          membership.update(active?: false, quit_on: Date.today)
+          membership.update(active: false, quit_on: Date.today)
         end
       end
       # User already in this team? (just update)
       if user.teams.include?(team)
         membership = user.teammateships.where(team: team).first
-        membership.update(active?: true, quit_on: nil)
+        membership.update(active: true, quit_on: nil)
       end
       # Create but ignore the same record
       new_record = Teammateship.create(team: team, user: user)

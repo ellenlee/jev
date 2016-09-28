@@ -1,5 +1,14 @@
-class Admin::ProjectTasksController < ApplicationController
+class Admin::ProjectTasksController < Admin::AdminController
 	before_action :set_project
+
+	def index
+		if params[:group].present?
+			@group = Group.find(params[:group])
+			@tasks = @group.tasks.order(:stage_id).order(:num)
+		else
+			@tasks = @project.tasks.order(:stage_id).order(:num)
+		end
+	end
 
 	def create
 		@task = Task.new(task_params)
@@ -15,7 +24,6 @@ class Admin::ProjectTasksController < ApplicationController
 	def update
 		@stage = Stage.find(params[:task][:stage_id])
 		@task = Task.find(params[:id])
-
 		if @task.update(task_params)
 			redirect_to admin_project_stage_path(@project, @stage), notice:  "#{@project.name} 第#{@stage.num}週 #{@stage.name} － 第#{@task.num}項作業「#{@task.name}」編輯成功！"
 		else
@@ -39,6 +47,6 @@ class Admin::ProjectTasksController < ApplicationController
 	end
 	
 	def task_params
-		params.require(:task).permit(:name, :num, :info, :stage_id, :team_work?, :published_at, :deadline)
+		params.require(:task).permit(:name, :num, :info, :stage_id, :team_work, :published_at, :deadline)
 	end
 end

@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
 	before_action :set_project, except: :index
 
 	def index
-		@projects = Project.where(status_id:2).all
+		@projects = Project.where(status_id: 1 ).all
 	end
 
 	def show
@@ -18,7 +18,7 @@ class ProjectsController < ApplicationController
 
 	def check_participant?
 		set_project
-		redirect_to root_path, :notice =>"您尚未參加本專案，請洽工作團隊完成專案登錄（TEL: 09XX-XXX-XXX）" unless current_user.participations.where(project: @project, status_id: 1).exists? || current_user.admin?
+		redirect_to root_path, :notice =>"您尚未參加本專案，請洽工作團隊完成專案登錄（TEL: 09XX-XXX-XXX）" unless current_user.participations.where(project: @project, status_id: 1).exists? 
 	end
 
 end

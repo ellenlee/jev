@@ -1,19 +1,5 @@
 <%= render :partial => 'project_header', :locals => { project: @project, group: nil} %>
 
-<!-- 專案下班級列表 -->
-<ul class="list-inline">
-	<% @project.groups.each do |group| %>
-		<%= link_to admin_project_participants_path(@project, :group => group) do %>
-			<% if group == @group %>
-				<li id=<%= group.id %> class="btn btn-info btn-xs active">
-			<% else %>
-				<li id=<%= group.id %> class="btn btn-default btn-xs active">
-			<% end %>
-					<%= group.name %></li>
-		<% end %>
-	<% end %>		
-</ul>
-
 <div class="table-responsive" style="overflow-x: visible;">
 	<table class="table table-condensed table-hover">
 		<tr>

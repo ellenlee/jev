@@ -3,7 +3,7 @@ class Admin::ProjectStagesController < Admin::AdminController
 	before_action :set_stage, only: [:show, :edit, :update, :destroy]
 
 	def new
-		@stage = @project.stages.build
+		@stage = @project.stages.build(published_at: DateTime.now.to_date)
 	end
 
 	def create

@@ -10,5 +10,7 @@ class Group < ApplicationRecord
 	has_many :projects, through: :project_groupships
 
 	has_many :stages
+	has_many :tasks, through: :stages
+	has_many :uploads, through: :stages
 	
 end
