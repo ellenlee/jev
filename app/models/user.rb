@@ -28,6 +28,18 @@ class User < ApplicationRecord
 		self.participations.where(project: project).first.status.name
 	end
 
+  def active_team(project)
+    team_in_project = self.teams & project.teams
+    active_team = self.teammateships.where(team: team_in_project, active: true).first.team
+  end
+
+  def quit(team)
+    teammateship = self.teammateships.where(team:team, active: true).first
+    teammateship.active = false
+    teammateship.save
+  end
+
+
 	def admin?
 		if self.name == "Admin"
 			true

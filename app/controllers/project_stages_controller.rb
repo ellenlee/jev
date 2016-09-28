@@ -4,6 +4,7 @@ class ProjectStagesController < ApplicationController
 	def show
 		@stage = Stage.find(params[:id])
 		@group = @stage.group
+		@team = current_user.teammateships.where()
 		@tasks = @stage.tasks.order(:num)
 		# if params[:task]
 		# 	@task = Task.find(params[:task])
