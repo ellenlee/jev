@@ -7,7 +7,7 @@ class Team < ApplicationRecord
 	has_many :teammateships, dependent: :restrict_with_error
 	has_many :users, through: :teammateships
 
-
+	# has_many :uploads
 	
 	def join_team
 		# 加入專案後，叫出此project_id下的team，輸入他要加入的組號（num）

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :projects, only: [:index, :show] do
     get :participants
     resources :stages, controller: 'project_stages', only: [:index, :show]
+    resources :uploads, controller: 'project_uploads'
   end
     
   resources :users do

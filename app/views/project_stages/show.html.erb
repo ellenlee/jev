@@ -4,7 +4,7 @@
 <p class="text-right">發佈時間｜<%= @stage.published_at.strftime('%Y-%m-%d %H:%M') %>
 </p>
 <div class="pull-left">
-	您參加的是<%= @group.name %> 第<% %>組！
+	您參加的是<%= @group.name %> 第<%= @team.num %>組！
 </div>
 <%= link_to "返回專案", admin_project_path(@project), class:"btn btn-info btn-xs active pull-right" %>
 <br><br>
@@ -16,37 +16,50 @@
 			<th>#</th>
 			<th>工作項目</th>
 			<th>型態</th>
-			<th>發佈時間</th>
 			<th>繳交時間</th>
-			<th>預設檔名</th>
-			<th>已交</th>
-			<th>未交</th>
-			<th></th>
+			<th>狀態</th>
+			<th>檔案連結</th>
+			<th>最後上傳者</th>
+			<th>最後上傳時間</th>
+			<th>操作</th>	
 		</tr>
 
-			<% @tasks.each do |task| %>
-				<tr>
-					<td><%= task.num %></td>
-					<td><%= task.name %></td>
-					<td>
-						<% if task.team_work? %>
-							小組
-						<% else %>
-							個人
-						<% end %>
-					</td>
-					<td class="text-muted small"><%= task.published_at.strftime('%m/%d %H:%M') %></td>
-					<td class="text-muted small"><%= task.deadline.strftime('%m/%d %H:%M') %></td>
-					<td>xxx</td>
-					<td></td>
-					<td></td>
-					<td><%= link_to '編輯', admin_project_stage_path(@project, @stage, task: task.id) %>｜
-						<%= link_to '刪除', admin_project_task_path(@project, task, stage_id: @stage.id), method: :delete, data:{confirm: 'Are you sure?'} %></td>
-				</tr>
-			<% end %>
-
+		<% @tasks.each do |task| %>
+			<tr>
+				<td><%= task.num %></td>
+				<td><%= task.name %></td>
+				<td>
+					<% if task.team_work? %>
+						小組
+					<% else %>
+						個人
+					<% end %>
+				</td>
+				<td class="text-muted small"><%= task.deadline.strftime('%m/%d %H:%M') %></td>
+				<td>未交/遲交/準時</td>
+				<% if current_user.uploads.where(task: task).any? %>
+					<% upload = current_user.uploads.where(task: task).last %>
+					<td><%= link_to upload.document_file_name, upload.document.url %></td>
+					<td><%= upload.user.name %></td>
+					<td><%= upload.updated_at.strftime('%m-%d %H:%M') %></td>	
+				<% else %>
+					<td colspan="3" class="text-muted small">尚未上傳</td>
+						
+				<% end %>
+				<td>重傳｜刪除</td>
+			</tr>
+		<% end %>
 	</table>
 </div>
+<h4>成果上傳區</h4>
+<%= form_for [@project, @upload] do |f| %>
+	<div class="field">
+    <%= f.label :task_id, "工作項目" %>
+    <%= f.collection_select :task_id, @stage.tasks.order(:num), :id, :name,  :prompt => "請選擇"  %>
+  </div>
+	<%= f.file_field :document %>
+  <%= f.submit class: "btn btn-xs" %>
+<% end %>
 
 <br>
 <br>
