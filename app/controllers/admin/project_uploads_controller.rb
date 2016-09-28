@@ -3,6 +3,6 @@ class Admin::ProjectUploadsController < Admin::AdminController
 		@project = Project.find(params[:project_id])
 		@tasks = @project.tasks.order(:stage_id).order(:num)
 		@uploads = @project.uploads
-
+		@groups = @project.groups
 	end
 end

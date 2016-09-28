@@ -2,38 +2,42 @@
 
 <%= render :partial => 'admin/projects/project_menu', :locals => { project: @project } %>
 
+
 <div class="table-responsive" style="overflow-x: visible;">
 	<table class="table table-condensed table-hover">
 		<tr>
 			<th>週</th>	
-			<th>班級</th>
+			<th>階段名</th>
+			<th>班別</th>
+			<th>類型</th>
+			<th>組別</th>
 			<th>#</th>
-			<th>工作項目</th>
-			<th>型態</th>	
-			<th>已交</th>
-			<th>未交</th>
-			<th></th>
+			<th>工作成果檔案</th>
+			<th>上傳者</th>
+			<th>上傳時間</th>
+			<th>型態</th>
+			
 		</tr>
-		<% @tasks.each do |task| %>
-			<% @stage = task.stage %>
-				<tr>
-					<td><%= @stage.num %></td>
-					<td><%= @stage.group.name %></td>	
-					<td><%= task.num %></td>
-					<td><%= task.name %></td>
-					<td>
-						<% if task.team_work? %>
-							小組
-						<% else %>
-							個人
-						<% end %>
-					</td>
-					<td class="text-muted small"><%= task.published_at.strftime('%m/%d %H:%M') %></td>
-					<td class="text-muted small"><%= task.deadline.strftime('%m/%d %H:%M') %></td>
-					<td></td>
-					<td></td>
-				</tr>
-			<% end %>
-
+		<% @uploads.each do |upload| %>
+			<tr>
+				<td><%= upload.task.stage.num %></td>
+				<td><%= upload.task.stage.name %></td>
+				<td><%= upload.task.stage.group.name %></td>
+				<td>第<%= upload.user.active_team(@project).num %>組</td>
+				<td>
+					<% if upload.task.team_work? %>
+						小組
+					<% else %>
+						個人
+					<% end %>
+				</td>
+				<td><%= upload.task.num %></td>
+				<td class="text-left"><%= link_to upload.document_file_name, upload.document.url %></td>
+				<td><%= upload.user.name %></td>
+				<td class="text-muted small"><%= upload.updated_at.strftime('%m-%d %H:%M') %></td>
+				<td>準時/遲交</td>
+				
+			</tr>
+		<% end %>
 	</table>
 </div>

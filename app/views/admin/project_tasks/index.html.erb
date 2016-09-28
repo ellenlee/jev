@@ -6,6 +6,36 @@
 	<table class="table table-condensed table-hover">
 		<tr>
 			<th>週</th>
+			<th class="text-left">工作項目名稱</th>
+			<th>類型</th>
+			<% @groups.each do |group|%>
+				<th><%= group.name %></th>
+			<% end %>
+		</tr>
+		<% @tasks.each do |task| %>
+			<tr>
+				<td><%= task.stage.num %></td>	
+				<td class="text-left"><%= task.name %></td>
+				<td>
+					<% if task.team_work? %>
+						小組
+					<% else %>
+						個人
+					<% end %>
+				</td>
+					<% @groups.each do |group|%>
+						<td><%= group.tasks.count %></td>
+				<% end %>
+			</tr>
+		<% end %>
+	</table>
+</div>
+
+
+<div class="table-responsive" style="overflow-x: visible;">
+	<table class="table table-condensed table-hover">
+		<tr>
+			<th>週</th>
 			<th>班別</th>
 			<th>#</th>
 			<th>工作項目</th>

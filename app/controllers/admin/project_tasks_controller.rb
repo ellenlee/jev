@@ -2,6 +2,7 @@ class Admin::ProjectTasksController < Admin::AdminController
 	before_action :set_project
 
 	def index
+		@groups = @project.groups
 		if params[:group].present?
 			@group = Group.find(params[:group])
 			@tasks = @group.tasks.order(:stage_id).order(:num)

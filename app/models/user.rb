@@ -23,12 +23,17 @@ class User < ApplicationRecord
 	# has_many :uploads, dependent: :destroy
 
 	def group(project)
-		self.participations.where(project: project).first.group.name
+		self.participations.where(project: project).first.group
 	end
 
 	def status(project)
 		self.participations.where(project: project).first.status.name
 	end
+
+  def tasks(project)
+    group = self.group(project)
+    tasks = project.tasks & group.tasks
+  end
 
   def active_team(project)
     team_in_project = self.teams & project.teams
