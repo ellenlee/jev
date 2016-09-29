@@ -3,9 +3,11 @@ class Admin::ProjectTasksController < Admin::AdminController
 
 	def index
 		@tasks = @project.tasks.order(:num)
+		@stages = @project.stages
 		@groups = @project.groups
+
 		@task = Task.new
-		@assignment = Assignment.new
+		@assignment = Assignment.new(assigned_at: DateTime.now.to_date, deadline: DateTime.now.to_date)
 		# if params[:group].present?
 		# 	@group = Group.find(params[:group])
 		# 	@tasks = @project.tasks.order(:num)
@@ -19,7 +21,7 @@ class Admin::ProjectTasksController < Admin::AdminController
 		if @task.save
 			redirect_to admin_project_tasks_path(@project), notice: "#{@project.name} － 工作項目 #{@task.num}「#{@task.name}」新增成功！"
 		else
-			render 'admin/project_tasks/index'
+			redirect_to admin_project_tasks_path(@project), alert: "#{@task.errors.full_messages.to_sentence}"
 		end
 	end
 
@@ -48,6 +50,6 @@ class Admin::ProjectTasksController < Admin::AdminController
 	end
 	
 	def task_params
-		params.require(:task).permit(:project_id, :name, :num, :team_work, :group_ids => [])
+		params.require(:task).permit(:project_id, :name, :num, :team_work)
 	end
 end

@@ -6,13 +6,13 @@ class Group < ApplicationRecord
 	has_many :participations, dependent: :restrict_with_error
 	has_many :users, through: :participations
 
-	has_many :project_groupships, dependent: :destroy
+	has_many :project_groupships, dependent: :restrict_with_error
 	has_many :projects, through: :project_groupships
 
 	has_many :lessons, dependent: :restrict_with_error
 	has_many :stages, through: :lessons
 	
-	has_many :assignments
+	has_many :assignments, dependent: :restrict_with_error
 	has_many :tasks, through: :assignments
 	has_many :uploads, through: :stages
 	

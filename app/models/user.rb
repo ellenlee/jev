@@ -13,6 +13,7 @@ class User < ApplicationRecord
 	has_many :participations, dependent: :destroy
 	has_many :projects, through: :participations
 	has_many :groups, through: :participations
+  has_many :assignments, through: :groups
 
 	has_many :teammateships, dependent: :destroy
 	has_many :teams, through: :teammateships

@@ -1,43 +1,83 @@
 <%= render :partial => 'admin/projects/project_header', :locals => { project: @project, group: nil } %>
 <%= render :partial => 'admin/projects/project_menu', :locals => { project: @project } %>
 
-
-<div class="table-responsive" style="overflow-x: visible;">
-	<table class="table table-condensed table-border table-hover">
-		<tr>
-			<th>#</th>
-			<th class="text-left">工作項目名稱</th>
-			<th>類型</th>
-			<% @groups.each do |group|%>
-				<th colspan="2"><%= group.name %></th>
-			<% end %>
-			<th>操作</th>
-		</tr>
-		<% @tasks.each do |task| %>
+<div class="clearfix">
+	<div class="table-responsive col-xs-5" style="overflow-x: visible;">
+		<table class="table table-condensed table-border table-hover">
 			<tr>
-				<td><%= task.num %></td>	
-				<td class="text-left"><%= task.name %></td>
-				<td>
-					<% if task.team_work? %>
-						小組
-					<% else %>
-						個人
-					<% end %>
-				</td>
-					<% @groups.each do |group|%>
-							<td class="text-muted small">第1週</td>
-							<td><%= group.uploads.count %>/<%= group.teams.count %></td>
-							
+				<th>#</th>
+				<th class="text-left">工作項目名稱</th>
+				<th>類型</th>
+				<% @groups.each do |group|%>
+					<th><%= group.name %></th>
 				<% end %>
-				<td>編輯｜指派｜刪除</td>
+				<th></th>
 			</tr>
-		<% end %>
-	</table>
+			<% @tasks.each do |task| %>
+				<tr>
+					<td><%= task.num %></td>	
+					<td class="text-left"><%= task.name %></td>
+					<td>
+						<% if task.team_work? %>
+							小組
+						<% else %>
+							個人
+						<% end %>
+					</td>
+						<% @groups.each do |group|%>
+								<td><%= group.uploads.count %>/<%= group.teams.count %></td>
+					<% end %>
+					<td>編輯｜刪除</td>
+				</tr>
+				
+			<% end %>
+		</table>
+	</div>
+
+	<div class="table-responsive col-xs-7" style="overflow-x: visible;">
+		<table class="table table-condensed table-border table-hover">
+			<tr>
+				<th>週</th>
+				<th>班別</th>
+				<th>#</th>
+				<th class="text-left">工作項目名稱</th>
+				<th>類型</th>
+				<th>指派時間</th>
+				<th>deadline</th>
+				<th>已交</th>
+				<th>未交</th>
+				<th></th>
+			</tr>
+			<% @groups.each do |group| %>
+				<% group.assignments.each do |assign| %>
+				<tr>
+					<td><%= group.name %></td>
+					<td><%= assign.stage.num %></td>
+					<td><%= assign.task.num %></td>
+					<td><%= assign.task.name %></td>
+					<td>
+						<% if  assign.task.team_work %>
+							小組
+						<% else %>
+						  個人
+						<% end %>
+					</td>
+					<td class="small text-muted"><%= assign.assigned_at.strftime('%m-%d %H:%M') %></td>
+					<td class="small text-muted"><%= assign.deadline.strftime('%m-%d %H:%M') %></td>
+					<td></td>
+					<td></td>
+					<td>編輯｜刪除</td>
+				</tr>
+				<% end %>
+			<% end %>
+		</table>
+	</div>
 </div>
 
-<div id="create-task" class="col-xs-6">
+<hr>
+<div id="create-task" class="col-xs-5">
 	<h4>新增工作項目</h4>	
-	<%= form_for [:admin, @project, @task], html: {class: "form-inline"} do |f| %>
+	<%= form_for [:admin, @project, @task] do |f| %>
 		<%= render :partial => '/form_errors', locals: { f: f } %>
 		<%= f.hidden_field :project_id, value: @project.id %>
 		<div class="form-group">
@@ -48,34 +88,38 @@
 	  	<%= f.label :name, '名稱' %>
 	  	<%= f.text_field :name, placeholder:"工作項目名稱", class: 'form-control', style: "width:200px"  %>
 	  </div>
-		
 	  <div class="form-group">
 	  	<%= f.check_box :team_work %>
 	  	<%= f.label :team_work, "小組作業" %>
 		</div>
-		<%= f.collection_check_boxes(:group_ids, @groups, :id, :name) %>
-	  <div class="form-group">
-	    <%= label :stage_id, "週次" %>
-	    <%= collection_select :assignment, :stage_id, @project.stages, :id, :num,  :prompt => "請選擇"  %>
-	  </div>
+		
 	  <%= f.submit class: "btn btn-primary btn-sm"  %>
 	<% end %>	
 </div>
 
-<div id="assign-task" class="col-xs-6">
+<div id="assign-task" class="col-xs-7">
 	<h4>指派工作項目</h4>
-	<%= form_for [:admin, @project, @assignment], html: {class: "form-inline"} do |f| %>
+	<%= form_for [:admin, @project, @assignment] do |f| %>
 		<%= render :partial => '/form_errors', locals: { f: f } %>
-
-		
-	  <div class="field">
-	    <%= label :group_id, "班別" %>
-	    <%= grouped_collection_select :participation, :group_id, Project.all, :groups, :name, :id, :name, :prompt => "請選擇" %>
+	  <div class="form-group">
+	    <%= label :stage_id, "週次" %>
+	    <%= f.collection_select :stage_id, @stages, :id, :num,  :prompt => "請選擇"  %>
 	  </div>
 
 	  <div class="form-group">
-	  	<%= f.check_box :team_work %>
-	  	<%= f.label :team_work, "小組作業" %>
+	    <%= label :task_id, "工作項目" %>
+	    <%= f.collection_select  :task_id, @tasks, :id, :name, :prompt => "請選擇" %>
+    </div>
+	  <div class="form-group">
+	    <%= f.collection_radio_buttons :group_id, @groups, :id, :name %>
+	  </div>
+	  <div class="form-group">
+			<%= f.label :assigned_at, "指派時間"%>
+				<%= f.datetime_local_field :assigned_at, discard_seconds: true,  class: "form-control", style: "width:220px" %>
+		</div>
+		<div class="form-group">
+			<%= f.label :deadline, "繳交時間"%>
+				<%= f.datetime_local_field :deadline, with_seconds: false,  class: "form-control", style: "width:220px" %>
 		</div>
 	  <%= f.submit class: "btn btn-primary btn-sm"  %>
 	<% end %>

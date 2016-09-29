@@ -4,7 +4,8 @@ class Task < ApplicationRecord
 	validates_presence_of :num, :name
 
 	belongs_to :project
-	has_many :assignments, dependent: :restrict_with_error
+	
+	has_many :assignments, dependent: :destroy
 	has_many :stages, through: :assignments
 	has_many :groups, through: :assignments
 
