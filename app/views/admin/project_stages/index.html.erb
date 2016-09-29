@@ -1,4 +1,4 @@
-<%= render :partial => 'projects/project_header', :locals => { project: @project, group: nil } %>
+<%= render :partial => 'admin/projects/project_header', :locals => { project: @project, group: nil } %>
 <%= render :partial => 'admin/projects/project_menu', :locals => { project: @project } %>
 
 <div class="table-responsive" style="overflow-x: visible;">
@@ -17,24 +17,38 @@
 				<% @groups.each do |group| %>
 					<td>
 						<% if stage.groups.include?(group) %>
-							<%= link_to stage.lesson(group).name, admin_project_path(@project, lesson: stage.lesson(group).id) %>
+							<%= link_to stage.lesson(group).name, admin_project_stages_path(@project, lesson: stage.lesson(group).id) %>
 						<% end %>
 					</td>
 				<% end %>
-				<td>編輯｜<%= link_to '刪除', admin_project_stage_path(@project, stage), method: :delete, data:{confirm: '刪除工作階段會連帶刪除一整週的課程哦！'} %></td>
+				<td>
+					<%= link_to '編輯', admin_project_stages_path(@project, stage: stage) %>｜
+					<%= link_to '刪除', admin_project_stage_path(@project, stage), method: :delete, data:{confirm: '刪除工作階段會連帶刪除一整週的課程哦！'} %>
+				</td>
 			</tr>
 		<% end %>
 	</table>
 </div>
-<div class="col-xs-3">
-	<%= button_to '發佈工作階段', admin_project_stages_path(@project, @stage), class:"btn btn-info active btn-sm pull-left" %>	
+<div class="col-xs-4">
+	<% if params[:stage].present? %>
+		<h5>編輯工作階段</h5>
+	<% else %>
+		<h5>發佈工作階段</h5>
+	<% end %>
+	<%= form_for [:admin, @project, @stage] do |f|%>
+		<%= render :partial => '/form_errors', locals: { f: f } %>
+		<div class="form-group">
+	  	<%= f.text_field :num, placeholder: "週次", class: 'form-control', style: "width:70px" %>
+	  </div>
+	  <%= f.submit class: "btn btn-primary btn-sm" %>
+	<% end %>
 </div>
 
-<div id="set_stage_executions" class="col-xs-9">
+<div id="set_stage_executions" class="col-xs-8">
 	<% if params[:lesson].present? %> 
-		<h4>編輯課程名稱</h4>
+		<h5>編輯課程名稱</h5>
 	<% else %>
-		<h4>發佈每週課程</h4>
+		<h5>發佈每週課程</h5>
 	<% end %>
 	<hr>
 	<%= form_for [:admin, @project, @lesson] do |f| %>
@@ -53,6 +67,6 @@
 			<%= f.label :published_at, "發佈時間", class: "control-label" %>
 			<%= f.datetime_local_field :published_at, class: "form-control",style: "width:220px" %>
 		</div>
-	<%= f.submit class: "btn btn-primary btn-sm"  %>
+	<%= f.submit class: "btn btn-primary btn-sm" %>
 	<% end %>
 </div>

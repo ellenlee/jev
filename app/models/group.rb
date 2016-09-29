@@ -9,8 +9,11 @@ class Group < ApplicationRecord
 	has_many :project_groupships, dependent: :destroy
 	has_many :projects, through: :project_groupships
 
-	has_many :stages
-	has_many :tasks, through: :stages
+	has_many :lessons, dependent: :restrict_with_error
+	has_many :stages, through: :lessons
+	
+	has_many :assignments
+	has_many :tasks, through: :assignments
 	has_many :uploads, through: :stages
 	
 end

@@ -17,7 +17,7 @@
 	<tr>
 			<td><%= project.id %></td>
 			<td><%= project.status.name %></td>	
-			<td><%= link_to project.name, controller: controller_name, action: :show, id: project.id %></td>
+			<td><%= link_to project.name, admin_project_stages_path(project.id) %></td>
 			<td><%= project.category.name %></td>
 			<td><%= link_to project.teams.count %></td>	
 			<td><%= link_to project.participations.active_in.count, controller: controller_name, action: :participants, project_id: project.id%></td>

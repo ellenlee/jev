@@ -2,31 +2,31 @@ class Admin::ProjectTasksController < Admin::AdminController
 	before_action :set_project
 
 	def index
+		@tasks = @project.tasks.order(:num)
 		@groups = @project.groups
-		if params[:group].present?
-			@group = Group.find(params[:group])
-			@tasks = @group.tasks.order(:stage_id).order(:num)
-		else
-			@tasks = @project.tasks.order(:stage_id).order(:num)
-		end
+		@task = Task.new
+		@assignment = Assignment.new
+		# if params[:group].present?
+		# 	@group = Group.find(params[:group])
+		# 	@tasks = @project.tasks.order(:num)
+		# else
+			# @tasks = @project.tasks.order(:num)
+		# end
 	end
 
 	def create
 		@task = Task.new(task_params)
-		@stage = Stage.find(params[:task][:stage_id])
-
 		if @task.save
-			redirect_to admin_project_stage_path(@project, @stage), notice: "#{@project.name} 第#{@stage.num}週 #{@stage.name} － 第#{@task.num}項作業「#{@task.name}」新增成功！"
+			redirect_to admin_project_tasks_path(@project), notice: "#{@project.name} － 工作項目 #{@task.num}「#{@task.name}」新增成功！"
 		else
-			render 'admin/project_stages/show'
+			render 'admin/project_tasks/index'
 		end
 	end
 
 	def update
-		@stage = Stage.find(params[:task][:stage_id])
 		@task = Task.find(params[:id])
 		if @task.update(task_params)
-			redirect_to admin_project_stage_path(@project, @stage), notice:  "#{@project.name} 第#{@stage.num}週 #{@stage.name} － 第#{@task.num}項作業「#{@task.name}」編輯成功！"
+			redirect_to admin_project_stage_path(@project, @stage), notice:  "#{@project.name} － 工作項目 #{@task.num}「#{@task.name}」編輯成功！"
 		else
 			render 'admin/project_stages/show'
 		end
@@ -48,6 +48,6 @@ class Admin::ProjectTasksController < Admin::AdminController
 	end
 	
 	def task_params
-		params.require(:task).permit(:name, :num, :info, :stage_id, :team_work, :published_at, :deadline)
+		params.require(:task).permit(:project_id, :name, :num, :team_work, :group_ids => [])
 	end
 end

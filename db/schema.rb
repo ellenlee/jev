@@ -10,13 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160927115421) do
+ActiveRecord::Schema.define(version: 20160929085249) do
+
+  create_table "assignments", force: :cascade do |t|
+    t.integer  "stage_id"
+    t.integer  "task_id"
+    t.datetime "deadline"
+    t.datetime "assigned_at"
+    t.boolean  "team_work",   default: true
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "group_id"
+    t.index ["group_id"], name: "index_assignments_on_group_id"
+    t.index ["stage_id"], name: "index_assignments_on_stage_id"
+    t.index ["task_id"], name: "index_assignments_on_task_id"
+  end
 
   create_table "groups", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_groups_on_name", unique: true
+  end
+
+  create_table "lessons", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "stage_id"
+    t.integer  "group_id"
+    t.datetime "published_at"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["group_id"], name: "index_lessons_on_group_id"
+    t.index ["stage_id"], name: "index_lessons_on_stage_id"
   end
 
   create_table "parti_statuses", force: :cascade do |t|
@@ -79,31 +104,37 @@ ActiveRecord::Schema.define(version: 20160927115421) do
     t.index ["status_id"], name: "index_projects_on_status_id"
   end
 
+  create_table "stage_executions", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "stage_id"
+    t.integer  "group_id"
+    t.datetime "published_at"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["group_id"], name: "index_stage_executions_on_group_id"
+    t.index ["stage_id"], name: "index_stage_executions_on_stage_id"
+  end
+
   create_table "stages", force: :cascade do |t|
     t.integer  "num"
     t.string   "name"
     t.text     "info"
-    t.datetime "published_at"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer  "project_id"
-    t.integer  "group_id"
-    t.index ["group_id"], name: "index_stages_on_group_id"
     t.index ["num"], name: "index_stages_on_num"
     t.index ["project_id"], name: "index_stages_on_project_id"
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.integer  "stage_id"
     t.integer  "num"
     t.string   "name"
-    t.boolean  "team_work",    default: true
-    t.datetime "published_at"
-    t.datetime "deadline"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.boolean  "team_work",  default: true
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "project_id"
     t.index ["num"], name: "index_tasks_on_num"
-    t.index ["stage_id"], name: "index_tasks_on_stage_id"
+    t.index ["project_id"], name: "index_tasks_on_project_id"
   end
 
   create_table "teammateships", force: :cascade do |t|

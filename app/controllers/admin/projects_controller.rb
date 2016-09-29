@@ -22,16 +22,6 @@ class Admin::ProjectsController < Admin::AdminController
 		end
 	end
 
-	def show
-		
-		if params[:group].present?
-			@group = Group.find(params[:group])
-			@stages = @project.stages.where(group: @group).order(:num)
-		else
-			@stages = @project.stages.order(:group_id).order(:num)
-		end
-	end
-
 	def participants
 		@project = Project.find(params[:project_id])
 		@groups = @project.groups

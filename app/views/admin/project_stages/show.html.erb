@@ -50,35 +50,3 @@
 <br>
 <br>
 <hr>
-<div>
-	<h4>指派工作項目</h4>	
-	<%= form_for [:admin, @project, @task], html: {class: "form-inline"} do |f| %>
-		<%= render :partial => '/form_errors', locals: { f: f } %>
-	  <%= f.hidden_field :stage_id, value: @stage.id %>
-		<div class="form-group">
-	  	<%= f.label :num, '編號' %>
-	  	<%= f.text_field :num, placeholder: "輸入整數", class: 'form-control', style: "width:90px" %>
-	  </div>
-	  <div class="form-group">
-	  	<%= f.label :name, '名稱' %>
-	  	<%= f.text_field :name, placeholder:"工作項目名稱", class: 'form-control', style: "width:200px"  %>
-	  </div>
-	  <div class="form-group">
-	  	<%= f.check_box :team_work? %>
-	  	<%= f.label :team_work?, "小組作業" %>
-		</div>
-	  <p></p>
-		<div class="form-group">
-	  	<%= f.label :published_at, "發佈時間" %>
-			<%= f.datetime_local_field :published_at, class: "form-control",style: "width:220px" %>
-		</div>
-		<div class="form-group">
-	  	<%= f.label :deadline, "繳交時間" %>
-			<%= f.datetime_local_field :deadline, class: "form-control",style: "width:220px"  %>
-		</div>
-		
-
-	  <%= f.submit class: "btn btn-primary btn-sm"  %>
-
-	<% end %>	
-</div>
