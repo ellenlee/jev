@@ -1,2 +1,0 @@
-class UploadStatus < ApplicationRecord
-end

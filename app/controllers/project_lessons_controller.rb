@@ -1,14 +1,13 @@
 class ProjectLessonsController < ApplicationController
-	before_action :set_project
+	before_action :set_project_group_and_team
 
 	def show
 		@lesson = Lesson.find(params[:id])
 		@stage = @lesson.stage
-		@group = @lesson.group
-		@team = current_user.active_team(@project)
-		# @assignment = @stage.assignment.
-		@tasks = @stage.tasks.order(:num)
-		@upload = Upload.new
+		@tasks = @group.tasks.joins(:stages).where(:stages=>{num:1}).order(:num)
+		@assignments = @group.assignments.where(stage: @stage).order(:num)
+		@upload = current_user.uploads.new
+
 		# if params[:task]
 		# 	@task = Task.find(params[:task])
 		# else 
@@ -18,8 +17,10 @@ class ProjectLessonsController < ApplicationController
 	end
 
 	private
-	def set_project
+	def set_project_group_and_team
 		@project = Project.find(params[:project_id])
+		@group = current_user.group(@project)
+		@team = current_user.active_team(@project)
 	end
 
 	def check_participant?

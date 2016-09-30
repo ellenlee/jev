@@ -5,4 +5,6 @@ class Assignment < ApplicationRecord
 	belongs_to :task
 	belongs_to :group
 	belongs_to :stage
+
+	has_many :uploads
 end

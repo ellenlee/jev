@@ -5,9 +5,7 @@
 
 <p class="text-right">發佈時間｜<%= @lesson.published_at.strftime('%Y-%m-%d %H:%M') %>
 </p>
-<div class="pull-left">
-	您參加的是<%= @group.name %> 第<%= @team.num %>組！
-</div>
+<div class="pull-left bg-warning">您參加的是<strong><%= @group.name %> 第<%= @team.num %>組</strong></div>
 <%= link_to "返回專案", project_path(@project), class:"btn btn-info btn-xs active pull-right" %>
 <br><br>
 
@@ -18,34 +16,40 @@
 			<th>#</th>
 			<th>工作項目</th>
 			<th>型態</th>
-			<th>繳交時間</th>
-			<th>狀態</th>
+			<th>繳交期限</th>
 			<th>檔案連結</th>
+			<th>首次上傳時間</th>
 			<th>最後上傳者</th>
-			<th>最後上傳時間</th>
+			<th>狀態</th>
 			<th>操作</th>	
 		</tr>
 
-		<% @tasks.each do |task| %>
+		<% @assignments.each do |assign| %>
 			<tr>
-				<td><%= task.num %></td>
-				<td><%= task.name %></td>
+				<td><%= assign.num %></td>
+				<td><%= assign.task.name %></td>
 				<td>
-					<% if task.team_work? %>
+					<% if assign.task.team_work? %>
 						小組
 					<% else %>
 						個人
 					<% end %>
 				</td>
-				<td class="text-muted small"><%= task.deadline.strftime('%m/%d %H:%M') %></td>
-				<td>未交/遲交/準時</td>
-				<% if current_user.uploads.where(task: task).any? %>
-					<% upload = current_user.uploads.where(task: task).last %>
+				<td class="text-muted small"><%= assign.deadline.strftime('%m/%d %H:%M') %></td>
+				<% if current_user.uploads.where(task: assign.task).any? %>
+					<% upload = current_user.uploads.where(task: assign.task).first %>
 					<td><%= link_to upload.document_file_name, upload.document.url %></td>
+					<td class="text-muted small"><%= upload.created_at.strftime('%m-%d %H:%M') %></td>	
 					<td><%= upload.user.name %></td>
-					<td><%= upload.updated_at.strftime('%m-%d %H:%M') %></td>	
+					<td>
+						<% if upload.on_time? %>
+							準時
+						<% else %>
+							遲交
+						<% end %>
+					</td>
 				<% else %>
-					<td colspan="3" class="text-muted small">尚未上傳</td>
+					<td colspan="4" class="text-muted small">尚未上傳</td>
 						
 				<% end %>
 				<td>重傳｜刪除</td>
@@ -56,8 +60,12 @@
 <h4>成果上傳區</h4>
 <%= form_for [@project, @upload] do |f| %>
 	<div class="field">
+		<%= f.hidden_field :group_id, value: @group.id %>
+		<%= f.hidden_field :stage_id, value: @stage.id %>
+		<%= f.hidden_field :team_id, value: @team.id %>
+		<%= f.hidden_field :lesson_id, value: @lesson.id %>
     <%= f.label :task_id, "工作項目" %>
-    <%= f.collection_select :task_id, @stage.tasks.order(:num), :id, :name,  :prompt => "請選擇"  %>
+    <%= f.collection_select :task_id, @tasks, :id, :name,  :prompt => "請選擇"  %>
   </div>
 	<%= f.file_field :document %>
   <%= f.submit class: "btn btn-xs" %>

@@ -2,11 +2,14 @@ class Upload < ApplicationRecord
 
 	# belongs_to :status, :class_name => "UploadStatus"
 	belongs_to	:user
+	belongs_to	:team
 	
-	# belongs_to	:project
-	# belongs_to 	:stage
-	# belongs_to	:assignments
-	# belongs_to	:team
+	belongs_to	:project, optional: true
+	belongs_to 	:stage, optional: true
+	belongs_to  :group, optional: true
+	belongs_to  :task, optional: true
+	belongs_to	:assignment, optional: true
+	
 	
 
 	has_attached_file :document

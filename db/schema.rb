@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929132209) do
+ActiveRecord::Schema.define(version: 20160930150501) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer  "task_id"
@@ -159,24 +159,20 @@ ActiveRecord::Schema.define(version: 20160929132209) do
     t.index ["project_id"], name: "index_teams_on_project_id"
   end
 
-  create_table "upload_statuses", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_upload_statuses_on_name", unique: true
-  end
-
   create_table "uploads", force: :cascade do |t|
     t.integer  "task_id"
     t.integer  "user_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
     t.string   "document_file_name"
     t.string   "document_content_type"
     t.integer  "document_file_size"
     t.datetime "document_updated_at"
-    t.integer  "status_id",             default: 3
-    t.index ["status_id"], name: "index_uploads_on_status_id"
+    t.integer  "assignment_id"
+    t.integer  "team_id"
+    t.integer  "group_id"
+    t.integer  "stage_id"
+    t.boolean  "on_time"
     t.index ["task_id"], name: "index_uploads_on_task_id"
     t.index ["user_id"], name: "index_uploads_on_user_id"
   end

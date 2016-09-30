@@ -9,17 +9,18 @@ class User < ApplicationRecord
   # validates_format_of :phone
 
   has_many :projects # as creator if admin
-
-	has_many :participations, dependent: :destroy
-	has_many :projects, through: :participations
+  
 	has_many :groups, through: :participations
+  has_many :projects, through: :participations
+  has_many :participations, dependent: :destroy
+
   has_many :lessons, through: :groups
   has_many :assignments, through: :groups
-
-	has_many :teammateships, dependent: :destroy
-	has_many :teams, through: :teammateships
-
   has_many :uploads
+
+  has_many :teammateships, dependent: :destroy
+  has_many :teams, through: :teammateships
+
 	
 	# has_many :tasks, :through =>:uploads
 	# has_many :uploads, dependent: :destroy
