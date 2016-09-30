@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160930150501) do
+ActiveRecord::Schema.define(version: 20160930182500) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer  "task_id"
@@ -162,8 +162,8 @@ ActiveRecord::Schema.define(version: 20160930150501) do
   create_table "uploads", force: :cascade do |t|
     t.integer  "task_id"
     t.integer  "user_id"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "document_file_name"
     t.string   "document_content_type"
     t.integer  "document_file_size"
@@ -173,6 +173,7 @@ ActiveRecord::Schema.define(version: 20160930150501) do
     t.integer  "group_id"
     t.integer  "stage_id"
     t.boolean  "on_time"
+    t.integer  "upload_count",          default: 1
     t.index ["task_id"], name: "index_uploads_on_task_id"
     t.index ["user_id"], name: "index_uploads_on_user_id"
   end

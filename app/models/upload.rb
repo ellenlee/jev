@@ -1,5 +1,5 @@
 class Upload < ApplicationRecord
-	validates_uniqueness_of :team_id, scope: [:group_id, :stage_id]
+	validates_uniqueness_of :assignment_id, scope: [:group_id, :stage_id]
 
 	# belongs_to :status, :class_name => "UploadStatus"
 	belongs_to	:user

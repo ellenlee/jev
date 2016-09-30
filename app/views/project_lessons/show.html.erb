@@ -17,7 +17,7 @@
 			<th>工作項目</th>
 			<th>型態</th>
 			<th>繳交期限</th>
-			<th>檔案連結</th>
+			<th class="text-left">檔案連結</th>
 			<th>首次上傳時間</th>
 			<th>最後上傳者</th>
 			<th>狀態</th>
@@ -38,7 +38,7 @@
 				<td class="text-muted small"><%= assign.deadline.strftime('%m/%d %H:%M') %></td>
 				<% if current_user.uploads.where(task: assign.task).any? %>
 					<% upload = current_user.uploads.where(task: assign.task).first %>
-					<td><%= link_to upload.document_file_name, upload.document.url %></td>
+					<td class="text-left"><%= link_to upload.document_file_name, upload.document.url %></td>
 					<td class="text-muted small"><%= upload.created_at.strftime('%m-%d %H:%M') %></td>	
 					<td><%= upload.user.name %></td>
 					<td>
@@ -49,7 +49,7 @@
 						<% end %>
 					</td>
 				<% else %>
-					<td colspan="4" class="text-muted small">尚未上傳</td>
+					<td colspan="4" class="text-muted small text-left">尚未上傳</td>
 						
 				<% end %>
 				<td>
