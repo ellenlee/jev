@@ -4,16 +4,14 @@ class ProjectLessonsController < ApplicationController
 	def show
 		@lesson = Lesson.find(params[:id])
 		@stage = @lesson.stage
-		@tasks = @group.tasks.joins(:stages).where(:stages=>{num:1}).order(:num)
+		@tasks = @group.tasks.includes(:stages).where(:stages=>{num:1}).order(:num)
 		@assignments = @group.assignments.where(stage: @stage).order(:num)
-		@upload = current_user.uploads.new
 
-		# if params[:task]
-		# 	@task = Task.find(params[:task])
-		# else 
-		# 	@task = Task.new(published_at: DateTime.now.to_date, deadline: DateTime.now.to_date)
-		# end
-
+		if params[:assign].present?
+			@assign = @group.assignments.find(params[:assign])
+			@task = @assign.task
+			@upload = @assign.uploads.find_or_initialize_by(task: @task)
+		end
 	end
 
 	private

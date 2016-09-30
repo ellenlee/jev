@@ -10,8 +10,6 @@ class ProjectUploadsController < ApplicationController
 		@upload = current_user.uploads.new(upload_params)
 		@upload.document_file_name = "#{@project.name}-#{@group.name}-第#{@team.num}組-第#{@stage.num}週-#{@assignment.num}-#{@task.name}"
 
-		
-
 		if @upload.save
 			if @assignment.deadline > @upload.created_at
 				@upload.update(on_time: true)
@@ -26,6 +24,17 @@ class ProjectUploadsController < ApplicationController
 	  end
 	end
 
+	def update
+		@upload = @team.uploads.find(params[:id])
+		@upload.user = current_user
+		@upload.document_file_name = "#{@project.name}-#{@group.name}-第#{@team.num}組-第#{@upload.stage.num}週-#{@upload.assignment.num}-#{@upload.task.name}"
+
+		if @upload.update(upload_params)
+	    redirect_to project_lesson_path(@project, @lesson), notice: "您已更新#{＠upload.document_file_name}"
+	  else
+	    redirect_to project_lesson_path(@project, @lesson), alert: "#{@upload.errors.full_messages.to_sentence}"
+	  end
+	end
 
 	private
 	def set_project_group_and_team
@@ -35,6 +44,6 @@ class ProjectUploadsController < ApplicationController
 	end
 
 	def upload_params
-		params.require(:upload).permit(:task_id, :user_id, :group_id, :team_id, :stage_id, :document)
+		params.require(:upload).permit(:task_id, :user_id, :group_id, :team_id, :stage_id, :assignment_id, :document)
 	end
 end

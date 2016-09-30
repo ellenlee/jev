@@ -14,6 +14,7 @@ class Group < ApplicationRecord
 
 	has_many :assignments
 	has_many :tasks, through: :assignments
+	has_many :uploads, through: :tasks
 	# has_many :uploads, through: :assignments
 	
 end

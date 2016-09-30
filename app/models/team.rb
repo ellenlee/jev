@@ -6,6 +6,8 @@ class Team < ApplicationRecord
 
 	has_many :teammateships, dependent: :restrict_with_error
 	has_many :users, through: :teammateships
+	has_many :assignments, through: :group
+	has_many :uploads, through: :group
 
 	# has_many :uploads
 	

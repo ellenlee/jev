@@ -1,4 +1,5 @@
 class Upload < ApplicationRecord
+	validates_uniqueness_of :team_id, scope: [:group_id, :stage_id]
 
 	# belongs_to :status, :class_name => "UploadStatus"
 	belongs_to	:user
@@ -10,8 +11,6 @@ class Upload < ApplicationRecord
 	belongs_to  :task, optional: true
 	belongs_to	:assignment, optional: true
 	
-	
-
 	has_attached_file :document
 	validates_attachment :document, :content_type => {:content_type => %w(image/jpeg image/jpg image/png application/pdf application/msword application/vnd.openxmlformats-officedocument.wordprocessingml.document application/vnd.ms-powerpointt application/vnd.openxmlformats-officedocument.presentationml.presentation)}
 
