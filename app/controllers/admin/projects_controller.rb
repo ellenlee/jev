@@ -6,8 +6,7 @@ class Admin::ProjectsController < Admin::AdminController
 	end
 
 	def new
-		@project = Project.new
-		
+		@project = Project.new	
 	end
 
 	def create

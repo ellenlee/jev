@@ -6,9 +6,9 @@ class Stage < ApplicationRecord
 	has_many :lessons, dependent: :destroy
 	has_many :groups, through: :lessons
 	
-	has_many :assignments, dependent: :destroy
+	has_many :assignments
 	has_many :tasks, through: :assignments
-	has_many :uploads, through: :tasks
+	# has_many :uploads, through: :assignments
 	# has_many :uploads, through: :assignment
 
 	def lesson(group)

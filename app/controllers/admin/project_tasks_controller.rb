@@ -3,11 +3,23 @@ class Admin::ProjectTasksController < Admin::AdminController
 
 	def index
 		@tasks = @project.tasks.order(:num)
+		# @assignments = @project.assignments.order(:group_id).order(:stage_id)
 		@stages = @project.stages
 		@groups = @project.groups
+		
+		if params[:task].present?
+			@task = Task.find(params[:task])
+		else
+			@task = Task.new
+		end
 
-		@task = Task.new
-		@assignment = Assignment.new(assigned_at: DateTime.now.to_date, deadline: DateTime.now.to_date)
+		if params[:assign].present?
+			@assignment = Assignment.find(params[:assign])
+		else
+			@assignment = Assignment.new(assigned_at: DateTime.now.to_date, deadline: DateTime.now.to_date)
+		end
+
+
 		# if params[:group].present?
 		# 	@group = Group.find(params[:group])
 		# 	@tasks = @project.tasks.order(:num)
@@ -19,7 +31,7 @@ class Admin::ProjectTasksController < Admin::AdminController
 	def create
 		@task = Task.new(task_params)
 		if @task.save
-			redirect_to admin_project_tasks_path(@project), notice: "#{@project.name} － 工作項目 #{@task.num}「#{@task.name}」新增成功！"
+			redirect_to admin_project_tasks_path(@project), notice: "#{@project.name}｜工作項目 #{@task.num}「#{@task.name}」新增成功！"
 		else
 			redirect_to admin_project_tasks_path(@project), alert: "#{@task.errors.full_messages.to_sentence}"
 		end
@@ -28,7 +40,7 @@ class Admin::ProjectTasksController < Admin::AdminController
 	def update
 		@task = Task.find(params[:id])
 		if @task.update(task_params)
-			redirect_to admin_project_stage_path(@project, @stage), notice:  "#{@project.name} － 工作項目 #{@task.num}「#{@task.name}」編輯成功！"
+			redirect_to admin_project_tasks_path(@project), notice:  "#{@project.name}｜工作項目 #{@task.num}「#{@task.name}」編輯成功！"
 		else
 			render 'admin/project_stages/show'
 		end
@@ -40,7 +52,7 @@ class Admin::ProjectTasksController < Admin::AdminController
 			# redirect_to admin_project_stage_path(@project, params[:stage_id]), alert: "發佈時間已過，不可刪除！"
 		# else
 			@task.destroy
-			redirect_to admin_project_stage_path(@project, params[:stage_id]), alert: "您已刪除 第#{@task.num}項作業「#{@task.name}」："
+			redirect_to admin_project_tasks_path(@project), alert: "您已刪除 工作項目 ##{@task.num}「#{@task.name}」"
 		# end
 	end
 

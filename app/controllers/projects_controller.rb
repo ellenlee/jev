@@ -7,7 +7,8 @@ class ProjectsController < ApplicationController
 	end
 
 	def show
-		@stages = @project.stages.order(:num)
+		@group = current_user.group(@project)
+		@lessons = current_user.lessons.where(group: @group)
 	end
 
 

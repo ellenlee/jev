@@ -1,8 +1,6 @@
-<h1>JEV</h1>
+<h1>Journey of Entrepreneurial Venturing</h1>
 
-<%= link_to '創建專案', new_admin_project_path, class:"btn btn-info btn-xs active pull-right" %>
-<br><br>
-
+<br>
 <table class="table table-condensed table-bordered">
 	<tr>
 		<th>#</th>
@@ -19,7 +17,7 @@
 			<td><%= link_to project.name, controller: controller_name, action: :show, id: project.id %></td>
 			<td><%= project.category.name %></td>
 			<% if group = current_user.projects.include?(project) %>
-				<td><%= current_user.group(project) %></td>
+				<td><%= current_user.group(project).name %></td>
 				<td><%= current_user.active_team(project).num %></td>
 			<% else %>
 				<td colspan="2" class="text-muted"></td>		

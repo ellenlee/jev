@@ -14,8 +14,10 @@ class Project < ApplicationRecord
 
 	has_many :stages
 	has_many :tasks
-	has_many :assignments, through: :stages
-	has_many :uploads, through: :stages
+
+	has_many :lessons, through: :stages
+	has_many :assignments, through: :tasks
+	# has_many :uploads, through: :stages
 
 	scope :preparing, -> {where(status_id:1)}
 	scope :active, -> {where(status_id:2)}

@@ -4,8 +4,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   resources :projects, only: [:index, :show] do
-    get :participants
-    resources :stages, controller: 'project_stages', only: [:index, :show]
+    resources :lessons, controller: 'project_lessons', only: [:index, :show]
     resources :uploads, controller: 'project_uploads'
   end
     

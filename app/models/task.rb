@@ -9,6 +9,6 @@ class Task < ApplicationRecord
 	has_many :stages, through: :assignments
 	has_many :groups, through: :assignments
 
-	has_many :users, :through =>:uploads
-	has_many :uploads, dependent: :restrict_with_error
+	# has_many :users, :through =>:uploads
+	# has_many :uploads, dependent: :restrict_with_error
 end

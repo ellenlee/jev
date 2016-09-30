@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929085249) do
+ActiveRecord::Schema.define(version: 20160929132209) do
 
   create_table "assignments", force: :cascade do |t|
-    t.integer  "stage_id"
     t.integer  "task_id"
     t.datetime "deadline"
     t.datetime "assigned_at"
@@ -21,8 +20,8 @@ ActiveRecord::Schema.define(version: 20160929085249) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.integer  "group_id"
-    t.index ["group_id"], name: "index_assignments_on_group_id"
-    t.index ["stage_id"], name: "index_assignments_on_stage_id"
+    t.integer  "stage_id"
+    t.integer  "num"
     t.index ["task_id"], name: "index_assignments_on_task_id"
   end
 
@@ -40,7 +39,9 @@ ActiveRecord::Schema.define(version: 20160929085249) do
     t.datetime "published_at"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "num"
     t.index ["group_id"], name: "index_lessons_on_group_id"
+    t.index ["num"], name: "index_lessons_on_num"
     t.index ["stage_id"], name: "index_lessons_on_stage_id"
   end
 
@@ -117,7 +118,6 @@ ActiveRecord::Schema.define(version: 20160929085249) do
 
   create_table "stages", force: :cascade do |t|
     t.integer  "num"
-    t.string   "name"
     t.text     "info"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
