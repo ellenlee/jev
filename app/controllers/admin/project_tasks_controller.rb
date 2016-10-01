@@ -4,7 +4,7 @@ class Admin::ProjectTasksController < Admin::AdminController
 	def index
 		@tasks = @project.tasks.order(:num)
 		# @assignments = @project.assignments.order(:group_id).order(:stage_id)
-		@stages = @project.stages
+		@stages = @project.stages.order(:num)
 		@groups = @project.groups
 		
 		if params[:task].present?
@@ -18,7 +18,6 @@ class Admin::ProjectTasksController < Admin::AdminController
 		else
 			@assignment = Assignment.new(assigned_at: DateTime.now.to_date, deadline: DateTime.now.to_date)
 		end
-
 
 		# if params[:group].present?
 		# 	@group = Group.find(params[:group])
@@ -51,8 +50,13 @@ class Admin::ProjectTasksController < Admin::AdminController
 		# if @task.published_at != nil && @task.published_at.past?
 			# redirect_to admin_project_stage_path(@project, params[:stage_id]), alert: "發佈時間已過，不可刪除！"
 		# else
-			@task.destroy
+		if @task.destroy
 			redirect_to admin_project_tasks_path(@project), alert: "您已刪除 工作項目 ##{@task.num}「#{@task.name}」"
+		else
+			redirect_to admin_project_tasks_path(@project), alert: "#{@task.errors.full_messages.to_sentence}"
+		end
+			
+			
 		# end
 	end
 

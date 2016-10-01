@@ -54,9 +54,9 @@
 			<% @groups.each do |group| %>
 				<tr>
 					<td rowspan="<%= group.tasks.count %>"><%= group.name %></td>
-					<% group.assignments.order(:task_id).each do |assign| %>
+					<% group.assignments.order(:num).each do |assign| %>
 						<td><%= assign.stage.num %></td>
-						<td><%= assign.task.num %></td>
+						<td><%= assign.num %></td>
 						<td class="text-left"><%= assign.task.name %></td>
 						
 						<td class="small text-muted"><%= assign.deadline.strftime('%m-%d %H:%M') %></td>
@@ -107,28 +107,33 @@
 	<h4>指派工作項目</h4>
 	<%= form_for [:admin, @project, @assignment] do |f| %>
 		<%= render :partial => '/form_errors', locals: { f: f } %>
-		<div class="form-group">
-	    <%= f.collection_radio_buttons :group_id, @groups, :id, :name %>
+		<div class="form-group col-xs-4">
+	    <%= f.collection_select :stage_id, @stages, :id, :num, {:include_blank => "週次"}, class: "form-control"  %>
 	  </div>
-	  <div class="form-group">
-	    <%= f.label :stage_id, "週次" %>
-	    <%= f.collection_select :stage_id, @stages, :id, :num, :prompt => "請選擇"  %>
+		<div class="form-group col-xs-8">
+	    <%= f.collection_select :group_id, @groups, :id, :name, {:include_blank => "班別"}, class: "form-control" %>
 	  </div>
-
-	  <div class="form-group">
-	    <%= f.label :task_id, "工作項目" %>
-	    <%= f. collection_select :task_id, @tasks, :id, :name, :prompt => "請選擇" %>
+	  <div class="form-group col-xs-12">
+	    <%= f.collection_select :task_id, @tasks, :id, :name, {:include_blank => "工作項目"}, class: "form-control" %>
     </div>
-	  
+    <hr>
+    <div class="col-xs-12">
 	  <div class="form-group">
-			<%= f.label :assigned_at, "指派時間"%>
+	  	<%= f.label :num, '編號' %>
+	  	<%= f.text_field :num, placeholder: "輸入整數", class: 'form-control', style: "width:90px" %>
+	  </div>
+	  <div class="form-group">
+			<%= f.label :assigned_at, "設定學員可瀏覽作業的時間"%>
 			<%= f.datetime_local_field :assigned_at, discard_seconds: true,  class: "form-control", style: "width:220px" %>
 		</div>
 		<div class="form-group">
-			<%= f.label :deadline, "繳交時間"%>
+			<%= f.label :deadline, "設定繳交時間"%>
 			<%= f.datetime_local_field :deadline, with_seconds: false,  class: "form-control", style: "width:220px" %>
 		</div>
 	  <%= f.submit class: "btn btn-primary btn-sm"  %>
+	  <%= link_to "取消", admin_project_tasks_path(@project), class:"btn btn-default btn-sm" %>
+	  </div>
 	<% end %>
 </div>
+<br><br><br>	
 

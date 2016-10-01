@@ -31,10 +31,11 @@
 </div>
 <div class="col-xs-4">
 	<% if params[:stage].present? %>
-		<h5>編輯工作階段</h5>
+		<h4>編輯工作階段</h4>
 	<% else %>
-		<h5>發佈工作階段</h5>
+		<h4>發佈工作階段</h4>
 	<% end %>
+	<hr>
 	<%= form_for [:admin, @project, @stage] do |f|%>
 		<%= render :partial => '/form_errors', locals: { f: f } %>
 		<div class="form-group">
@@ -46,27 +47,31 @@
 
 <div id="set_stage_executions" class="col-xs-8">
 	<% if params[:lesson].present? %> 
-		<h5>編輯課程名稱</h5>
+		<h4>編輯課程名稱</h4>
 	<% else %>
-		<h5>發佈每週課程</h5>
+		<h4>發佈每週課程<span class="muted-text small text-right">（欲編輯既有課程，請於清單中點選）</span></h4>
 	<% end %>
 	<hr>
+
 	<%= form_for [:admin, @project, @lesson] do |f| %>
 		<%= render :partial => '/form_errors', locals: { f: f } %>
 	  <div class="form-group">
+	 		<%= label :group_id, "班別" %>
+	    <%= f.collection_select :group_id, @groups, :id, :name, class: "form-control", :prompt => "請選擇" %>
 	    <%= label :stage_id, "週次" %>
 	    <%= f.collection_select :stage_id, @stages, :id, :num, :prompt => "請選擇", :class =>"form-control" %>
-	    <%= label :group_id, "班別" %>
-	    <%= f.collection_select :group_id, @groups, :id, :name, class: "form-control", :prompt => "請選擇" %>
 	  </div>
 	  <div class="form-group">
 			<%= f.label :name, "名稱" %>
 			<%= f.text_field :name, class: "form-control" %>
 		</div>
 		<div class="form-group">
-			<%= f.label :published_at, "發佈時間", class: "control-label" %>
+			<%= f.label :published_at, "設定開放學員瀏覽的時間", class: "control-label" %>
 			<%= f.datetime_local_field :published_at, class: "form-control",style: "width:220px" %>
 		</div>
 	<%= f.submit class: "btn btn-primary btn-sm" %>
+	<%= link_to "取消", admin_project_stages_path(@project), class: "btn btn-default btn-sm" %>
 	<% end %>
+	<br>
+	<br>
 </div>

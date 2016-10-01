@@ -2,10 +2,10 @@
 <%= simple_format(@project.info) %>
 <hr>
 <div id="main">
-	<div id="stage-list" class="pull-left col-xs-2">
+	<div id="stage-list" class="pull-left col-xs-3">
 		<% @lessons.each do |lesson| %>
 			<ul class="list-unstyled">
-				<li><%= link_to lesson.name, project_lesson_path(@project, lesson) %></li>
+				<li><%= link_to "[第#{lesson.num}週] "+lesson.name, project_lesson_path(@project, lesson) %></li>
 			</ul>
 		<% end %>	
 	</div>

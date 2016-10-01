@@ -11,31 +11,8 @@
 <p class="pull-right">
 	<%= project.category.name %>｜
 	<%= project.status.name %>｜
-	<%= link_to "編輯詳情", edit_admin_project_path(@project) %>
+	<%= link_to "專案首頁", admin_projects_path %>
 </p>
 
-<!-- 專案下班級列表 -->
-<ul class="list-inline">
-	<% if params[:group] %>
-		<%= link_to controller: controller_name, action: action_name do %>
-			<li class="btn btn-default btn-xs active">全體</li>
-		<% end %>
-	<% else %>
-		<%= link_to controller: controller_name, action: action_name do %>
-			<li class="btn btn-info btn-xs active">全體</li>
-		<% end %>
-	<% end %>
-	
-	<% @project.groups.each do |group| %>
-		<%= link_to controller: controller_name, action: action_name, group: group do %>
-			<% if group == @group %>
-				<li id=<%= group.id %> class="btn btn-info btn-xs active">
-			<% else %>
-				<li id=<%= group.id %> class="btn btn-default btn-xs active">
-			<% end %>
-					<%= group.name %></li>
-		<% end %>
-	<% end %>
-</ul>
-<div>
+
 
