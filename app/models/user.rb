@@ -51,7 +51,7 @@ class User < ApplicationRecord
 
 
 	def admin?
-		if self.name == "Admin"
+		if self.email == "leechinghui.tw@gmail.com" || "lunacy20@gmail.com"
 			true
 		else
 			false

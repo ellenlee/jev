@@ -7,7 +7,7 @@ class ProjectUploadsController < ApplicationController
 		@assignment = @task.assignments.where(group: @group).first
 
 		@upload = current_user.uploads.new(upload_params)
-		@upload.document_file_name = "#{@project.name}-#{@group.name}-第#{@team.num}組-第#{@stage.num}週-#{@assignment.num}-#{@task.name}"
+		@upload.generate_file_name
 
 		if @upload.save
 			if @assignment.deadline > @upload.created_at
@@ -27,8 +27,9 @@ class ProjectUploadsController < ApplicationController
 		@upload = @team.uploads.find(params[:id])
 		@upload.update(upload_params)
 		@upload.user = current_user
+		@upload.generate_file_name
 		@upload.upload_count += 1
-		@upload.document_file_name = "#{@project.name}-#{@group.name}-第#{@team.num}組-第#{@upload.stage.num}週-#{@upload.assignment.num}-#{@upload.task.name}(#{@upload.upload_count})"
+		@upload.document_file_name+="(#{@upload.upload_count})"
 
 		if @upload.save
 	    redirect_to project_lesson_path(@project, @lesson), notice: "您已更新#{@upload.document_file_name}"

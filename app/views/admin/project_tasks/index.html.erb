@@ -45,7 +45,6 @@
 				<th>#</th>
 				<th class="text-left">工作項目名稱</th>
 				<th>deadline</th>
-				<th>類型</th>
 				<th>已交</th>
 				<th>未交</th>
 				<th></th>
@@ -60,15 +59,8 @@
 						<td class="text-left"><%= assign.task.name %></td>
 						
 						<td class="small text-muted"><%= assign.deadline.strftime('%m-%d %H:%M') %></td>
-						<td>
-							<% if  assign.task.team_work %>
-								小組
-							<% else %>
-							  個人
-							<% end %>
-						</td>
-						<td></td>
-						<td></td>
+						<td><%= assign.uploads.count %></td>
+						<td><%= group.uploads.count %></td>
 						<td>
 							<%= link_to '編輯', admin_project_tasks_path(@project, assign: assign.id) %>｜
 							<%= link_to '刪除', admin_project_assignment_path(@project, assign), method: :delete, data: {confirm: "Are you sure?"} %>

@@ -10,8 +10,13 @@ class ProjectLessonsController < ApplicationController
 		if params[:assign].present?
 			@assign = @group.assignments.find(params[:assign])
 			@task = @assign.task
-			@upload = @assign.uploads.find_or_initialize_by(task: @task)
+			if @upload = @assign.find_upload(current_user)
+				@upload
+			else
+				@upload = @assign.uploads.new(task: @task)
+			end
 		end
+
 	end
 
 	private

@@ -36,8 +36,7 @@
 					<% end %>
 				</td>
 				<td class="text-muted small"><%= assign.deadline.strftime('%m/%d %H:%M') %></td>
-				<% if current_user.uploads.where(task: assign.task).any? %>
-					<% upload = current_user.uploads.where(task: assign.task).first %>
+				<% if upload = assign.find_upload(current_user) %>
 					<td class="text-left"><%= link_to upload.document_file_name, upload.document.url %></td>
 					<td class="text-muted small"><%= upload.created_at.strftime('%m-%d %H:%M') %></td>	
 					<td><%= upload.user.name %></td>

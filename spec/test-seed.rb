@@ -1,7 +1,3 @@
-require 'rails_helper'
-
-RSpec.describe Upload, type: :model do
-
 	before	do
 		# user
 		@user1 = User.create!(name:"xx", email:"lunacy20@gmail.com", password:"12345678")
@@ -35,24 +31,6 @@ RSpec.describe Upload, type: :model do
 		@assign_personal = Assignment.create!(task: @task_personal, deadline: DateTime.now, assigned_at: DateTime.now, group: @group, stage: @stage1, num:1)
 
 		#user's upload
-		@upload_teamwork = Upload.create!(user: @user2, task: @task_teamwork, assignment: @assign_teamwork, team: @team1, group: @group, stage: @stage1, on_time: true)
+		@upload_teamwork = Upload.create!(user: @user1, task: @task_teamwork, assignment: @assign_teamwork, team: @team1, group: @group, stage: @stage1, on_time: true)
 		@upload_personal = Upload.create!(user: @user1, task: @task_personal, assignment: @assign_personal, team: @team1, group: @group, stage: @stage1, on_time: true)
 	end
-
-	it "if teamwork, should return team's upload or nil" do
-
-		upload = @assign_teamwork.find_upload(@user1)
-
-		expect(upload).to eq(@upload_teamwork)
-		expect(upload.user).to eq(@user2)
-	end
-
-	it "find my upload" do
-		upload = @assign_personal.find_upload(@user1)
-		
-		expect(upload).to eq(@upload_personal)
-		expect(upload.user == @user2).to eq(false)
-		expect(upload.user == @user1).to eq(true)
-	end
-
-end

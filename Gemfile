@@ -48,6 +48,7 @@ group :development, :test do
   gem 'growl'
   # Model --> pdf
   gem "rails-erd"
+  # gem "factory_girl_rails", "~> 4.0"
 end
 
 group :development do

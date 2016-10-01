@@ -8,7 +8,7 @@ class ProjectsController < ApplicationController
 
 	def show
 		@group = current_user.group(@project)
-		@lessons = current_user.lessons.where(group: @group).order(:num)
+		@lessons = @group.lessons.order(:num)
 	end
 
 

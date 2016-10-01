@@ -7,4 +7,17 @@ class Assignment < ApplicationRecord
 	belongs_to :stage
 
 	has_many :uploads, dependent: :restrict_with_error
+
+
+	def find_upload(user)
+		project = self.task.project
+		task = self.task
+		team = user.active_team(project)
+
+		if task.team_work?
+			team.uploads.where(task: task, team: team).last
+		else
+			team.uploads.where(task: task, user: user).last
+		end
+	end
 end

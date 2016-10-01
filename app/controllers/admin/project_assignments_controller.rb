@@ -3,7 +3,6 @@ class Admin::ProjectAssignmentsController < Admin::AdminController
 
 	def create
 
-
 		@assign = Assignment.new(assignment_params)
 		@task = Task.find(params[:assignment][:task_id])
 		@stage = @project.stages.find(params[:assignment][:stage_id])
