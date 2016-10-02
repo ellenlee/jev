@@ -4,7 +4,6 @@ class Admin::UsersController < Admin::AdminController
 		"登錄" => 'participate',
 		"退出" => 'quit',
 		"刪除多筆帳號" => 'delete',
-		"群組寄信" => 'send_mail'
 	}
 
 	def index
@@ -31,10 +30,17 @@ class Admin::UsersController < Admin::AdminController
 		end
 	end
 
-
 	def show
 		@user = User.find(params[:id])
 		@projects = @user.projects
+	end
+
+	def import
+		@project = Project.find(params[:participation][:project_id])
+		@group   = Group.find(params[:participation][:group_id])
+
+		User.import(params[:file], current_user, @project, @group)
+    redirect_to new_admin_user_path, notice: "Users imported."
 	end
 
 	def bulk_update
@@ -53,14 +59,6 @@ class Admin::UsersController < Admin::AdminController
 	  send("bulk_#{behavior}")
 
 	  redirect_to admin_users_path, alert: "成功：#{@succeed_cases.to_sentence}|失效：#{@fail_cases.to_sentence}"
-	end
-
-	def import
-		@project = Project.find(params[:participation][:project_id])
-		@group   = Group.find(params[:participation][:group_id])
-
-		User.import(params[:file], current_user, @project, @group)
-    redirect_to new_admin_user_path, notice: "Users imported."
 	end
 
 	private
@@ -97,7 +95,7 @@ class Admin::UsersController < Admin::AdminController
 
 	def bulk_delete
 		@users.each do |user|
-			if user.participations == []
+			if user.participations.active_in == []
 				user.destroy
 				@succeed_cases << user.name
 			else

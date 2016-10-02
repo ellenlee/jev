@@ -39,7 +39,6 @@ class User < ApplicationRecord
     end
   end
 
-
 	def group(project)
 		self.participations.where(project: project).first.group
 	end
@@ -102,10 +101,20 @@ class User < ApplicationRecord
     end
   end
 
-  def total_uploads_count(project, group)
-    
-      self.personal_uploads_count(project, group) + self.team_uploads_count(project, group)
+  def project_uploads_count(project, group)
+    self.personal_uploads_count(project, group) + self.team_uploads_count(project, group)
   end
+
+  def total_uploads_count
+    count = 0
+    participations = self.participations.where(status: [1,3]) 
+    participations.each do |part|
+      project = part.project
+      group = part.group
+      count += project_uploads_count(project, group)
+    end
+    count
+  end  
 
 	def self.import(file, creator, project, group)
 		

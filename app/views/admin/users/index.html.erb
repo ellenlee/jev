@@ -38,7 +38,7 @@
 				<td align="center">
 					0<!-- 出席紀錄 -->
 				</td>
-				<td align="center">0</td>
+				<td align="center"><%= user.total_uploads_count %></td>
 				<td>
 					<% user.participations.active_in.each do |parti| %>
 						<%= parti.project.name %><small>｜<%= parti.group.name %></small><br>

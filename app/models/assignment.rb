@@ -8,6 +8,12 @@ class Assignment < ApplicationRecord
 
 	has_many :uploads, dependent: :restrict_with_error
 
+	def lesson
+		group = self.group
+		stage = self.stage
+		Lesson.where(group: group, stage: stage).last
+	end
+
 	def should_upload_count
 		project = self.task.project
 		if self.task.team_work?

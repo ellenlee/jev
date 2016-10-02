@@ -14,6 +14,22 @@ class Upload < ApplicationRecord
 	has_attached_file :document
 	validates_attachment :document, :content_type => {:content_type => %w(image/jpeg image/jpg image/png application/pdf application/msword application/vnd.openxmlformats-officedocument.wordprocessingml.document application/vnd.ms-powerpointt application/vnd.openxmlformats-officedocument.presentationml.presentation)}
 
+	def stage_num
+		self.assignment.stage.num
+	end
+
+	def stage_name
+		self.assignment.lesson.name
+	end
+
+	def on_time_show
+		if self.on_time?
+			"準時"
+		else
+			"遲交"
+		end
+	end
+
  	def generate_file_name
  		task = self.task
  		assign = self.assignment

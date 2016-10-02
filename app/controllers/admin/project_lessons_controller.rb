@@ -3,7 +3,7 @@ class Admin::ProjectLessonsController < Admin::AdminController
 	before_action :set_lesson, except: :create
 
 	def create
-		@lesson = @project.lesson.new(lesson_params)
+		@lesson = @project.lessons.new(lesson_params)
 		if @lesson.save
 			redirect_to admin_project_stages_path(@project)
 			flash[:notice] = "新增 #{@project.name} 課程：第#{@lesson.stage.num}週 #{@lesson.group.name }成功！"
