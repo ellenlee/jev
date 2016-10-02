@@ -71,6 +71,8 @@
 		</div>
 	<%= f.submit class: "btn btn-primary btn-sm" %>
 	<%= link_to "取消", admin_project_stages_path(@project), class: "btn btn-default btn-sm" %>
+	<%= button_to "刪除", admin_project_lesson_path(@project, @lesson), method: :delete, class: "btn btn-danger btn-sm pull-right" if @lesson.id %>
+	
 	<% end %>
 	<br>
 	<br>

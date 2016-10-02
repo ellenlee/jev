@@ -53,7 +53,7 @@
 			<% @groups.each do |group| %>
 				<tr>
 					<td rowspan="<%= group.tasks.count %>"><%= group.name %></td>
-					<% group.assignments.order(:num).each do |assign| %>
+					<% group.assignments.each do |assign| %>
 						<td><%= assign.stage.num %></td>
 						<td><%= assign.num %></td>
 						<td class="text-left"><%= assign.task.name %></td>

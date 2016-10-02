@@ -1,7 +1,6 @@
 class Teammateship < ApplicationRecord
     validates_uniqueness_of :user_id, scope: :team_id
     validate :validate_active_team_uniquess_in_project, on: :create
-    # before_create :validate_active_team_uniquess_in_project
 
     belongs_to	:user
     belongs_to	:team

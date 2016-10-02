@@ -1,5 +1,6 @@
 class Admin::ProjectAssignmentsController < Admin::AdminController
-	before_action :check_blank, :set_project, :set_config
+	before_action :check_blank, :set_config, except: [:destroy]
+	before_action :set_project
 
 	def create
 

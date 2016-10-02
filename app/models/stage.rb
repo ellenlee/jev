@@ -3,7 +3,7 @@ class Stage < ApplicationRecord
 
 	belongs_to	:project
 	
-	has_many :lessons, dependent: :destroy
+	has_many :lessons, dependent: :restrict_with_error
 	has_many :groups, through: :lessons
 	
 	has_many :assignments

@@ -15,10 +15,16 @@ class Group < ApplicationRecord
 	has_many :assignments
 	has_many :tasks, through: :assignments
 	has_many :uploads, through: :tasks
-	# has_many :uploads, through: :assignments
+	# has_many :uploads, through: :assignments 
 	
 	def active_teams(project)
-		self.teams.where(project: project, exist: true)
+		teams = self.teams.where(project: project)
+		active_teams = []
+		teams.each do |team|
+			if team.exist? 
+				active_teams << team
+			end
+		end
 	end
 
 	def active_members(project)

@@ -3,6 +3,4 @@ class Lesson < ApplicationRecord
 
 	belongs_to :stage
 	belongs_to :group
-
-	has_many :assignments
 end

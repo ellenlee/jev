@@ -3,7 +3,6 @@ class Admin::ProjectTasksController < Admin::AdminController
 
 	def index
 		@tasks = @project.tasks.order(:num)
-		# @assignments = @project.assignments.order(:group_id).order(:stage_id)
 		@stages = @project.stages.order(:num)
 		@groups = @project.groups
 		

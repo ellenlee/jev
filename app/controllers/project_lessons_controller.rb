@@ -1,4 +1,4 @@
-
+class ProjectLessonsController < ApplicationController
 	before_action :set_project_group_and_team
 
 	def show
