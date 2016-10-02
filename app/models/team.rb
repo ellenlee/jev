@@ -6,11 +6,31 @@ class Team < ApplicationRecord
 
 	has_many :teammateships, dependent: :restrict_with_error
 	has_many :users, through: :teammateships
+	has_many :uploads
 	has_many :assignments, through: :group
-	has_many :uploads, through: :group
+	has_many :team_uploads, class_name: "Upload"
 
 	# has_many :uploads
 	
+	def exist_status
+		if self.exist?
+			"活躍"
+		else
+			"徹組"
+		end
+	end
+
+	def team_uploads(project, group)
+    tasks_should_be_done = Task.team_tasks(project, group)
+    self.uploads.where(task: tasks_should_be_done)
+  end
+
+  def team_uploads_count(project, group)
+    team_uploads = self.team_uploads(project, group)
+    team_uploads.count
+  end
+
+
 	def join_team
 		# 加入專案後，叫出此project_id下的team，輸入他要加入的組號（num）
     #     - 是否組號在該group中已存在，

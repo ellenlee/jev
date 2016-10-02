@@ -29,14 +29,8 @@
 					<%= membership.user.name %>
 				<% end %>
 			</td>
-			<td>-</td>
-			<td>
-				<% if team.exist? %>
-					active
-				<% else %>
-					closed
-				<% end %>
-			</td>	
+			<td><%= team.uploads.count %></td>
+			<td><%= team.exist_status %></td>	
 	</tr>	
 	<% end %>
 </table>

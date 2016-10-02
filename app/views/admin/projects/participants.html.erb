@@ -9,25 +9,25 @@
 			<th>組別</th>
 			<th>狀態</th>
 			<th>出席數</th>
-			<th>上傳成果數</th>
+			<th>個人上傳數</th>
+			<th>團隊上傳數</th>
+			<th>專案上傳數</th>
 			<th>專案表現</th>
 		</tr>
 
 		<% @participants.each do |participant| %>
+			<% user = participant.user %>
+			<% @group = participant.group %>
 		<tr>
-			<td><%= participant.user_id %></td>
-			<td><%= participant.user.name %></td>
-			<td><%= participant.group.name %></td>
-			<td>
-				<% if participant.user.teams.exists? %>
-					<%= participant.user.teams.where(project: @project).first.num%>
-				<% else %>
-					-
-				<% end %>
-			</td>
+			<td><%= user.id %></td>
+			<td><%= user.name %></td>
+			<td><%= @group.name %></td>
+			<td><%= user.active_team_num(@project) %></td>
 			<td><%= participant.status.name %></td>
 			<td>-</td>
-			<td>-</td>
+			<td><%= user.personal_uploads_count(@project, @group) %></td>
+			<td><%= user.team_uploads_count(@project, @group) %></td>
+			<td><%= user.total_uploads_count(@project, @group) %></td>
 			<td><%= "查看詳情" %></td>
 		</tr>
 		

@@ -17,6 +17,7 @@ class User < ApplicationRecord
   has_many :lessons, through: :groups
   has_many :assignments, through: :groups
   has_many :uploads
+  has_many :team_uploads, through: :teams, class_name: "Upload"
 
   has_many :teammateships, dependent: :destroy
   has_many :teams, through: :teammateships
@@ -54,7 +55,19 @@ class User < ApplicationRecord
 
   def active_team(project)
     team_in_project = self.teams & project.teams
-    active_team = self.teammateships.where(team: team_in_project, active: true).first.team
+    active_team = self.teammateships.where(team: team_in_project, active: true)
+    if active_team.exists?
+      active_team.first.team
+    end
+  end
+
+  def active_team_num(project)
+    active_team = self.active_team(project)
+    if active_team
+      active_team.num
+    else
+      "-"
+    end
   end
 
   def quit(team)
@@ -63,8 +76,36 @@ class User < ApplicationRecord
     teammateship.save
   end
 
+  def personal_uploads(project, group)
+    tasks_should_be_done = Task.personal_tasks(project, group)
+    self.uploads.where(task: tasks_should_be_done)
+  end
 
-	
+  def personal_uploads_count(project, group)
+    personal_uploads = self.personal_uploads(project, group)
+    personal_uploads.count
+  end
+
+  def team_uploads(project, group)
+    tasks_should_be_done = Task.team_tasks(project, group)
+    if team = self.active_team(project)
+      team.uploads.where(task: tasks_should_be_done)
+    end
+  end
+
+  def team_uploads_count(project, group)
+    if team = self.active_team(project)
+      team_uploads = self.team_uploads(project, group)
+      team_uploads.count
+    else
+      0
+    end
+  end
+
+  def total_uploads_count(project, group)
+    
+      self.personal_uploads_count(project, group) + self.team_uploads_count(project, group)
+  end
 
 	def self.import(file, creator, project, group)
 		

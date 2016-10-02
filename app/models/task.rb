@@ -29,4 +29,12 @@ class Task < ApplicationRecord
 		end
 	end
 
+	def self.personal_tasks(project, group)
+		group.tasks.where(project: project, team_work: false)
+	end
+
+	def self.team_tasks(project, group)
+		group.tasks.where(project: project, team_work: true)
+	end
+
 end
