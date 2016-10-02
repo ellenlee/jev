@@ -30,7 +30,4 @@ class Participation < ApplicationRecord
 	def self.group(project, user)
 		self.where(project: project, user: user).first.group.name
 	end
-
-
-
 end

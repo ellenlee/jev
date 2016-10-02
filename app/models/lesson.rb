@@ -4,5 +4,6 @@ class Lesson < ApplicationRecord
 	belongs_to :stage
 	belongs_to :group
 
-	
+	has_many :attendances
+	has_many :attend_members, through: :attendances, source: :user
 end

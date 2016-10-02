@@ -15,6 +15,9 @@ class User < ApplicationRecord
   has_many :participations, dependent: :destroy
 
   has_many :lessons, through: :groups
+  has_many :attendances
+  has_many :attend_lessons, through: :attendances, source: :lesson
+
   has_many :assignments, through: :groups
   has_many :uploads
   has_many :team_uploads, through: :teams, class_name: "Upload"
