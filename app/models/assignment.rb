@@ -8,16 +8,35 @@ class Assignment < ApplicationRecord
 
 	has_many :uploads, dependent: :restrict_with_error
 
+	def should_upload_count
+		project = self.task.project
+		if self.task.team_work?
+			self.group.active_teams(project).count
+		else
+			self.group.active_members(project).count
+		end
+	end
+
+	def not_upload_count
+		self.should_upload_count - self.uploads.count
+	end
+
+	def upload_rate
+		upload_proportion = self.uploads.count.to_f / self.should_upload_count
+		(upload_proportion*100).round(0).to_s+"%"
+	end
 
 	def find_upload(user)
 		project = self.task.project
-		task = self.task
 		team = user.active_team(project)
 
-		if task.team_work?
+		if self.task.team_work?
 			team.uploads.where(task: task, team: team).last
 		else
 			team.uploads.where(task: task, user: user).last
 		end
 	end
+
+
+
 end

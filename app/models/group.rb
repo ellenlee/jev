@@ -17,4 +17,12 @@ class Group < ApplicationRecord
 	has_many :uploads, through: :tasks
 	# has_many :uploads, through: :assignments
 	
+	def active_teams(project)
+		self.teams.where(project: project, exist: true)
+	end
+
+	def active_members(project)
+		self.participations.where(status_id:1, project: project)
+	end
+
 end

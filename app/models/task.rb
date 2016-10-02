@@ -13,12 +13,20 @@ class Task < ApplicationRecord
 	# has_many :users, :through =>:uploads
 	# has_many :uploads, dependent: :restrict_with_error
 
-	def team_work?
-		if self.team_work?
+	def team_work_show
+		if self.team_work == true
 			"小組"
 		else
 			"個人"
 		end	
+	end
+
+	def upload_rate(group)
+		if assign = group.assignments.where(task: self).last
+			assign.upload_rate
+		else
+			nil
+		end
 	end
 
 end

@@ -2,11 +2,13 @@
 <%= render :partial => 'admin/projects/project_menu', :locals => { project: @project } %>
 
 <div class="clearfix">
-	<div class="table-responsive col-xs-5" style="overflow-x: visible;">
+	
+	<div class="table-responsive col-md-5" style="overflow-x: visible;">
+	<h3>工作項目清單</h3>
 		<table class="table table-condensed table-border table-hover">
 			<tr>
 				<th>#</th>
-				<th class="text-left">工作項目名稱</th>
+				<th class="text-left">項目名稱</th>
 				<th>類型</th>
 				<% @groups.each do |group|%>
 					<th><%= group.name %></th>
@@ -17,11 +19,9 @@
 				<tr>
 					<td><%= task.num %></td>	
 					<td class="text-left"><%= task.name %></td>
-					<td>
-						<%= task.team_work? %>
-					</td>
+					<td><%= task.team_work_show %></td>
 						<% @groups.each do |group|%>
-							<td> </td>
+							<td class="small text-muted"><%= task.upload_rate(group) %></td>
 						<% end %>
 					<td>
 						<%= link_to '編輯', admin_project_tasks_path(@project, task: task.id) %>｜
@@ -33,17 +33,21 @@
 		</table>
 	</div>
 
-	<div class="table-responsive col-xs-7" style="overflow-x: visible;">
+
+	<div class="table-responsive col-md-7" style="overflow-x: visible;">
+	<h3>各班工作指派與上傳狀況一覽</h3>
 		<table class="table table-condensed table-border table-hover">
 			<tr>
 				<th>班別</th>
 				<th>週次</th>
 				<th>#</th>
-				<th class="text-left">工作項目名稱</th>
+				<th class="text-left">項目名稱</th>
+				<th></th>
+				<th>類型</th>	
 				<th>deadline</th>
 				<th>已交</th>
 				<th>未交</th>
-				<th></th>
+				<th>%</th>
 			</tr>
 
 			<% @groups.each do |group| %>
@@ -53,22 +57,21 @@
 						<td><%= assign.stage.num %></td>
 						<td><%= assign.num %></td>
 						<td class="text-left"><%= assign.task.name %></td>
-						
-						<td class="small text-muted"><%= assign.deadline.strftime('%m-%d %H:%M') %></td>
-						<td><%= assign.uploads.count %></td>
-						<td><%= group.uploads.count %></td>
 						<td>
 							<%= link_to '編輯', admin_project_tasks_path(@project, assign: assign.id) %>｜
 							<%= link_to '刪除', admin_project_assignment_path(@project, assign), method: :delete, data: {confirm: "Are you sure?"} %>
-							
 						</td>
+						<td><%= assign.task.team_work_show %></td>
+						<td class="small text-muted"><%= assign.deadline.strftime('%m-%d %H:%M') %></td>
+						<td><%= assign.uploads.count %></td>
+						<td><%= assign.not_upload_count %></td>
+						<td><strong><%= assign.upload_rate %></strong></td>
 					</tr>
 				<% end %>
 			<% end %>
 		</table>
 	</div>
 </div>
-
 <hr>
 <div id="create-task" class="col-xs-5">
 	<h4>新增工作項目</h4>	

@@ -20,6 +20,10 @@ body {
     padding-top: 30px;
     }
 
+body table {
+	font-size: 10px;
+}
+
 nav#nav-site {
 	position: fixed; z-index: 999;
 	top: 0; left: 0;
