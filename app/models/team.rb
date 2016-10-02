@@ -12,11 +12,20 @@ class Team < ApplicationRecord
 
 	# has_many :uploads
 	
+	def exist?
+		active_teammates = self.teammateships.where(active: true)
+		if active_teammates.any?
+		  true
+		else
+			false
+		end
+	end
+
 	def exist_status
 		if self.exist?
 			"活躍"
 		else
-			"徹組"
+			"撤組"
 		end
 	end
 
@@ -28,6 +37,14 @@ class Team < ApplicationRecord
   def team_uploads_count(project, group)
     team_uploads = self.team_uploads(project, group)
     team_uploads.count
+  end
+
+  def team_uploads_rate(project, group)
+  	tasks_should_be_done = Task.team_tasks(project, group)
+  	if team_uploads(project, group).any?
+  		rate = team_uploads_count(project, group).to_f / tasks_should_be_done.count
+  		(rate*100).round(0).to_s+"%"
+  	end
   end
 
 

@@ -11,6 +11,7 @@
 		<th>在線成員</th>
 		<th>退出成員</th>
 		<th>團隊上傳</th>
+		<th>%</th>
 		<th>團隊狀態</th>
 	</tr>
 	<% @teams.all.each do |team| %>
@@ -24,12 +25,13 @@
 					<%= membership.user.name %>
 				<% end %>
 			</td>
-			<td>
+			<td class="text-muted">
 				<% team.teammateships.where(active: false).each do |membership| %>
-					<%= membership.user.name %>
+					<del><%= membership.user.name %></del>
 				<% end %>
 			</td>
-			<td><%= team.uploads.count %></td>
+			<td><%= team.team_uploads_count(team.project, team.group) %></td>
+			<td><%= team.team_uploads_rate(team.project, team.group) %></td>
 			<td><%= team.exist_status %></td>	
 	</tr>	
 	<% end %>

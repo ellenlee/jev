@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160930182500) do
+ActiveRecord::Schema.define(version: 20161002133107) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer  "task_id"
@@ -151,9 +151,8 @@ ActiveRecord::Schema.define(version: 20160930182500) do
   create_table "teams", force: :cascade do |t|
     t.integer  "num"
     t.integer  "project_id"
-    t.boolean  "exist",      default: true
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer  "group_id"
     t.index ["group_id"], name: "index_teams_on_group_id"
     t.index ["project_id"], name: "index_teams_on_project_id"
