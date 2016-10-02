@@ -18,11 +18,7 @@
 					<td><%= task.num %></td>	
 					<td class="text-left"><%= task.name %></td>
 					<td>
-						<% if task.team_work? %>
-							小組
-						<% else %>
-							個人
-						<% end %>
+						<%= task.team_work? %>
 					</td>
 						<% @groups.each do |group|%>
 							<td> </td>

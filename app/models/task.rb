@@ -12,4 +12,13 @@ class Task < ApplicationRecord
 
 	# has_many :users, :through =>:uploads
 	# has_many :uploads, dependent: :restrict_with_error
+
+	def team_work?
+		if self.team_work?
+			"小組"
+		else
+			"個人"
+		end	
+	end
+
 end

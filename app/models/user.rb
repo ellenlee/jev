@@ -25,6 +25,20 @@ class User < ApplicationRecord
 	# has_many :tasks, :through =>:uploads
 	# has_many :uploads, dependent: :destroy
 
+  ADMIN_LIST = [
+      "leechinghui.tw@gmail.com", 
+      "lunacy20@gmail.com", 
+      "root@example.com"]
+
+  def admin?
+    if self.email.in?(ADMIN_LIST)
+      true
+    else
+      false
+    end
+  end
+
+
 	def group(project)
 		self.participations.where(project: project).first.group
 	end
@@ -50,13 +64,7 @@ class User < ApplicationRecord
   end
 
 
-	def admin?
-		if self.email == "leechinghui.tw@gmail.com" || "lunacy20@gmail.com"
-			true
-		else
-			false
-		end
-	end
+	
 
 	def self.import(file, creator, project, group)
 		
