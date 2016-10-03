@@ -24,7 +24,7 @@
 			<td><%= @group.name %></td>
 			<td><%= user.active_team_num(@project) %></td>
 			<td><%= participant.status.name %></td>
-			<td>-</td>
+			<td><%= user.attendances.where(project_id: @project, attend:true).count %></td>
 			<td><%= user.personal_uploads_count(@project, @group) %></td>
 			<td><%= user.team_uploads_count(@project, @group) %></td>
 			<td><%= user.project_uploads_count(@project, @group) %></td>

@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161002174909) do
+ActiveRecord::Schema.define(version: 20161003145816) do
+
+  create_table "admin_lists", force: :cascade do |t|
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_admin_lists_on_email", unique: true
+  end
 
   create_table "assignments", force: :cascade do |t|
     t.integer  "task_id"
@@ -32,7 +39,9 @@ ActiveRecord::Schema.define(version: 20161002174909) do
     t.integer  "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "project_id"
     t.index ["lesson_id"], name: "index_attendances_on_lesson_id"
+    t.index ["project_id"], name: "index_attendances_on_project_id"
     t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 

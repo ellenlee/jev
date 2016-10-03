@@ -1,0 +1,50 @@
+<h1>現場點名</h1>
+<h4>1. 選擇週次與班別</h4>	
+
+<%= form_tag new_admin_project_attendance_path(@project), :method => :get do %>
+  <%= collection_select :stage, :id, @stages, :id, :num, {:include_blank => "週次"}  %>
+	<%= collection_select :group, :id, @groups, :id, :name, {:include_blank => "班別"} %>
+  <%= submit_tag "選定" %>
+<% end %>
+
+<hr>
+<h4>2. 開始點名</h4>	
+<% if @lesson.present? %>
+
+<div class="table-responsive" style="overflow-x: visible;">
+	<%= form_tag bulk_update_admin_project_attendances_path do %>
+		<table class="table table-condensed table-hover">
+			<tr>
+				<th>組別</th>
+				<th>姓名</th>
+				<th>出缺席紀錄</th>
+				<th>出缺席狀態</th>
+			</tr>
+			<% @participants.each do |participant| %>
+				<% member = participant.user %>
+				<% @attendance = member.attendance(@lesson) %>
+				<tr>
+					<td><%= member.active_team_num(@project) %></td>
+					<td><%= member.name %></td>
+					<td>
+						<%= hidden_field_tag :lesson, @lesson.id %>
+						<%= hidden_field_tag "ids[]", member.id %>
+				    <div class="form-group">
+					    <%= label :attend, "已到" %>
+					  	<%= check_box_tag "attend[]", member.id, @attendance.attend %>
+						</div>
+					</td>
+					<td>
+				    <div id="status_field">
+						
+						<%= collection_radio_buttons "status_"+member.id.to_s, :status, [["準時", "punctual"], ["遲到", "late"], ["請假", "leave"], ["曠課", "absent"]], :second, :first, checked: @attendance.status %>
+						<br>
+						</div>
+			    </td>
+				</tr>
+			<% end %>
+		</table>
+		<%= submit_tag "送出點名單" %>
+	<% end %>
+</div>
+<% end %>

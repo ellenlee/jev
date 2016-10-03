@@ -29,7 +29,11 @@ Rails.application.routes.draw do
       get :participants
       resources :stages, controller: 'project_stages'
       resources :lessons, controller: 'project_lessons', except: [:index]
-      resources :attendances, controller: 'project_attendances'
+      resources :attendances, controller: 'project_attendances' do
+        collection do
+          post :bulk_update
+        end
+      end
       resources :tasks, controller: 'project_tasks'
       resources :assignments, controller: 'project_assignments', only: [:create, :update, :destroy]
       resources :uploads, controller: 'project_uploads'

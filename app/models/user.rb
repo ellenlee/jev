@@ -25,17 +25,8 @@ class User < ApplicationRecord
   has_many :teammateships, dependent: :destroy
   has_many :teams, through: :teammateships
 
-	
-	# has_many :tasks, :through =>:uploads
-	# has_many :uploads, dependent: :destroy
-
-  ADMIN_LIST = [
-      "leechinghui.tw@gmail.com", 
-      "lunacy20@gmail.com", 
-      "root@example.com"]
-
   def admin?
-    if self.email.in?(ADMIN_LIST)
+    if AdminList.find_by_email(self.email).present?
       true
     else
       false
@@ -76,6 +67,15 @@ class User < ApplicationRecord
     teammateship = self.teammateships.where(team:team, active: true).first
     teammateship.active = false
     teammateship.save
+  end
+
+  def attendance(lesson)
+    record = self.attendances.where(lesson: lesson)
+    if record.any?
+      record.first
+    else
+      self.attendances.new(user: self, lesson: lesson)
+    end
   end
 
   def personal_uploads(project, group)

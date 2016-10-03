@@ -1,0 +1,2 @@
+class AdminList < ApplicationRecord
+end
