@@ -1,1 +1,33 @@
-<h1>ss</h1>
+<%= render :partial => 'admin/projects/project_header', :locals => { project: @project, group: nil } %>
+<%= render :partial => 'admin/projects/project_menu', :locals => { project: @project } %>
+
+<div class="table-responsive" style="overflow-x: visible;">
+	<table class="table table-condensed table-hover">
+		<tr>
+			<th>班別</th>
+			<th>週</th>
+			<th>課程名</th>
+			<th style="border-left: solid 1px #eee">出席</th>
+			<th>缺席</th>
+			<th style="border-left: solid 1px #eee">準時</th>
+			<th>遲到</th>
+			<th>請假</th>
+			<th>曠課</th>		
+		</tr>
+		<% @groups.each do |group| %>
+			<tr>
+				<td rowspan="<%= @stages.count %>"><%= group.name %></td>
+				<% @stages.each do |stage| %>
+					<td><%= stage.num %></td>
+					<td><%= stage.lesson_name(group) %></td>
+					<td style="border-left: solid 1px #eee"><strong><%= stage.attendance_count(group, true) %></strong></td>
+					<td><strong><%= stage.attendance_count(group, false) %></strong></td>
+					<td class="text-muted small" style="border-left: solid 1px #eee"><%= stage.attendance_with_status(group, 'punctual') %></td>
+					<td class="text-muted small"><%= stage.attendance_with_status(group, 'late') %></td>
+					<td class="text-muted small"><%= stage.attendance_with_status(group, 'leave') %></td>
+					<td class="text-muted small"><%= stage.attendance_with_status(group, 'absent') %></td>
+				</tr>
+			<% end %>
+		<% end %>
+	</table>
+</div>

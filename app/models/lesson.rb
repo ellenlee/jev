@@ -6,4 +6,6 @@ class Lesson < ApplicationRecord
 
 	has_many :attendances
 	has_many :attend_members, through: :attendances, source: :user
+
+
 end
