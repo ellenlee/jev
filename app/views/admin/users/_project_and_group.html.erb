@@ -1,0 +1,8 @@
+<div class="field">
+  <%= label :project_id, "專案" %>
+  <%= collection_select :participation, :project_id, Project.where(status:[1,2]), :id, :name,  :prompt => "請選擇"  %>
+</div>
+<div class="field">
+  <%= label :group_id, "班別" %>
+  <%= grouped_collection_select :participation, :group_id, Project.all, :groups, :name, :id, :name, :prompt => "請選擇" %>
+</div>
