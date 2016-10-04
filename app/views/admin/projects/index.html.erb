@@ -10,6 +10,8 @@
 		<th>專案類別</th>
 		<th>團隊數</th>	
 		<th>學員數</th>
+		<th>上傳率</th>
+		<th>出席率</th>
 		<th>執行班級<small>(在線)</small></th>
 		<th>現場點名</th>
 		<th></th>	
@@ -21,13 +23,17 @@
 			<td><%= project.category.name %></td>
 			<td><%= link_to project.teams.count %></td>	
 			<td><%= link_to project.participations.active_in.count, admin_project_participations_path(project) %></td>
+			<td></td>
+			<td><%= link_to '%', admin_project_attendances_path(project) %></td>	
 			<td>
 				<% project.groups.each do |group| %>
 					<%= group.name %>
 					<small>(<%= project.participations.where(group: group, status_id: 1).count%>)</small><br>
 				<% end %>
 			</td>
-			<td><%= link_to '開始點名', new_admin_project_attendance_path(project) %></td>	
+			<td>
+				<%= link_to '開始點名', new_admin_project_attendance_path(project) %>
+			</td>	
 			<td><%= link_to "編輯", edit_admin_project_path(project) %></td>
 	</tr>	
 	<% end %>

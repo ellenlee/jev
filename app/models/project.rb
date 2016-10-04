@@ -16,6 +16,9 @@ class Project < ApplicationRecord
 	has_many :tasks
 
 	has_many :lessons, through: :stages
+	has_many :attendances, through: :stages
+	has_many :attend_members, through: :attendances, source: :user
+
 	has_many :assignments, through: :tasks
 	has_many :uploads, through: :groups
 

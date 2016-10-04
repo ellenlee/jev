@@ -11,6 +11,8 @@ class Group < ApplicationRecord
 
 	has_many :lessons
 	has_many :stages, through: :lessons
+	has_many :attendances, through: :stages
+	has_many :attend_members, through: :attendances, source: :user
 
 	has_many :assignments
 	has_many :tasks, through: :assignments
