@@ -20,7 +20,7 @@
 			<td><%= link_to project.name, admin_project_stages_path(project.id) %></td>
 			<td><%= project.category.name %></td>
 			<td><%= link_to project.teams.count %></td>	
-			<td><%= link_to project.participations.active_in.count, controller: controller_name, action: :participants, project_id: project.id%></td>
+			<td><%= link_to project.participations.active_in.count, admin_project_participations_path(project) %></td>
 			<td>
 				<% project.groups.each do |group| %>
 					<%= group.name %>

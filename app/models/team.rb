@@ -47,7 +47,6 @@ class Team < ApplicationRecord
   	end
   end
 
-
 	def join_team
 		# 加入專案後，叫出此project_id下的team，輸入他要加入的組號（num）
     #     - 是否組號在該group中已存在，

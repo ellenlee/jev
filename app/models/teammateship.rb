@@ -18,4 +18,6 @@ class Teammateship < ApplicationRecord
       true
     end
   end
+
+
 end

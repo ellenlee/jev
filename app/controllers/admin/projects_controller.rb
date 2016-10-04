@@ -21,22 +21,7 @@ class Admin::ProjectsController < Admin::AdminController
 		end
 	end
 
-	def participants
-		@project = Project.find(params[:project_id])
-		@groups = @project.groups
-		
-		if params[:group].present?
-			@group = Group.find(params[:group])
-			@participants = @project.participations.where(group: @group).order(:status_id)
-		else
-			@participants = @project.participations.order(:status_id).order(:group_id)
-		end
-
-		respond_to do |format|
-    	format.html
-    	format.js
-    end
-	end
+	
 
 	def edit
 	end

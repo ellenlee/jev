@@ -64,9 +64,10 @@ class User < ApplicationRecord
   end
 
   def quit(team)
-    teammateship = self.teammateships.where(team:team, active: true).first
-    teammateship.active = false
-    teammateship.save
+    active_record = self.teammateships.where(team:team, active: true).first
+    if active_record.present?
+      active_record.update(actiive: false)
+    end
   end
 
   def attendance(lesson)

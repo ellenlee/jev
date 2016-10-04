@@ -26,7 +26,8 @@ Rails.application.routes.draw do
       end
     end
     resources :projects do
-      get :participants
+      # get :participants
+      resources :participations, only: [:index, :update], controller: 'project_participations'
       resources :stages, controller: 'project_stages'
       resources :lessons, controller: 'project_lessons', except: [:index]
       resources :attendances, controller: 'project_attendances' do
