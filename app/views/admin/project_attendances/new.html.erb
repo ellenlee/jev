@@ -36,8 +36,7 @@
 					</td>
 					<td>
 				    <div id="status_field">
-						
-						<%= collection_radio_buttons "status_"+member.id.to_s, :status, [["準時", "punctual"], ["遲到", "late"], ["請假", "leave"], ["曠課", "absent"]], :second, :first, checked: @attendance.status %>
+						<%= collection_radio_buttons "status_"+member.id.to_s, :status, Attendance.statuses.map{|k,v| [t(k, :scope => "status"),k]}, :second, :first, checked: @attendance.status %>
 						<br>
 						</div>
 			    </td>

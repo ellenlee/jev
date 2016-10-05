@@ -61,6 +61,21 @@ class Admin::UsersController < Admin::AdminController
 	  redirect_to admin_users_path, alert: "成功：#{@succeed_cases.to_sentence}|失效：#{@fail_cases.to_sentence}"
 	end
 
+	def bulk_delete
+		ids = Array(params[:ids])
+		@users = ids.map{ |i| User.find_by_id(i) }.compact
+		@succeed_cases = []
+		 @fail_cases = []
+		@users.each do |user|
+			if	user.destroy
+				@succeed_cases << user.name
+			else
+				@fail_cases << "#{user.name} (已有登錄專案，不可刪除！)"
+			end
+		end
+	  redirect_to new_admin_user_path, alert: "成功：#{@succeed_cases.to_sentence}|失效：#{@fail_cases.to_sentence}"
+	end
+
 	private
 
 	def user_params
@@ -93,14 +108,5 @@ class Admin::UsersController < Admin::AdminController
   	end
   end
 
-	def bulk_delete
-		@users.each do |user|
-			if user.participations.active_in == []
-				user.destroy
-				@succeed_cases << user.name
-			else
-				@fail_cases << "#{user.name} (已有登錄專案，不可刪除！)"
-			end
-		end
-	end
+	
 end

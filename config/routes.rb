@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     resources :users do
       collection do
         post :bulk_update
+        post :bulk_delete
         post :import
       end
     end

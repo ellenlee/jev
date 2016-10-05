@@ -28,8 +28,12 @@ class Assignment < ApplicationRecord
 	end
 
 	def upload_rate
-		upload_proportion = self.uploads.count.to_f / self.should_upload_count
-		(upload_proportion*100).round(0).to_s+"%"
+		if self.should_upload_count > 0
+			upload_proportion = self.uploads.count.to_f / self.should_upload_count
+			(upload_proportion*100).round(0).to_s+"%"
+		else
+			0.to_s+"%"
+		end
 	end
 
 	def find_upload(user)

@@ -1,0 +1,6 @@
+zh-TW:
+  status: 
+    punctual: '準時'
+    late: '遲到'
+    leave: '請假'
+    absent: '未到'

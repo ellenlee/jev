@@ -42,7 +42,7 @@ class Admin::ProjectAttendancesController < Admin::AdminController
  		if record.save
  			@succeed_cases << user.name
  		else
- 			@fail_cases << user.name
+ 			@fail_cases << "#{user.name} (#{record.errors.full_messages.to_sentence})"
  		end
  	end
 	redirect_to :back, alert: "成功：#{@succeed_cases.to_sentence}|失效：#{@fail_cases.to_sentence}"
